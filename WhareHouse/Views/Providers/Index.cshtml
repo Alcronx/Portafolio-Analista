@@ -1,0 +1,66 @@
+﻿@model IEnumerable<WhareHouse.Models.PROVIDER>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        Data Table Example
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id Proveedor</th>
+                        <th>Rut</th>
+                        <th>Empresa</th>
+                        <th>Celular</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Id Proveedor</th>
+                        <th>Rut</th>
+                        <th>Empresa</th>
+                        <th>Celular</th>
+                        <th>Opciones</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        @foreach (var item in Model)
+                        {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IDPROVIDER)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RUT)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.COMPANYNAME)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CELLPHONE)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.IDPROVIDER }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.IDPROVIDER }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.IDPROVIDER })
+                        </td>
+                    </tr>
+                    }
+                    </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>

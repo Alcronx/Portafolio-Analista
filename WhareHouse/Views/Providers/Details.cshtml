@@ -1,0 +1,114 @@
+﻿@model WhareHouse.Models.PROVIDER
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PROVIDER</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RUT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RUT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.COMPANYNAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.COMPANYNAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NAME1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NAME1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NAME2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NAME2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LASTNAME1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LASTNAME1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LASTNAME2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LASTNAME2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.REGION)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.REGION)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.COMMUNE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.COMMUNE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DIRECTION)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DIRECTION)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.COMPANYITEM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.COMPANYITEM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CELLPHONE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CELLPHONE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MAIL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MAIL)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IDPROVIDER }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

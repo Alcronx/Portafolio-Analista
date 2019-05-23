@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="57e55898b7dc49d1a5b11e3d283547c9" Name="Diagram1">
+        <EntityTypeShape EntityType="WhareHouseDbModel.CLIENT" Width="1.5" PointX="0.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhareHouseDbModel.EXPIRATIONDATE" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhareHouseDbModel.ORDERDETAILS" Width="1.5" PointX="5.25" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhareHouseDbModel.ORDERPRODUCT" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhareHouseDbModel.PRODUCT" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhareHouseDbModel.PROVIDER" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhareHouseDbModel.TICKET" Width="1.5" PointX="3" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhareHouseDbModel.TICKETDETAILS" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="WhareHouseDbModel.TRUSTED" Width="1.5" PointX="0.75" PointY="12.75" IsExpanded="true" />
+        <AssociationConnector Association="WhareHouseDbModel.T_CLIENT_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="WhareHouseDbModel.ED_PRODUCT_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="WhareHouseDbModel.OD_ORDERPRODUCT_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="WhareHouseDbModel.OD_PRODUCT_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="WhareHouseDbModel.P_PROVIDER_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="WhareHouseDbModel.TD_PRODUCT_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="WhareHouseDbModel.T_TRUSTED_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="WhareHouseDbModel.TD_TICKET_FK" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

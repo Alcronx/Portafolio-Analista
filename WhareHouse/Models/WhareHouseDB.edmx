@@ -1,0 +1,694 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="WhareHouseDbModel.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CLIENT">
+          <Key>
+            <PropertyRef Name="CLIENTRUT" />
+          </Key>
+          <Property Name="CLIENTRUT" Type="varchar2" MaxLength="10" Nullable="false" />
+          <Property Name="NAME1" Type="varchar2" MaxLength="30" Nullable="false" />
+          <Property Name="NAME2" Type="varchar2" MaxLength="30" />
+          <Property Name="LASTNAME1" Type="varchar2" MaxLength="30" Nullable="false" />
+          <Property Name="LASTNAME2" Type="varchar2" MaxLength="30" />
+          <Property Name="CELLPHONE" Type="number" Precision="11" Scale="0" Nullable="false" />
+          <Property Name="BLACKLIST" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="BIRTHDATE" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EXPIRATIONDATE">
+          <Key>
+            <PropertyRef Name="LOTNUMBER" />
+          </Key>
+          <Property Name="LOTNUMBER" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="EXPIREDATE" Type="date" Nullable="false" />
+          <Property Name="PRODUCTQUANTITY" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="BARCODE" Type="number" Precision="13" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ORDERDETAILS">
+          <Key>
+            <PropertyRef Name="ODBARCODE" />
+            <PropertyRef Name="ODORDERID" />
+          </Key>
+          <Property Name="ODBARCODE" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="ODORDERID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="QUANTITY" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="TOTAL" Type="number" Precision="12" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ORDERPRODUCT">
+          <Key>
+            <PropertyRef Name="ORDERID" />
+          </Key>
+          <Property Name="ORDERID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="ORDERDATE" Type="date" Nullable="false" />
+          <Property Name="ORDERHOUR" Type="date" Nullable="false" />
+          <Property Name="STATE" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="RECEPTIONDATE" Type="date" />
+          <Property Name="RECEPTIONHOUR" Type="date" />
+          <Property Name="TOTALTOTAL" Type="number" Precision="12" Scale="0" />
+        </EntityType>
+        <EntityType Name="PRODUCT">
+          <Key>
+            <PropertyRef Name="BARCODE" />
+          </Key>
+          <Property Name="BARCODE" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="PURCHASEPRICE" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="SALEPRICE" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="STOCK" Type="number" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="CRITICALSTOCK" Type="number" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="PRODUCTNAME" Type="varchar2" MaxLength="30" Nullable="false" />
+          <Property Name="PRODUCTFAMILY" Type="varchar2" MaxLength="30" Nullable="false" />
+          <Property Name="PRODUCTTYPE" Type="varchar2" MaxLength="30" Nullable="false" />
+          <Property Name="PRODUCTDESCRIPTION" Type="varchar2" MaxLength="100" Nullable="false" />
+          <Property Name="IDPROVIDER" Type="number" Precision="3" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PROVIDER">
+          <Key>
+            <PropertyRef Name="IDPROVIDER" />
+          </Key>
+          <Property Name="IDPROVIDER" Type="number" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="RUT" Type="varchar2" MaxLength="10" Nullable="false" />
+          <Property Name="COMPANYNAME" Type="varchar2" MaxLength="30" Nullable="false" />
+          <Property Name="NAME1" Type="varchar2" MaxLength="30" Nullable="false" />
+          <Property Name="NAME2" Type="varchar2" MaxLength="30" />
+          <Property Name="LASTNAME1" Type="varchar2" MaxLength="30" Nullable="false" />
+          <Property Name="LASTNAME2" Type="varchar2" MaxLength="30" />
+          <Property Name="REGION" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="COMMUNE" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="DIRECTION" Type="varchar2" MaxLength="70" Nullable="false" />
+          <Property Name="COMPANYITEM" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="CELLPHONE" Type="number" Precision="11" Scale="0" Nullable="false" />
+          <Property Name="MAIL" Type="varchar2" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TICKET">
+          <Key>
+            <PropertyRef Name="IDTICKET" />
+          </Key>
+          <Property Name="IDTICKET" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="TICKETDATE" Type="date" Nullable="false" />
+          <Property Name="TICKETHOUR" Type="date" Nullable="false" />
+          <Property Name="STATE" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="TOTALTOTAL" Type="number" Precision="12" Scale="0" />
+          <Property Name="IDTRUSTED" Type="number" Precision="12" Scale="0" />
+          <Property Name="CLIENTRUT" Type="varchar2" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="TICKETDETAILS">
+          <Key>
+            <PropertyRef Name="TDBARCODE" />
+            <PropertyRef Name="TDIDTICKET" />
+          </Key>
+          <Property Name="TDBARCODE" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="TDIDTICKET" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="QUANTITY" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="TOTAL" Type="number" Precision="12" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TRUSTED">
+          <Key>
+            <PropertyRef Name="IDTRUSTED" />
+          </Key>
+          <Property Name="IDTRUSTED" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="STATE" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="TRUSTDATE" Type="date" Nullable="false" />
+          <Property Name="TIMELIMITTRUST" Type="date" Nullable="false" />
+        </EntityType>
+        <Association Name="ED_PRODUCT_FK">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EXPIRATIONDATE" Type="Self.EXPIRATIONDATE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="BARCODE" />
+            </Principal>
+            <Dependent Role="EXPIRATIONDATE">
+              <PropertyRef Name="BARCODE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OD_ORDERPRODUCT_FK">
+          <End Role="ORDERPRODUCT" Type="Self.ORDERPRODUCT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ORDERDETAILS" Type="Self.ORDERDETAILS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDERPRODUCT">
+              <PropertyRef Name="ORDERID" />
+            </Principal>
+            <Dependent Role="ORDERDETAILS">
+              <PropertyRef Name="ODORDERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OD_PRODUCT_FK">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ORDERDETAILS" Type="Self.ORDERDETAILS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="BARCODE" />
+            </Principal>
+            <Dependent Role="ORDERDETAILS">
+              <PropertyRef Name="ODBARCODE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="P_PROVIDER_FK">
+          <End Role="PROVIDER" Type="Self.PROVIDER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVIDER">
+              <PropertyRef Name="IDPROVIDER" />
+            </Principal>
+            <Dependent Role="PRODUCT">
+              <PropertyRef Name="IDPROVIDER" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="T_CLIENT_FK">
+          <End Role="CLIENT" Type="Self.CLIENT" Multiplicity="0..1" />
+          <End Role="TICKET" Type="Self.TICKET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENT">
+              <PropertyRef Name="CLIENTRUT" />
+            </Principal>
+            <Dependent Role="TICKET">
+              <PropertyRef Name="CLIENTRUT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="T_TRUSTED_FK">
+          <End Role="TRUSTED" Type="Self.TRUSTED" Multiplicity="0..1" />
+          <End Role="TICKET" Type="Self.TICKET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRUSTED">
+              <PropertyRef Name="IDTRUSTED" />
+            </Principal>
+            <Dependent Role="TICKET">
+              <PropertyRef Name="IDTRUSTED" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TD_PRODUCT_FK">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TICKETDETAILS" Type="Self.TICKETDETAILS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="BARCODE" />
+            </Principal>
+            <Dependent Role="TICKETDETAILS">
+              <PropertyRef Name="TDBARCODE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TD_TICKET_FK">
+          <End Role="TICKET" Type="Self.TICKET" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TICKETDETAILS" Type="Self.TICKETDETAILS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TICKET">
+              <PropertyRef Name="IDTICKET" />
+            </Principal>
+            <Dependent Role="TICKETDETAILS">
+              <PropertyRef Name="TDIDTICKET" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="LISTPROEVIDER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB" />
+        <EntityContainer Name="WhareHouseDbModelStoreContainer">
+          <EntitySet Name="CLIENT" EntityType="Self.CLIENT" Schema="YUYITOSDB" store:Type="Tables" />
+          <EntitySet Name="EXPIRATIONDATE" EntityType="Self.EXPIRATIONDATE" Schema="YUYITOSDB" store:Type="Tables" />
+          <EntitySet Name="ORDERDETAILS" EntityType="Self.ORDERDETAILS" Schema="YUYITOSDB" store:Type="Tables" />
+          <EntitySet Name="ORDERPRODUCT" EntityType="Self.ORDERPRODUCT" Schema="YUYITOSDB" store:Type="Tables" />
+          <EntitySet Name="PRODUCT" EntityType="Self.PRODUCT" Schema="YUYITOSDB" store:Type="Tables" />
+          <EntitySet Name="PROVIDER" EntityType="Self.PROVIDER" Schema="YUYITOSDB" store:Type="Tables" />
+          <EntitySet Name="TICKET" EntityType="Self.TICKET" Schema="YUYITOSDB" store:Type="Tables" />
+          <EntitySet Name="TICKETDETAILS" EntityType="Self.TICKETDETAILS" Schema="YUYITOSDB" store:Type="Tables" />
+          <EntitySet Name="TRUSTED" EntityType="Self.TRUSTED" Schema="YUYITOSDB" store:Type="Tables" />
+          <AssociationSet Name="ED_PRODUCT_FK" Association="Self.ED_PRODUCT_FK">
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+            <End Role="EXPIRATIONDATE" EntitySet="EXPIRATIONDATE" />
+          </AssociationSet>
+          <AssociationSet Name="OD_ORDERPRODUCT_FK" Association="Self.OD_ORDERPRODUCT_FK">
+            <End Role="ORDERPRODUCT" EntitySet="ORDERPRODUCT" />
+            <End Role="ORDERDETAILS" EntitySet="ORDERDETAILS" />
+          </AssociationSet>
+          <AssociationSet Name="OD_PRODUCT_FK" Association="Self.OD_PRODUCT_FK">
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+            <End Role="ORDERDETAILS" EntitySet="ORDERDETAILS" />
+          </AssociationSet>
+          <AssociationSet Name="P_PROVIDER_FK" Association="Self.P_PROVIDER_FK">
+            <End Role="PROVIDER" EntitySet="PROVIDER" />
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+          </AssociationSet>
+          <AssociationSet Name="T_CLIENT_FK" Association="Self.T_CLIENT_FK">
+            <End Role="CLIENT" EntitySet="CLIENT" />
+            <End Role="TICKET" EntitySet="TICKET" />
+          </AssociationSet>
+          <AssociationSet Name="T_TRUSTED_FK" Association="Self.T_TRUSTED_FK">
+            <End Role="TRUSTED" EntitySet="TRUSTED" />
+            <End Role="TICKET" EntitySet="TICKET" />
+          </AssociationSet>
+          <AssociationSet Name="TD_PRODUCT_FK" Association="Self.TD_PRODUCT_FK">
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+            <End Role="TICKETDETAILS" EntitySet="TICKETDETAILS" />
+          </AssociationSet>
+          <AssociationSet Name="TD_TICKET_FK" Association="Self.TD_TICKET_FK">
+            <End Role="TICKET" EntitySet="TICKET" />
+            <End Role="TICKETDETAILS" EntitySet="TICKETDETAILS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WhareHouseDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CLIENT">
+          <Key>
+            <PropertyRef Name="CLIENTRUT" />
+          </Key>
+          <Property Name="CLIENTRUT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NAME1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NAME2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="LASTNAME1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LASTNAME2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CELLPHONE" Type="Int64" Nullable="false" />
+          <Property Name="BLACKLIST" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="BIRTHDATE" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="TICKET" Relationship="Self.T_CLIENT_FK" FromRole="CLIENT" ToRole="TICKET" />
+        </EntityType>
+        <EntityType Name="EXPIRATIONDATE">
+          <Key>
+            <PropertyRef Name="LOTNUMBER" />
+          </Key>
+          <Property Name="LOTNUMBER" Type="Int64" Nullable="false" />
+          <Property Name="EXPIREDATE" Type="DateTime" Nullable="false" />
+          <Property Name="PRODUCTQUANTITY" Type="Int32" Nullable="false" />
+          <Property Name="BARCODE" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="PRODUCT" Relationship="Self.ED_PRODUCT_FK" FromRole="EXPIRATIONDATE" ToRole="PRODUCT" />
+        </EntityType>
+        <EntityType Name="ORDERDETAILS">
+          <Key>
+            <PropertyRef Name="ODBARCODE" />
+            <PropertyRef Name="ODORDERID" />
+          </Key>
+          <Property Name="ODBARCODE" Type="Int64" Nullable="false" />
+          <Property Name="ODORDERID" Type="Int64" Nullable="false" />
+          <Property Name="QUANTITY" Type="Int32" Nullable="false" />
+          <Property Name="TOTAL" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="ORDERPRODUCT" Relationship="Self.OD_ORDERPRODUCT_FK" FromRole="ORDERDETAILS" ToRole="ORDERPRODUCT" />
+          <NavigationProperty Name="PRODUCT" Relationship="Self.OD_PRODUCT_FK" FromRole="ORDERDETAILS" ToRole="PRODUCT" />
+        </EntityType>
+        <EntityType Name="ORDERPRODUCT">
+          <Key>
+            <PropertyRef Name="ORDERID" />
+          </Key>
+          <Property Name="ORDERID" Type="Int64" Nullable="false" />
+          <Property Name="ORDERDATE" Type="DateTime" Nullable="false" />
+          <Property Name="ORDERHOUR" Type="DateTime" Nullable="false" />
+          <Property Name="STATE" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="RECEPTIONDATE" Type="DateTime" />
+          <Property Name="RECEPTIONHOUR" Type="DateTime" />
+          <Property Name="TOTALTOTAL" Type="Int64" />
+          <NavigationProperty Name="ORDERDETAILS" Relationship="Self.OD_ORDERPRODUCT_FK" FromRole="ORDERPRODUCT" ToRole="ORDERDETAILS" />
+        </EntityType>
+        <EntityType Name="PRODUCT">
+          <Key>
+            <PropertyRef Name="BARCODE" />
+          </Key>
+          <Property Name="BARCODE" Type="Int64" Nullable="false" />
+          <Property Name="PURCHASEPRICE" Type="Int32" Nullable="false" />
+          <Property Name="SALEPRICE" Type="Int32" Nullable="false" />
+          <Property Name="STOCK" Type="Int16" Nullable="false" />
+          <Property Name="CRITICALSTOCK" Type="Byte" Nullable="false" />
+          <Property Name="PRODUCTNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRODUCTFAMILY" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRODUCTTYPE" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRODUCTDESCRIPTION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IDPROVIDER" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="EXPIRATIONDATE" Relationship="Self.ED_PRODUCT_FK" FromRole="PRODUCT" ToRole="EXPIRATIONDATE" />
+          <NavigationProperty Name="ORDERDETAILS" Relationship="Self.OD_PRODUCT_FK" FromRole="PRODUCT" ToRole="ORDERDETAILS" />
+          <NavigationProperty Name="PROVIDER" Relationship="Self.P_PROVIDER_FK" FromRole="PRODUCT" ToRole="PROVIDER" />
+          <NavigationProperty Name="TICKETDETAILS" Relationship="Self.TD_PRODUCT_FK" FromRole="PRODUCT" ToRole="TICKETDETAILS" />
+        </EntityType>
+        <EntityType Name="PROVIDER">
+          <Key>
+            <PropertyRef Name="IDPROVIDER" />
+          </Key>
+          <Property Name="IDPROVIDER" Type="Byte" Nullable="false" />
+          <Property Name="RUT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="COMPANYNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NAME1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NAME2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="LASTNAME1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LASTNAME2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="REGION" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="COMMUNE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DIRECTION" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="COMPANYITEM" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CELLPHONE" Type="Int64" Nullable="false" />
+          <Property Name="MAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PRODUCT" Relationship="Self.P_PROVIDER_FK" FromRole="PROVIDER" ToRole="PRODUCT" />
+        </EntityType>
+        <EntityType Name="TICKET">
+          <Key>
+            <PropertyRef Name="IDTICKET" />
+          </Key>
+          <Property Name="IDTICKET" Type="Int64" Nullable="false" />
+          <Property Name="TICKETDATE" Type="DateTime" Nullable="false" />
+          <Property Name="TICKETHOUR" Type="DateTime" Nullable="false" />
+          <Property Name="STATE" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="TOTALTOTAL" Type="Int64" />
+          <Property Name="IDTRUSTED" Type="Int64" />
+          <Property Name="CLIENTRUT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CLIENT" Relationship="Self.T_CLIENT_FK" FromRole="TICKET" ToRole="CLIENT" />
+          <NavigationProperty Name="TRUSTED" Relationship="Self.T_TRUSTED_FK" FromRole="TICKET" ToRole="TRUSTED" />
+          <NavigationProperty Name="TICKETDETAILS" Relationship="Self.TD_TICKET_FK" FromRole="TICKET" ToRole="TICKETDETAILS" />
+        </EntityType>
+        <EntityType Name="TICKETDETAILS">
+          <Key>
+            <PropertyRef Name="TDBARCODE" />
+            <PropertyRef Name="TDIDTICKET" />
+          </Key>
+          <Property Name="TDBARCODE" Type="Int64" Nullable="false" />
+          <Property Name="TDIDTICKET" Type="Int64" Nullable="false" />
+          <Property Name="QUANTITY" Type="Int32" Nullable="false" />
+          <Property Name="TOTAL" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="PRODUCT" Relationship="Self.TD_PRODUCT_FK" FromRole="TICKETDETAILS" ToRole="PRODUCT" />
+          <NavigationProperty Name="TICKET" Relationship="Self.TD_TICKET_FK" FromRole="TICKETDETAILS" ToRole="TICKET" />
+        </EntityType>
+        <EntityType Name="TRUSTED">
+          <Key>
+            <PropertyRef Name="IDTRUSTED" />
+          </Key>
+          <Property Name="IDTRUSTED" Type="Int64" Nullable="false" />
+          <Property Name="STATE" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="TRUSTDATE" Type="DateTime" Nullable="false" />
+          <Property Name="TIMELIMITTRUST" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="TICKET" Relationship="Self.T_TRUSTED_FK" FromRole="TRUSTED" ToRole="TICKET" />
+        </EntityType>
+        <Association Name="T_CLIENT_FK">
+          <End Role="CLIENT" Type="Self.CLIENT" Multiplicity="0..1" />
+          <End Role="TICKET" Type="Self.TICKET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENT">
+              <PropertyRef Name="CLIENTRUT" />
+            </Principal>
+            <Dependent Role="TICKET">
+              <PropertyRef Name="CLIENTRUT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ED_PRODUCT_FK">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EXPIRATIONDATE" Type="Self.EXPIRATIONDATE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="BARCODE" />
+            </Principal>
+            <Dependent Role="EXPIRATIONDATE">
+              <PropertyRef Name="BARCODE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OD_ORDERPRODUCT_FK">
+          <End Role="ORDERPRODUCT" Type="Self.ORDERPRODUCT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ORDERDETAILS" Type="Self.ORDERDETAILS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDERPRODUCT">
+              <PropertyRef Name="ORDERID" />
+            </Principal>
+            <Dependent Role="ORDERDETAILS">
+              <PropertyRef Name="ODORDERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OD_PRODUCT_FK">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ORDERDETAILS" Type="Self.ORDERDETAILS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="BARCODE" />
+            </Principal>
+            <Dependent Role="ORDERDETAILS">
+              <PropertyRef Name="ODBARCODE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="P_PROVIDER_FK">
+          <End Role="PROVIDER" Type="Self.PROVIDER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVIDER">
+              <PropertyRef Name="IDPROVIDER" />
+            </Principal>
+            <Dependent Role="PRODUCT">
+              <PropertyRef Name="IDPROVIDER" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TD_PRODUCT_FK">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TICKETDETAILS" Type="Self.TICKETDETAILS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="BARCODE" />
+            </Principal>
+            <Dependent Role="TICKETDETAILS">
+              <PropertyRef Name="TDBARCODE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="T_TRUSTED_FK">
+          <End Role="TRUSTED" Type="Self.TRUSTED" Multiplicity="0..1" />
+          <End Role="TICKET" Type="Self.TICKET" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRUSTED">
+              <PropertyRef Name="IDTRUSTED" />
+            </Principal>
+            <Dependent Role="TICKET">
+              <PropertyRef Name="IDTRUSTED" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TD_TICKET_FK">
+          <End Role="TICKET" Type="Self.TICKET" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TICKETDETAILS" Type="Self.TICKETDETAILS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TICKET">
+              <PropertyRef Name="IDTICKET" />
+            </Principal>
+            <Dependent Role="TICKETDETAILS">
+              <PropertyRef Name="TDIDTICKET" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WhareHouseWebcn" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CLIENT" EntityType="Self.CLIENT" />
+          <EntitySet Name="EXPIRATIONDATE" EntityType="Self.EXPIRATIONDATE" />
+          <EntitySet Name="ORDERDETAILS" EntityType="Self.ORDERDETAILS" />
+          <EntitySet Name="ORDERPRODUCT" EntityType="Self.ORDERPRODUCT" />
+          <EntitySet Name="PRODUCT" EntityType="Self.PRODUCT" />
+          <EntitySet Name="PROVIDER" EntityType="Self.PROVIDER" />
+          <EntitySet Name="TICKET" EntityType="Self.TICKET" />
+          <EntitySet Name="TICKETDETAILS" EntityType="Self.TICKETDETAILS" />
+          <EntitySet Name="TRUSTED" EntityType="Self.TRUSTED" />
+          <AssociationSet Name="T_CLIENT_FK" Association="Self.T_CLIENT_FK">
+            <End Role="CLIENT" EntitySet="CLIENT" />
+            <End Role="TICKET" EntitySet="TICKET" />
+          </AssociationSet>
+          <AssociationSet Name="ED_PRODUCT_FK" Association="Self.ED_PRODUCT_FK">
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+            <End Role="EXPIRATIONDATE" EntitySet="EXPIRATIONDATE" />
+          </AssociationSet>
+          <AssociationSet Name="OD_ORDERPRODUCT_FK" Association="Self.OD_ORDERPRODUCT_FK">
+            <End Role="ORDERPRODUCT" EntitySet="ORDERPRODUCT" />
+            <End Role="ORDERDETAILS" EntitySet="ORDERDETAILS" />
+          </AssociationSet>
+          <AssociationSet Name="OD_PRODUCT_FK" Association="Self.OD_PRODUCT_FK">
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+            <End Role="ORDERDETAILS" EntitySet="ORDERDETAILS" />
+          </AssociationSet>
+          <AssociationSet Name="P_PROVIDER_FK" Association="Self.P_PROVIDER_FK">
+            <End Role="PROVIDER" EntitySet="PROVIDER" />
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+          </AssociationSet>
+          <AssociationSet Name="TD_PRODUCT_FK" Association="Self.TD_PRODUCT_FK">
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+            <End Role="TICKETDETAILS" EntitySet="TICKETDETAILS" />
+          </AssociationSet>
+          <AssociationSet Name="T_TRUSTED_FK" Association="Self.T_TRUSTED_FK">
+            <End Role="TRUSTED" EntitySet="TRUSTED" />
+            <End Role="TICKET" EntitySet="TICKET" />
+          </AssociationSet>
+          <AssociationSet Name="TD_TICKET_FK" Association="Self.TD_TICKET_FK">
+            <End Role="TICKET" EntitySet="TICKET" />
+            <End Role="TICKETDETAILS" EntitySet="TICKETDETAILS" />
+          </AssociationSet>
+          <FunctionImport Name="LISTPROEVIDER" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WhareHouseDbModelStoreContainer" CdmEntityContainer="WhareHouseWebcn">
+          <EntitySetMapping Name="CLIENT">
+            <EntityTypeMapping TypeName="WhareHouseDbModel.CLIENT">
+              <MappingFragment StoreEntitySet="CLIENT">
+                <ScalarProperty Name="CLIENTRUT" ColumnName="CLIENTRUT" />
+                <ScalarProperty Name="NAME1" ColumnName="NAME1" />
+                <ScalarProperty Name="NAME2" ColumnName="NAME2" />
+                <ScalarProperty Name="LASTNAME1" ColumnName="LASTNAME1" />
+                <ScalarProperty Name="LASTNAME2" ColumnName="LASTNAME2" />
+                <ScalarProperty Name="CELLPHONE" ColumnName="CELLPHONE" />
+                <ScalarProperty Name="BLACKLIST" ColumnName="BLACKLIST" />
+                <ScalarProperty Name="BIRTHDATE" ColumnName="BIRTHDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EXPIRATIONDATE">
+            <EntityTypeMapping TypeName="WhareHouseDbModel.EXPIRATIONDATE">
+              <MappingFragment StoreEntitySet="EXPIRATIONDATE">
+                <ScalarProperty Name="LOTNUMBER" ColumnName="LOTNUMBER" />
+                <ScalarProperty Name="EXPIREDATE" ColumnName="EXPIREDATE" />
+                <ScalarProperty Name="PRODUCTQUANTITY" ColumnName="PRODUCTQUANTITY" />
+                <ScalarProperty Name="BARCODE" ColumnName="BARCODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ORDERDETAILS">
+            <EntityTypeMapping TypeName="WhareHouseDbModel.ORDERDETAILS">
+              <MappingFragment StoreEntitySet="ORDERDETAILS">
+                <ScalarProperty Name="ODBARCODE" ColumnName="ODBARCODE" />
+                <ScalarProperty Name="ODORDERID" ColumnName="ODORDERID" />
+                <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
+                <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ORDERPRODUCT">
+            <EntityTypeMapping TypeName="WhareHouseDbModel.ORDERPRODUCT">
+              <MappingFragment StoreEntitySet="ORDERPRODUCT">
+                <ScalarProperty Name="ORDERID" ColumnName="ORDERID" />
+                <ScalarProperty Name="ORDERDATE" ColumnName="ORDERDATE" />
+                <ScalarProperty Name="ORDERHOUR" ColumnName="ORDERHOUR" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="RECEPTIONDATE" ColumnName="RECEPTIONDATE" />
+                <ScalarProperty Name="RECEPTIONHOUR" ColumnName="RECEPTIONHOUR" />
+                <ScalarProperty Name="TOTALTOTAL" ColumnName="TOTALTOTAL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCT">
+            <EntityTypeMapping TypeName="WhareHouseDbModel.PRODUCT">
+              <MappingFragment StoreEntitySet="PRODUCT">
+                <ScalarProperty Name="BARCODE" ColumnName="BARCODE" />
+                <ScalarProperty Name="PURCHASEPRICE" ColumnName="PURCHASEPRICE" />
+                <ScalarProperty Name="SALEPRICE" ColumnName="SALEPRICE" />
+                <ScalarProperty Name="STOCK" ColumnName="STOCK" />
+                <ScalarProperty Name="CRITICALSTOCK" ColumnName="CRITICALSTOCK" />
+                <ScalarProperty Name="PRODUCTNAME" ColumnName="PRODUCTNAME" />
+                <ScalarProperty Name="PRODUCTFAMILY" ColumnName="PRODUCTFAMILY" />
+                <ScalarProperty Name="PRODUCTTYPE" ColumnName="PRODUCTTYPE" />
+                <ScalarProperty Name="PRODUCTDESCRIPTION" ColumnName="PRODUCTDESCRIPTION" />
+                <ScalarProperty Name="IDPROVIDER" ColumnName="IDPROVIDER" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROVIDER">
+            <EntityTypeMapping TypeName="WhareHouseDbModel.PROVIDER">
+              <MappingFragment StoreEntitySet="PROVIDER">
+                <ScalarProperty Name="IDPROVIDER" ColumnName="IDPROVIDER" />
+                <ScalarProperty Name="RUT" ColumnName="RUT" />
+                <ScalarProperty Name="COMPANYNAME" ColumnName="COMPANYNAME" />
+                <ScalarProperty Name="NAME1" ColumnName="NAME1" />
+                <ScalarProperty Name="NAME2" ColumnName="NAME2" />
+                <ScalarProperty Name="LASTNAME1" ColumnName="LASTNAME1" />
+                <ScalarProperty Name="LASTNAME2" ColumnName="LASTNAME2" />
+                <ScalarProperty Name="REGION" ColumnName="REGION" />
+                <ScalarProperty Name="COMMUNE" ColumnName="COMMUNE" />
+                <ScalarProperty Name="DIRECTION" ColumnName="DIRECTION" />
+                <ScalarProperty Name="COMPANYITEM" ColumnName="COMPANYITEM" />
+                <ScalarProperty Name="CELLPHONE" ColumnName="CELLPHONE" />
+                <ScalarProperty Name="MAIL" ColumnName="MAIL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TICKET">
+            <EntityTypeMapping TypeName="WhareHouseDbModel.TICKET">
+              <MappingFragment StoreEntitySet="TICKET">
+                <ScalarProperty Name="IDTICKET" ColumnName="IDTICKET" />
+                <ScalarProperty Name="TICKETDATE" ColumnName="TICKETDATE" />
+                <ScalarProperty Name="TICKETHOUR" ColumnName="TICKETHOUR" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="TOTALTOTAL" ColumnName="TOTALTOTAL" />
+                <ScalarProperty Name="IDTRUSTED" ColumnName="IDTRUSTED" />
+                <ScalarProperty Name="CLIENTRUT" ColumnName="CLIENTRUT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TICKETDETAILS">
+            <EntityTypeMapping TypeName="WhareHouseDbModel.TICKETDETAILS">
+              <MappingFragment StoreEntitySet="TICKETDETAILS">
+                <ScalarProperty Name="TDBARCODE" ColumnName="TDBARCODE" />
+                <ScalarProperty Name="TDIDTICKET" ColumnName="TDIDTICKET" />
+                <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
+                <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TRUSTED">
+            <EntityTypeMapping TypeName="WhareHouseDbModel.TRUSTED">
+              <MappingFragment StoreEntitySet="TRUSTED">
+                <ScalarProperty Name="IDTRUSTED" ColumnName="IDTRUSTED" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="TRUSTDATE" ColumnName="TRUSTDATE" />
+                <ScalarProperty Name="TIMELIMITTRUST" ColumnName="TIMELIMITTRUST" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="LISTPROEVIDER" FunctionName="WhareHouseDbModel.Store.LISTPROEVIDER" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
