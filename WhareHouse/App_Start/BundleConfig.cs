@@ -8,7 +8,6 @@ namespace WhareHouse
         // Para obtener más información sobre las uniones, visite https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-       
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                        "~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js",
@@ -20,6 +19,13 @@ namespace WhareHouse
                        "~/Content/js/sb-admin.min.js",
                        "~/Content/js/demo/datatables-demo.js",
                        "~/Content/js/demo/chart-area-demo.js"));
+
+                            //vendor/jquery/jquery.min.js
+                            //vendor/datatables/jquery.dataTables.js
+                            //vendor/datatables/dataTables.bootstrap4.js
+                            //js/sb-admin.min.js
+                            //js/demo/datatables-demo.js
+                            //js/demo/chart-area-demo.js
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/vendor/fontawesome-free/css/all.min.css",

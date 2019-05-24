@@ -13,15 +13,15 @@
     @Html.Partial("_NavBarTop")
     <div id="wrapper">
         <!-- Sidebar -->
-     @Html.Partial("_NavBarLeft")
+        @Html.Partial("_NavBarLeft")
         <div id="content-wrapper">
-            @RenderBody()
-            
-            
-           @Html.Partial("_Fotter")
+            <div class="container-fluid">
+                @RenderBody()
+
+            </div>
+                @Html.Partial("_Fotter")
+            </div>
         </div>
-        <!-- /.content-wrapper -->
-    </div>
     <!-- /#wrapper -->
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -45,7 +45,7 @@
             </div>
         </div>
     </div>
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
 </body>
 </html>

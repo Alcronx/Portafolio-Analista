@@ -8,6 +8,8 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 
+
+                 DataTables Example
 <div class="card mb-3">
     <div class="card-header">
         <i class="fas fa-table"></i>
@@ -35,30 +37,30 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    <tr>
-                        @foreach (var item in Model)
-                        {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IDPROVIDER)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.RUT)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.COMPANYNAME)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CELLPHONE)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.IDPROVIDER }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.IDPROVIDER }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.IDPROVIDER })
-                        </td>
-                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IDPROVIDER)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RUT)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.COMPANYNAME)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CELLPHONE)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.IDPROVIDER }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.IDPROVIDER }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.IDPROVIDER })
+                            </td>
+                        </tr>
                     }
-                    </tbody>
+
+                </tbody>
             </table>
         </div>
     </div>
