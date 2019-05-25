@@ -10,8 +10,8 @@ namespace WhareHouse
         {
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                       "~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js",
                        "~/Content/vendor/jquery/jquery.min.js",
+                       "~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js",
                        "~/Content/vendor/jquery-easing/jquery.easing.min.js",
                        "~/Content/vendor/chart.js/Chart.min.js",
                        "~/Content/vendor/datatables/jquery.dataTables.js",
@@ -20,17 +20,14 @@ namespace WhareHouse
                        "~/Content/js/demo/datatables-demo.js",
                        "~/Content/js/demo/chart-area-demo.js"));
 
-                            //vendor/jquery/jquery.min.js
-                            //vendor/datatables/jquery.dataTables.js
-                            //vendor/datatables/dataTables.bootstrap4.js
-                            //js/sb-admin.min.js
-                            //js/demo/datatables-demo.js
-                            //js/demo/chart-area-demo.js
-
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new StyleBundle("~/content/css").Include(
                       "~/Content/vendor/fontawesome-free/css/all.min.css",
                       "~/Content/vendor/datatables/dataTables.bootstrap4.css",
-                      "~/Content/css/sb-admin.css"));
+                      "~/Content/css/sb-admin.css"
+                      ));
+            bundles.Add(new StyleBundle("~/Content/Customcss")
+                      .IncludeDirectory("~/Content/css/ProviderCSS", "*.css"));
+ 
         }
     }
 }

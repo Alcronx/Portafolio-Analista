@@ -37,8 +37,9 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach (var item in Model)
-                    {
+                    <tr>
+                        @foreach (var item in Model)
+                        {
                         <tr>
                             <td>
                                 @Html.DisplayFor(modelItem => item.IDPROVIDER)
@@ -60,7 +61,7 @@
                         </tr>
                     }
 
-                </tbody>
+                    </tbody>
             </table>
         </div>
     </div>
