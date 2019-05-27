@@ -4,12 +4,16 @@
     ViewBag.Title = "Index";
 }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 
+<div class="breadcrumb topBar">
+        <div class="topButtonsContainer" >
+            @Html.ActionLink("Lista", "Index",null,null,new {@class= "btn btn-outline-primary topButtons" })
+        </div>
+        <div class="topButtonsContainer">
+            @Html.ActionLink("Agregar Proveedor", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
+        </div>
+</div>
 
-                 DataTables Example
 <div class="card mb-3">
     <div class="card-header">
         <i class="fas fa-table"></i>
@@ -62,8 +66,8 @@
                     }
 
                     </tbody>
-            </table>
+                </table>
+            </div>
         </div>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
     </div>
-    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-</div>

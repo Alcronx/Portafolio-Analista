@@ -1,3 +1,14 @@
 ﻿.WithTable{
     width: 100%;
 }
+.topBar {
+    width: 100%;
+
+}
+
+.topButtonsContainer{
+    width: 50%;
+}
+.topButtons {
+    width: 100%;
+}
