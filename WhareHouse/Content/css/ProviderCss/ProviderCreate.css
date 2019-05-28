@@ -1,0 +1,45 @@
+﻿.divdivItems {
+    display: flex;
+    flex-direction: row;
+}
+
+.Atributes{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+
+}
+
+.divItems{
+    width: 50%;
+}
+
+.btnCreate{
+    margin-top: 10px;
+}
+
+.twoImputs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.Inputstext {
+    width: 50%;
+    text-align: center;
+}
+
+.editTextCenter{
+    display: flex;
+    justify-content: center;
+}
+
+.detailsDivButton {
+    padding-top: 35px;
+}
+
+.detailsButton {
+    width: 150px;
+}
+

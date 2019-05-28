@@ -41,7 +41,6 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    <tr>
                         @foreach (var item in Model)
                         {
                         <tr>
@@ -58,9 +57,18 @@
                                 @Html.DisplayFor(modelItem => item.CELLPHONE)
                             </td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.IDPROVIDER }) |
-                                @Html.ActionLink("Details", "Details", new { id = item.IDPROVIDER }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.IDPROVIDER })
+                                <div class="nav-item dropdown tableMenu">
+                                        <a class="nav-link btn tablemenuButton" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-chevron-circle-down fa-2x tableMenu"></i>
+                                        </a>
+                                    <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.IDPROVIDER },new { @class = "tableMenu ColorMenu" })
+                                        <div class="dropdown-divider"></div>
+                                        @Html.ActionLink("Details", "Details", new { id = item.IDPROVIDER }, new { @class = "tableMenu ColorMenu" })
+                                        <div class="dropdown-divider"></div>
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.IDPROVIDER }, new { @class = "tableMenu ColorMenu" })
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     }
