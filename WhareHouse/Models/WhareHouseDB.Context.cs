@@ -41,5 +41,10 @@ namespace WhareHouse.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("LISTPROEVIDER");
         }
+    
+        public virtual int LISTPRODUCT()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("LISTPRODUCT");
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace WhareHouse
                       "~/Content/css/sb-admin.css"
                       ));
             bundles.Add(new StyleBundle("~/Content/Customcss")
-                      .IncludeDirectory("~/Content/css/ProviderCSS", "*.css"));
+                      .IncludeDirectory("~/Content/css/CustomCss", "*.css"));
  
         }
     }

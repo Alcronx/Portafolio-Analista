@@ -1,0 +1,125 @@
+﻿@model WhareHouse.Models.PRODUCT
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="breadcrumb topBar">
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Lista Productos", "Index", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Agregar Producto", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+</div>
+
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-user-plus"></i>
+        Agregar Proveedor
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "divdivItems" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="divItems">
+            <div class="form-group Atributes">
+                <h5>ID Proveedor</h5>
+                <div class="col-md-10">
+                    @Html.DropDownList("IDPROVIDER", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.IDPROVIDER, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group Atributes">
+                <h5>Codigo De Barra</h5>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.BARCODE, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.BARCODE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group Atributes">
+                <h5>Precio Compra</h5>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PURCHASEPRICE, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PURCHASEPRICE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group Atributes">
+                <h5>Precio  Venta</h5>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.SALEPRICE, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.SALEPRICE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group  Atributes">
+                <h5>Stock</h5>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.STOCK, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.STOCK, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group Atributes">
+                <h5>Stock Critico</h5>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CRITICALSTOCK, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CRITICALSTOCK, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+        </div>
+            <div class="divItems">
+                
+
+                <div class="form-group Atributes">
+                    <h5>Nombre Producto</h5>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PRODUCTNAME, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PRODUCTNAME, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group Atributes">
+                    <h5>Familia</h5>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PRODUCTFAMILY, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PRODUCTFAMILY, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group Atributes">
+                    <h5>Tipo</h5>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PRODUCTTYPE, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PRODUCTTYPE, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group Atributes">
+                    <h5>Descripcion</h5>
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.PRODUCTDESCRIPTION, htmlAttributes: new { @class = "form-control createTextArea",@rows="6" }) 
+                        @Html.ValidationMessageFor(model => model.PRODUCTDESCRIPTION, "", new { @class = "text-danger" })
+                    </div>
+                    <input type="submit" value="Agregar" class="btn btn-success btnCreate" />
+
+                </div>
+
+
+            </div>
+
+
+
+        }
+
+    </div>
+
+</div>

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="WhareHouseDbModel.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="WhareHouseDbModel.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CLIENT">
           <Key>
             <PropertyRef Name="CLIENTRUT" />
@@ -221,6 +221,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="LISTPRODUCT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB" />
         <Function Name="LISTPROEVIDER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB" />
         <EntityContainer Name="WhareHouseDbModelStoreContainer">
           <EntitySet Name="CLIENT" EntityType="Self.CLIENT" Schema="YUYITOSDB" store:Type="Tables" />
@@ -265,8 +266,7 @@
             <End Role="TICKETDETAILS" EntitySet="TICKETDETAILS" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="WhareHouseDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -545,6 +545,7 @@
             <End Role="TICKETDETAILS" EntitySet="TICKETDETAILS" />
           </AssociationSet>
           <FunctionImport Name="LISTPROEVIDER" />
+          <FunctionImport Name="LISTPRODUCT" />
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -668,6 +669,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="LISTPROEVIDER" FunctionName="WhareHouseDbModel.Store.LISTPROEVIDER" />
+          <FunctionImportMapping FunctionImportName="LISTPRODUCT" FunctionName="WhareHouseDbModel.Store.LISTPRODUCT" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

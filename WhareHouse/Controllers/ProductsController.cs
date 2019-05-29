@@ -6,113 +6,117 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using WhareHouse.Models;
 using Oracle.DataAccess.Client;
 using Oracle.DataAccess.Types;
+using WhareHouse.Models;
 
 namespace WhareHouse.Controllers
 {
-    public class ProvidersController : Controller
+    public class ProductsController : Controller
     {
         private WhareHouseWebcn db = new WhareHouseWebcn();
 
-        // GET: Providers
+        // GET: Products
         public ActionResult Index()
-        {    
-            return View(db.PROVIDER.ToList());
+        {
+          
+            var pRODUCT = db.PRODUCT.Include(p => p.PROVIDER);
+            return View(pRODUCT.ToList());
         }
 
-        // GET: Providers/Details/5
-        public ActionResult Details(byte? id)
+        // GET: Products/Details/5
+        public ActionResult Details(long? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PROVIDER pROVIDER = db.PROVIDER.Find(id);
-            if (pROVIDER == null)
+            PRODUCT pRODUCT = db.PRODUCT.Find(id);
+            if (pRODUCT == null)
             {
                 return HttpNotFound();
             }
-            return View(pROVIDER);
+            return View(pRODUCT);
         }
 
-        // GET: Providers/Create
+        // GET: Products/Create
         public ActionResult Create()
         {
+            ViewBag.IDPROVIDER = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
             return View();
         }
 
-        // POST: Providers/Create
+        // POST: Products/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IDPROVIDER,RUT,COMPANYNAME,NAME1,NAME2,LASTNAME1,LASTNAME2,REGION,COMMUNE,DIRECTION,COMPANYITEM,CELLPHONE,MAIL")] PROVIDER pROVIDER)
+        public ActionResult Create([Bind(Include = "BARCODE,PURCHASEPRICE,SALEPRICE,STOCK,CRITICALSTOCK,PRODUCTNAME,PRODUCTFAMILY,PRODUCTTYPE,PRODUCTDESCRIPTION,IDPROVIDER")] PRODUCT pRODUCT)
         {
             if (ModelState.IsValid)
             {
-                db.PROVIDER.Add(pROVIDER);
+                db.PRODUCT.Add(pRODUCT);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            return View(pROVIDER);
+            return View(pRODUCT);
         }
 
-        // GET: Providers/Edit/5
-        public ActionResult Edit(byte? id)
+        // GET: Products/Edit/5
+        public ActionResult Edit(long? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PROVIDER pROVIDER = db.PROVIDER.Find(id);
-            if (pROVIDER == null)
+            PRODUCT pRODUCT = db.PRODUCT.Find(id);
+            if (pRODUCT == null)
             {
                 return HttpNotFound();
             }
-            return View(pROVIDER);
+            ViewBag.IDPROVIDER = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME", pRODUCT.IDPROVIDER);
+            return View(pRODUCT);
         }
 
-        // POST: Providers/Edit/5
+        // POST: Products/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IDPROVIDER,RUT,COMPANYNAME,NAME1,NAME2,LASTNAME1,LASTNAME2,REGION,COMMUNE,DIRECTION,COMPANYITEM,CELLPHONE,MAIL")] PROVIDER pROVIDER)
+        public ActionResult Edit([Bind(Include = "BARCODE,PURCHASEPRICE,SALEPRICE,STOCK,CRITICALSTOCK,PRODUCTNAME,PRODUCTFAMILY,PRODUCTTYPE,PRODUCTDESCRIPTION,IDPROVIDER")] PRODUCT pRODUCT)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(pROVIDER).State = EntityState.Modified;
+                db.Entry(pRODUCT).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(pROVIDER);
+            ViewBag.IDPROVIDER = new SelectList(db.PROVIDER, "IDPROVIDER", "RUT", pRODUCT.IDPROVIDER);
+            return View(pRODUCT);
         }
 
-        // GET: Providers/Delete/5
-        public ActionResult Delete(byte? id)
+        // GET: Products/Delete/5
+        public ActionResult Delete(long? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PROVIDER pROVIDER = db.PROVIDER.Find(id);
-            if (pROVIDER == null)
+            PRODUCT pRODUCT = db.PRODUCT.Find(id);
+            if (pRODUCT == null)
             {
                 return HttpNotFound();
             }
-            return View(pROVIDER);
+            return View(pRODUCT);
         }
 
-        // POST: Providers/Delete/5
+        // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(byte id)
+        public ActionResult DeleteConfirmed(long id)
         {
-            PROVIDER pROVIDER = db.PROVIDER.Find(id);
-            db.PROVIDER.Remove(pROVIDER);
+            PRODUCT pRODUCT = db.PRODUCT.Find(id);
+            db.PRODUCT.Remove(pRODUCT);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -125,5 +129,7 @@ namespace WhareHouse.Controllers
             }
             base.Dispose(disposing);
         }
+
+       
     }
 }

@@ -25,3 +25,6 @@
 .ColorMenu{
     color: #000000;
 }
+.theadAling tr th{
+    vertical-align: middle;
+}
