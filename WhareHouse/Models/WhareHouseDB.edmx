@@ -4,11 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="WhareHouseDbModel.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="WhareHouseDbModel.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CLIENT">
           <Key>
-            <PropertyRef Name="CLIENTRUT" />
+            <PropertyRef Name="IDCLIENT" />
           </Key>
+          <Property Name="IDCLIENT" Type="number" Precision="4" Scale="0" Nullable="false" />
           <Property Name="CLIENTRUT" Type="varchar2" MaxLength="10" Nullable="false" />
           <Property Name="NAME1" Type="varchar2" MaxLength="30" Nullable="false" />
           <Property Name="NAME2" Type="varchar2" MaxLength="30" />
@@ -17,6 +18,7 @@
           <Property Name="CELLPHONE" Type="number" Precision="11" Scale="0" Nullable="false" />
           <Property Name="BLACKLIST" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="BIRTHDATE" Type="date" Nullable="false" />
+          <Property Name="STATE" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
         <EntityType Name="EXPIRATIONDATE">
           <Key>
@@ -25,15 +27,15 @@
           <Property Name="LOTNUMBER" Type="number" Precision="12" Scale="0" Nullable="false" />
           <Property Name="EXPIREDATE" Type="date" Nullable="false" />
           <Property Name="PRODUCTQUANTITY" Type="number" Precision="10" Scale="0" Nullable="false" />
-          <Property Name="BARCODE" Type="number" Precision="13" Scale="0" Nullable="false" />
+          <Property Name="BARCODE" Type="number" Precision="4" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="ORDERDETAILS">
           <Key>
-            <PropertyRef Name="ODBARCODE" />
             <PropertyRef Name="ODORDERID" />
+            <PropertyRef Name="ODIDBARCODE" />
           </Key>
-          <Property Name="ODBARCODE" Type="number" Precision="13" Scale="0" Nullable="false" />
           <Property Name="ODORDERID" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="ODIDBARCODE" Type="number" Precision="4" Scale="0" Nullable="false" />
           <Property Name="QUANTITY" Type="number" Precision="10" Scale="0" Nullable="false" />
           <Property Name="TOTAL" Type="number" Precision="12" Scale="0" Nullable="false" />
         </EntityType>
@@ -51,8 +53,9 @@
         </EntityType>
         <EntityType Name="PRODUCT">
           <Key>
-            <PropertyRef Name="BARCODE" />
+            <PropertyRef Name="IDBARCODE" />
           </Key>
+          <Property Name="IDBARCODE" Type="number" Precision="4" Scale="0" Nullable="false" />
           <Property Name="BARCODE" Type="number" Precision="13" Scale="0" Nullable="false" />
           <Property Name="PURCHASEPRICE" Type="number" Precision="10" Scale="0" Nullable="false" />
           <Property Name="SALEPRICE" Type="number" Precision="10" Scale="0" Nullable="false" />
@@ -62,13 +65,14 @@
           <Property Name="PRODUCTFAMILY" Type="varchar2" MaxLength="30" Nullable="false" />
           <Property Name="PRODUCTTYPE" Type="varchar2" MaxLength="30" Nullable="false" />
           <Property Name="PRODUCTDESCRIPTION" Type="varchar2" MaxLength="100" Nullable="false" />
-          <Property Name="IDPROVIDER" Type="number" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="STATE" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="IDPROVIDER" Type="number" Precision="4" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="PROVIDER">
           <Key>
             <PropertyRef Name="IDPROVIDER" />
           </Key>
-          <Property Name="IDPROVIDER" Type="number" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="IDPROVIDER" Type="number" Precision="4" Scale="0" Nullable="false" />
           <Property Name="RUT" Type="varchar2" MaxLength="10" Nullable="false" />
           <Property Name="COMPANYNAME" Type="varchar2" MaxLength="30" Nullable="false" />
           <Property Name="NAME1" Type="varchar2" MaxLength="30" Nullable="false" />
@@ -81,6 +85,7 @@
           <Property Name="COMPANYITEM" Type="varchar2" MaxLength="50" Nullable="false" />
           <Property Name="CELLPHONE" Type="number" Precision="11" Scale="0" Nullable="false" />
           <Property Name="MAIL" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="STATE" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
         <EntityType Name="TICKET">
           <Key>
@@ -92,15 +97,15 @@
           <Property Name="STATE" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="TOTALTOTAL" Type="number" Precision="12" Scale="0" />
           <Property Name="IDTRUSTED" Type="number" Precision="12" Scale="0" />
-          <Property Name="CLIENTRUT" Type="varchar2" MaxLength="10" />
+          <Property Name="IDCLIENT" Type="number" Precision="4" Scale="0" />
         </EntityType>
         <EntityType Name="TICKETDETAILS">
           <Key>
-            <PropertyRef Name="TDBARCODE" />
             <PropertyRef Name="TDIDTICKET" />
+            <PropertyRef Name="TDIDBARCODE" />
           </Key>
-          <Property Name="TDBARCODE" Type="number" Precision="13" Scale="0" Nullable="false" />
           <Property Name="TDIDTICKET" Type="number" Precision="12" Scale="0" Nullable="false" />
+          <Property Name="TDIDBARCODE" Type="number" Precision="4" Scale="0" Nullable="false" />
           <Property Name="QUANTITY" Type="number" Precision="10" Scale="0" Nullable="false" />
           <Property Name="TOTAL" Type="number" Precision="12" Scale="0" Nullable="false" />
         </EntityType>
@@ -112,6 +117,7 @@
           <Property Name="STATE" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="TRUSTDATE" Type="date" Nullable="false" />
           <Property Name="TIMELIMITTRUST" Type="date" Nullable="false" />
+          <Property Name="STATETRUSTED" Type="char" MaxLength="1" Nullable="false" />
         </EntityType>
         <Association Name="ED_PRODUCT_FK">
           <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="1">
@@ -120,7 +126,7 @@
           <End Role="EXPIRATIONDATE" Type="Self.EXPIRATIONDATE" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PRODUCT">
-              <PropertyRef Name="BARCODE" />
+              <PropertyRef Name="IDBARCODE" />
             </Principal>
             <Dependent Role="EXPIRATIONDATE">
               <PropertyRef Name="BARCODE" />
@@ -148,10 +154,10 @@
           <End Role="ORDERDETAILS" Type="Self.ORDERDETAILS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PRODUCT">
-              <PropertyRef Name="BARCODE" />
+              <PropertyRef Name="IDBARCODE" />
             </Principal>
             <Dependent Role="ORDERDETAILS">
-              <PropertyRef Name="ODBARCODE" />
+              <PropertyRef Name="ODIDBARCODE" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -174,10 +180,10 @@
           <End Role="TICKET" Type="Self.TICKET" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CLIENT">
-              <PropertyRef Name="CLIENTRUT" />
+              <PropertyRef Name="IDCLIENT" />
             </Principal>
             <Dependent Role="TICKET">
-              <PropertyRef Name="CLIENTRUT" />
+              <PropertyRef Name="IDCLIENT" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -200,10 +206,10 @@
           <End Role="TICKETDETAILS" Type="Self.TICKETDETAILS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PRODUCT">
-              <PropertyRef Name="BARCODE" />
+              <PropertyRef Name="IDBARCODE" />
             </Principal>
             <Dependent Role="TICKETDETAILS">
-              <PropertyRef Name="TDBARCODE" />
+              <PropertyRef Name="TDIDBARCODE" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -221,8 +227,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="LISTPRODUCT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB" />
-        <Function Name="LISTPROEVIDER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB" />
         <EntityContainer Name="WhareHouseDbModelStoreContainer">
           <EntitySet Name="CLIENT" EntityType="Self.CLIENT" Schema="YUYITOSDB" store:Type="Tables" />
           <EntitySet Name="EXPIRATIONDATE" EntityType="Self.EXPIRATIONDATE" Schema="YUYITOSDB" store:Type="Tables" />
@@ -266,14 +270,16 @@
             <End Role="TICKETDETAILS" EntitySet="TICKETDETAILS" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="WhareHouseDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="CLIENT">
           <Key>
-            <PropertyRef Name="CLIENTRUT" />
+            <PropertyRef Name="IDCLIENT" />
           </Key>
+          <Property Name="IDCLIENT" Type="Int16" Nullable="false" />
           <Property Name="CLIENTRUT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="NAME1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="NAME2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
@@ -282,6 +288,7 @@
           <Property Name="CELLPHONE" Type="Int64" Nullable="false" />
           <Property Name="BLACKLIST" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="BIRTHDATE" Type="DateTime" Nullable="false" />
+          <Property Name="STATE" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <NavigationProperty Name="TICKET" Relationship="Self.T_CLIENT_FK" FromRole="CLIENT" ToRole="TICKET" />
         </EntityType>
         <EntityType Name="EXPIRATIONDATE">
@@ -291,16 +298,16 @@
           <Property Name="LOTNUMBER" Type="Int64" Nullable="false" />
           <Property Name="EXPIREDATE" Type="DateTime" Nullable="false" />
           <Property Name="PRODUCTQUANTITY" Type="Int32" Nullable="false" />
-          <Property Name="BARCODE" Type="Int64" Nullable="false" />
+          <Property Name="BARCODE" Type="Int16" Nullable="false" />
           <NavigationProperty Name="PRODUCT" Relationship="Self.ED_PRODUCT_FK" FromRole="EXPIRATIONDATE" ToRole="PRODUCT" />
         </EntityType>
         <EntityType Name="ORDERDETAILS">
           <Key>
-            <PropertyRef Name="ODBARCODE" />
             <PropertyRef Name="ODORDERID" />
+            <PropertyRef Name="ODIDBARCODE" />
           </Key>
-          <Property Name="ODBARCODE" Type="Int64" Nullable="false" />
           <Property Name="ODORDERID" Type="Int64" Nullable="false" />
+          <Property Name="ODIDBARCODE" Type="Int16" Nullable="false" />
           <Property Name="QUANTITY" Type="Int32" Nullable="false" />
           <Property Name="TOTAL" Type="Int64" Nullable="false" />
           <NavigationProperty Name="ORDERPRODUCT" Relationship="Self.OD_ORDERPRODUCT_FK" FromRole="ORDERDETAILS" ToRole="ORDERPRODUCT" />
@@ -321,8 +328,9 @@
         </EntityType>
         <EntityType Name="PRODUCT">
           <Key>
-            <PropertyRef Name="BARCODE" />
+            <PropertyRef Name="IDBARCODE" />
           </Key>
+          <Property Name="IDBARCODE" Type="Int16" Nullable="false" />
           <Property Name="BARCODE" Type="Int64" Nullable="false" />
           <Property Name="PURCHASEPRICE" Type="Int32" Nullable="false" />
           <Property Name="SALEPRICE" Type="Int32" Nullable="false" />
@@ -332,7 +340,8 @@
           <Property Name="PRODUCTFAMILY" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PRODUCTTYPE" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PRODUCTDESCRIPTION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="IDPROVIDER" Type="Byte" Nullable="false" />
+          <Property Name="STATE" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="IDPROVIDER" Type="Int16" Nullable="false" />
           <NavigationProperty Name="EXPIRATIONDATE" Relationship="Self.ED_PRODUCT_FK" FromRole="PRODUCT" ToRole="EXPIRATIONDATE" />
           <NavigationProperty Name="ORDERDETAILS" Relationship="Self.OD_PRODUCT_FK" FromRole="PRODUCT" ToRole="ORDERDETAILS" />
           <NavigationProperty Name="PROVIDER" Relationship="Self.P_PROVIDER_FK" FromRole="PRODUCT" ToRole="PROVIDER" />
@@ -342,7 +351,7 @@
           <Key>
             <PropertyRef Name="IDPROVIDER" />
           </Key>
-          <Property Name="IDPROVIDER" Type="Byte" Nullable="false" />
+          <Property Name="IDPROVIDER" Type="Int16" Nullable="false" />
           <Property Name="RUT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="COMPANYNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="NAME1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
@@ -355,6 +364,7 @@
           <Property Name="COMPANYITEM" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CELLPHONE" Type="Int64" Nullable="false" />
           <Property Name="MAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="STATE" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <NavigationProperty Name="PRODUCT" Relationship="Self.P_PROVIDER_FK" FromRole="PROVIDER" ToRole="PRODUCT" />
         </EntityType>
         <EntityType Name="TICKET">
@@ -367,18 +377,18 @@
           <Property Name="STATE" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="TOTALTOTAL" Type="Int64" />
           <Property Name="IDTRUSTED" Type="Int64" />
-          <Property Name="CLIENTRUT" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IDCLIENT" Type="Int16" />
           <NavigationProperty Name="CLIENT" Relationship="Self.T_CLIENT_FK" FromRole="TICKET" ToRole="CLIENT" />
           <NavigationProperty Name="TRUSTED" Relationship="Self.T_TRUSTED_FK" FromRole="TICKET" ToRole="TRUSTED" />
           <NavigationProperty Name="TICKETDETAILS" Relationship="Self.TD_TICKET_FK" FromRole="TICKET" ToRole="TICKETDETAILS" />
         </EntityType>
         <EntityType Name="TICKETDETAILS">
           <Key>
-            <PropertyRef Name="TDBARCODE" />
             <PropertyRef Name="TDIDTICKET" />
+            <PropertyRef Name="TDIDBARCODE" />
           </Key>
-          <Property Name="TDBARCODE" Type="Int64" Nullable="false" />
           <Property Name="TDIDTICKET" Type="Int64" Nullable="false" />
+          <Property Name="TDIDBARCODE" Type="Int16" Nullable="false" />
           <Property Name="QUANTITY" Type="Int32" Nullable="false" />
           <Property Name="TOTAL" Type="Int64" Nullable="false" />
           <NavigationProperty Name="PRODUCT" Relationship="Self.TD_PRODUCT_FK" FromRole="TICKETDETAILS" ToRole="PRODUCT" />
@@ -392,6 +402,7 @@
           <Property Name="STATE" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="TRUSTDATE" Type="DateTime" Nullable="false" />
           <Property Name="TIMELIMITTRUST" Type="DateTime" Nullable="false" />
+          <Property Name="STATETRUSTED" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <NavigationProperty Name="TICKET" Relationship="Self.T_TRUSTED_FK" FromRole="TRUSTED" ToRole="TICKET" />
         </EntityType>
         <Association Name="T_CLIENT_FK">
@@ -399,10 +410,10 @@
           <End Role="TICKET" Type="Self.TICKET" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CLIENT">
-              <PropertyRef Name="CLIENTRUT" />
+              <PropertyRef Name="IDCLIENT" />
             </Principal>
             <Dependent Role="TICKET">
-              <PropertyRef Name="CLIENTRUT" />
+              <PropertyRef Name="IDCLIENT" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -413,7 +424,7 @@
           <End Role="EXPIRATIONDATE" Type="Self.EXPIRATIONDATE" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PRODUCT">
-              <PropertyRef Name="BARCODE" />
+              <PropertyRef Name="IDBARCODE" />
             </Principal>
             <Dependent Role="EXPIRATIONDATE">
               <PropertyRef Name="BARCODE" />
@@ -441,10 +452,10 @@
           <End Role="ORDERDETAILS" Type="Self.ORDERDETAILS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PRODUCT">
-              <PropertyRef Name="BARCODE" />
+              <PropertyRef Name="IDBARCODE" />
             </Principal>
             <Dependent Role="ORDERDETAILS">
-              <PropertyRef Name="ODBARCODE" />
+              <PropertyRef Name="ODIDBARCODE" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -469,10 +480,10 @@
           <End Role="TICKETDETAILS" Type="Self.TICKETDETAILS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PRODUCT">
-              <PropertyRef Name="BARCODE" />
+              <PropertyRef Name="IDBARCODE" />
             </Principal>
             <Dependent Role="TICKETDETAILS">
-              <PropertyRef Name="TDBARCODE" />
+              <PropertyRef Name="TDIDBARCODE" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -544,8 +555,6 @@
             <End Role="TICKET" EntitySet="TICKET" />
             <End Role="TICKETDETAILS" EntitySet="TICKETDETAILS" />
           </AssociationSet>
-          <FunctionImport Name="LISTPROEVIDER" />
-          <FunctionImport Name="LISTPRODUCT" />
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -556,6 +565,7 @@
           <EntitySetMapping Name="CLIENT">
             <EntityTypeMapping TypeName="WhareHouseDbModel.CLIENT">
               <MappingFragment StoreEntitySet="CLIENT">
+                <ScalarProperty Name="IDCLIENT" ColumnName="IDCLIENT" />
                 <ScalarProperty Name="CLIENTRUT" ColumnName="CLIENTRUT" />
                 <ScalarProperty Name="NAME1" ColumnName="NAME1" />
                 <ScalarProperty Name="NAME2" ColumnName="NAME2" />
@@ -564,6 +574,7 @@
                 <ScalarProperty Name="CELLPHONE" ColumnName="CELLPHONE" />
                 <ScalarProperty Name="BLACKLIST" ColumnName="BLACKLIST" />
                 <ScalarProperty Name="BIRTHDATE" ColumnName="BIRTHDATE" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -580,8 +591,8 @@
           <EntitySetMapping Name="ORDERDETAILS">
             <EntityTypeMapping TypeName="WhareHouseDbModel.ORDERDETAILS">
               <MappingFragment StoreEntitySet="ORDERDETAILS">
-                <ScalarProperty Name="ODBARCODE" ColumnName="ODBARCODE" />
                 <ScalarProperty Name="ODORDERID" ColumnName="ODORDERID" />
+                <ScalarProperty Name="ODIDBARCODE" ColumnName="ODIDBARCODE" />
                 <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
                 <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
               </MappingFragment>
@@ -603,6 +614,7 @@
           <EntitySetMapping Name="PRODUCT">
             <EntityTypeMapping TypeName="WhareHouseDbModel.PRODUCT">
               <MappingFragment StoreEntitySet="PRODUCT">
+                <ScalarProperty Name="IDBARCODE" ColumnName="IDBARCODE" />
                 <ScalarProperty Name="BARCODE" ColumnName="BARCODE" />
                 <ScalarProperty Name="PURCHASEPRICE" ColumnName="PURCHASEPRICE" />
                 <ScalarProperty Name="SALEPRICE" ColumnName="SALEPRICE" />
@@ -612,6 +624,7 @@
                 <ScalarProperty Name="PRODUCTFAMILY" ColumnName="PRODUCTFAMILY" />
                 <ScalarProperty Name="PRODUCTTYPE" ColumnName="PRODUCTTYPE" />
                 <ScalarProperty Name="PRODUCTDESCRIPTION" ColumnName="PRODUCTDESCRIPTION" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
                 <ScalarProperty Name="IDPROVIDER" ColumnName="IDPROVIDER" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -632,6 +645,7 @@
                 <ScalarProperty Name="COMPANYITEM" ColumnName="COMPANYITEM" />
                 <ScalarProperty Name="CELLPHONE" ColumnName="CELLPHONE" />
                 <ScalarProperty Name="MAIL" ColumnName="MAIL" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -644,15 +658,15 @@
                 <ScalarProperty Name="STATE" ColumnName="STATE" />
                 <ScalarProperty Name="TOTALTOTAL" ColumnName="TOTALTOTAL" />
                 <ScalarProperty Name="IDTRUSTED" ColumnName="IDTRUSTED" />
-                <ScalarProperty Name="CLIENTRUT" ColumnName="CLIENTRUT" />
+                <ScalarProperty Name="IDCLIENT" ColumnName="IDCLIENT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TICKETDETAILS">
             <EntityTypeMapping TypeName="WhareHouseDbModel.TICKETDETAILS">
               <MappingFragment StoreEntitySet="TICKETDETAILS">
-                <ScalarProperty Name="TDBARCODE" ColumnName="TDBARCODE" />
                 <ScalarProperty Name="TDIDTICKET" ColumnName="TDIDTICKET" />
+                <ScalarProperty Name="TDIDBARCODE" ColumnName="TDIDBARCODE" />
                 <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
                 <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
               </MappingFragment>
@@ -665,11 +679,10 @@
                 <ScalarProperty Name="STATE" ColumnName="STATE" />
                 <ScalarProperty Name="TRUSTDATE" ColumnName="TRUSTDATE" />
                 <ScalarProperty Name="TIMELIMITTRUST" ColumnName="TIMELIMITTRUST" />
+                <ScalarProperty Name="STATETRUSTED" ColumnName="STATETRUSTED" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="LISTPROEVIDER" FunctionName="WhareHouseDbModel.Store.LISTPROEVIDER" />
-          <FunctionImportMapping FunctionImportName="LISTPRODUCT" FunctionName="WhareHouseDbModel.Store.LISTPRODUCT" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

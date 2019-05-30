@@ -51,7 +51,7 @@ namespace WhareHouse.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BARCODE,PURCHASEPRICE,SALEPRICE,STOCK,CRITICALSTOCK,PRODUCTNAME,PRODUCTFAMILY,PRODUCTTYPE,PRODUCTDESCRIPTION,IDPROVIDER")] PRODUCT pRODUCT)
+        public ActionResult Create([Bind(Include = "IDBARCODE,BARCODE,PURCHASEPRICE,SALEPRICE,STOCK,CRITICALSTOCK,PRODUCTNAME,PRODUCTFAMILY,PRODUCTTYPE,PRODUCTDESCRIPTION,IDPROVIDER,STATE")] PRODUCT pRODUCT)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace WhareHouse.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BARCODE,PURCHASEPRICE,SALEPRICE,STOCK,CRITICALSTOCK,PRODUCTNAME,PRODUCTFAMILY,PRODUCTTYPE,PRODUCTDESCRIPTION,IDPROVIDER")] PRODUCT pRODUCT)
+        public ActionResult Edit([Bind(Include = "IDBARCODE,BARCODE,PURCHASEPRICE,SALEPRICE,STOCK,CRITICALSTOCK,PRODUCTNAME,PRODUCTFAMILY,PRODUCTTYPE,PRODUCTDESCRIPTION,IDPROVIDER,STATE")] PRODUCT pRODUCT)
         {
             if (ModelState.IsValid)
             {

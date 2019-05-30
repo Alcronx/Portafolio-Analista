@@ -14,8 +14,8 @@ namespace WhareHouse.Models
     
     public partial class TICKETDETAILS
     {
-        public long TDBARCODE { get; set; }
         public long TDIDTICKET { get; set; }
+        public short TDIDBARCODE { get; set; }
         public int QUANTITY { get; set; }
         public long TOTAL { get; set; }
     

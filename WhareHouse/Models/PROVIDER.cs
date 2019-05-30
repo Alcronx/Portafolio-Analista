@@ -20,7 +20,7 @@ namespace WhareHouse.Models
             this.PRODUCT = new HashSet<PRODUCT>();
         }
     
-        public byte IDPROVIDER { get; set; }
+        public short IDPROVIDER { get; set; }
         public string RUT { get; set; }
         public string COMPANYNAME { get; set; }
         public string NAME1 { get; set; }
@@ -33,6 +33,7 @@ namespace WhareHouse.Models
         public string COMPANYITEM { get; set; }
         public long CELLPHONE { get; set; }
         public string MAIL { get; set; }
+        public string STATE { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PRODUCT> PRODUCT { get; set; }

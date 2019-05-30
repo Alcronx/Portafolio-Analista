@@ -26,7 +26,7 @@ namespace WhareHouse.Models
         public string STATE { get; set; }
         public Nullable<long> TOTALTOTAL { get; set; }
         public Nullable<long> IDTRUSTED { get; set; }
-        public string CLIENTRUT { get; set; }
+        public Nullable<short> IDCLIENT { get; set; }
     
         public virtual CLIENT CLIENT { get; set; }
         public virtual TRUSTED TRUSTED { get; set; }

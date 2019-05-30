@@ -24,6 +24,7 @@ namespace WhareHouse.Models
         public string STATE { get; set; }
         public System.DateTime TRUSTDATE { get; set; }
         public System.DateTime TIMELIMITTRUST { get; set; }
+        public string STATETRUSTED { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TICKET> TICKET { get; set; }

@@ -48,7 +48,7 @@ namespace WhareHouse.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IDPROVIDER,RUT,COMPANYNAME,NAME1,NAME2,LASTNAME1,LASTNAME2,REGION,COMMUNE,DIRECTION,COMPANYITEM,CELLPHONE,MAIL")] PROVIDER pROVIDER)
+        public ActionResult Create([Bind(Include = "IDPROVIDER,RUT,COMPANYNAME,NAME1,NAME2,LASTNAME1,LASTNAME2,REGION,COMMUNE,DIRECTION,COMPANYITEM,CELLPHONE,MAIL,STATE")] PROVIDER pROVIDER)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace WhareHouse.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IDPROVIDER,RUT,COMPANYNAME,NAME1,NAME2,LASTNAME1,LASTNAME2,REGION,COMMUNE,DIRECTION,COMPANYITEM,CELLPHONE,MAIL")] PROVIDER pROVIDER)
+        public ActionResult Edit([Bind(Include = "IDPROVIDER,RUT,COMPANYNAME,NAME1,NAME2,LASTNAME1,LASTNAME2,REGION,COMMUNE,DIRECTION,COMPANYITEM,CELLPHONE,MAIL,STATE")] PROVIDER pROVIDER)
         {
             if (ModelState.IsValid)
             {

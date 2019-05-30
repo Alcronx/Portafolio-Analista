@@ -17,7 +17,7 @@ namespace WhareHouse.Models
         public long LOTNUMBER { get; set; }
         public System.DateTime EXPIREDATE { get; set; }
         public int PRODUCTQUANTITY { get; set; }
-        public long BARCODE { get; set; }
+        public short BARCODE { get; set; }
     
         public virtual PRODUCT PRODUCT { get; set; }
     }

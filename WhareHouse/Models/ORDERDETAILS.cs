@@ -14,8 +14,8 @@ namespace WhareHouse.Models
     
     public partial class ORDERDETAILS
     {
-        public long ODBARCODE { get; set; }
         public long ODORDERID { get; set; }
+        public short ODIDBARCODE { get; set; }
         public int QUANTITY { get; set; }
         public long TOTAL { get; set; }
     

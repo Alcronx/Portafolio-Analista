@@ -20,6 +20,7 @@ namespace WhareHouse.Models
             this.TICKET = new HashSet<TICKET>();
         }
     
+        public short IDCLIENT { get; set; }
         public string CLIENTRUT { get; set; }
         public string NAME1 { get; set; }
         public string NAME2 { get; set; }
@@ -28,6 +29,7 @@ namespace WhareHouse.Models
         public long CELLPHONE { get; set; }
         public string BLACKLIST { get; set; }
         public System.DateTime BIRTHDATE { get; set; }
+        public string STATE { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TICKET> TICKET { get; set; }
