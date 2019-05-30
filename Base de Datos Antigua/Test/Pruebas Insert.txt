@@ -1,0 +1,194 @@
+--Prueba Proevedor
+select * from provider;
+--Insertar Datos Proevedor
+insert into provider
+(idprovider,rut,companyname,name1,name2,lastname1,lastname2,
+region,commune,direction,companyitem,cellphone,mail)
+	values(
+	001,'19985537-9','Colun','Alex','David','Sanchez','Muñoz'
+	,'Metropolitana','Maipu','Catecumanos 177','Productor De Alimentos'
+	,56984178680,'Omicron.Alcronx@gmail.com'
+	)
+
+insert into provider
+(idprovider,rut,companyname,name1,name2,lastname1,lastname2,
+region,commune,direction,companyitem,cellphone,mail)
+	values(
+	002,'10742571-3','Soprole','Ivan','Raul','Jara','Villagra'
+	,'Metropolitana','Cerrillos','CalleFalsa 123','Productor De Alimentos'
+	,56981758581,'Ivan.wek_o@gmail.com'
+	)
+
+--Prueba Tabla product
+select * from product;
+--Insertar Datos product
+insert into product
+(barcode,purchaseprice,saleprice,stock,criticalstock,productname,
+productfamily,producttype,productdescription,idprovider)
+	values(
+	7802900001520,300,500,100,10,'Protein+','Lacteos','Leche 200ml',
+	'Leche Protein+ 200 Batido Proteico Con cacao',001
+	)
+insert into product
+(barcode,purchaseprice,saleprice,stock,criticalstock,productname,
+productfamily,producttype,productdescription,idprovider)
+	values(
+	7802912341520,200,300,50,10,'Yogurth Protein+','Lacteos','Yoguth 200gr',
+	'Yogurth Protein+ 200gr',001
+	)
+insert into product
+(barcode,purchaseprice,saleprice,stock,criticalstock,productname,
+productfamily,producttype,productdescription,idprovider)
+	values(
+	7802978951520,100,500,100,10,'Manjar Pote','Manjares','Manjar Pote 200g',
+	'Pote De Manjar Colun de 200g',002
+	)
+
+insert into product
+(barcode,purchaseprice,saleprice,stock,criticalstock,productname,
+productfamily,producttype,productdescription,idprovider)
+	values(
+	1234900001520,200,500,20,5,'Manjarate','Postres','Manjarate 200gr',
+	'Manjarate 200gr',002
+	)
+
+
+--Prueba Tabla expirationdate
+select * from expirationdate;
+--Insertar Datos expirationdate
+insert into expirationdate
+(lotnumber,expiredate,productquantity,barcode)
+	values(
+	1,'10-04-2021',100,7802900001520
+	)
+
+insert into expirationdate
+(lotnumber,expiredate,productquantity,barcode)
+	values(
+	2,'10-04-2022',10,7802900001520
+	)
+
+insert into expirationdate
+(lotnumber,expiredate,productquantity,barcode)
+	values(
+	3,'10-04-2022',10,1234900001520
+	)
+
+insert into expirationdate
+(lotnumber,expiredate,productquantity,barcode)
+	values(
+	4,'10-04-2022',10,7802912341520
+	)
+
+--Prueba Tabla client
+select * from client;
+--Insertar Datos client
+insert into client
+(clientrut,name1,name2,lastname1,lastname2,cellphone,blacklist,birthdate)
+	values(
+	'19985537-9','Alex','David','Sanchez','Muñoz',56984178680,1,'1998-9-30'
+	)
+
+insert into client
+(clientrut,name1,name2,lastname1,lastname2,cellphone,blacklist,birthdate)
+	values(
+	'10742571-3','Angelina','Edith','Muñoz','Romero',56975487151,0,'1968-9-30'
+	)
+
+--Prueba Tabla trusted
+select * from trusted;
+--Insertar Datos trusted
+insert into trusted
+(idtrusted,state,trustdate,timelimittrust)
+	values(
+	001,'p',GETDATE(),'2019-04-20'
+	)
+
+--Prueba Tabla ticket
+select * from ticket;
+--Insertar Datos ticket
+insert into ticket
+(idticket,ticketdate,tickethour,state,idtrusted,clientrut,totaltotal)
+	values(
+	001,GETDATE(),Convert(time,GETDATE()),'V',null,null,5000
+	)
+
+insert into ticket
+(idticket,ticketdate,tickethour,state,idtrusted,clientrut,totaltotal)
+	values(
+	002,GETDATE(),Convert(time,GETDATE()),'V',null,null,5000
+	)
+insert into ticket
+(idticket,ticketdate,tickethour,state,idtrusted,clientrut,totaltotal)
+	values(
+	003,GETDATE(),Convert(time,GETDATE()),'V',1,'10742571-3',5000
+	)
+insert into ticket
+(idticket,ticketdate,tickethour,state,idtrusted,clientrut,totaltotal)
+	values(
+	004,GETDATE(),Convert(time,GETDATE()),'V',null,'10742571-3',5000
+	)
+--Prueba Tabla ticketdetails
+select * from ticketdetails;
+--Insertar Datos ticketdetails
+insert into ticketdetails
+(tdbarcode,tdidticket,quantity,total)
+	values(
+	7802900001520,001,10,5000
+	)
+insert into ticketdetails
+(tdbarcode,tdidticket,quantity,total)
+	values(
+	1234900001520,001,10,5000
+	)
+insert into ticketdetails
+(tdbarcode,tdidticket,quantity,total)
+	values(
+	7802912341520,001,10,5000
+	)
+insert into ticketdetails
+(tdbarcode,tdidticket,quantity,total)
+	values(
+	7802978951520,001,10,5000
+	)
+
+--Prueba Tabla orderproduct
+select * from orderproduct;
+--Insertar Datos orderproduct
+insert into orderproduct
+(orderid,orderdate,orderhour,estate,receptiondate,receptionhour,totaltotal)
+	values(
+	1,GETDATE(),Convert(time,GETDATE()),'E',null,null,5000
+	)
+
+insert into orderproduct
+(orderid,orderdate,orderhour,estate,receptiondate,receptionhour,totaltotal)
+	values(
+	2,GETDATE(),Convert(time,GETDATE()),'E',null,null,5000
+	)
+
+--Prueba Tabla orderdetails
+select * from orderdetails;
+--Insertar Datos orderdetails
+insert into orderdetails
+(odbarcode,odorderid,quantity,total)
+	values(
+	7802900001520,1,10,5000
+	)
+
+insert into orderdetails
+(odbarcode,odorderid,quantity,total)
+	values(
+	7802912341520,1,10,5000
+	)
+insert into orderdetails
+(odbarcode,odorderid,quantity,total)
+	values(
+	7802900001520,2,10,5000
+	)
+
+insert into orderdetails
+(odbarcode,odorderid,quantity,total)
+	values(
+	7802912341520,2,10,5000
+	)

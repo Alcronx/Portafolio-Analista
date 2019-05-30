@@ -1,0 +1,57 @@
+--Prueba Select
+--Select A Todas Las Tablas
+select * from client;
+select * from ticket;
+select * from provider;
+select * from product;
+select * from ticketdetails;
+select * from expirationdate;
+select * from trusted;
+select * from orderproduct;
+select * from orderdetails;
+-----------------------------------------------------------------
+--Muckup Lista Proevedores
+select idprovider,rut,companyname,cellphone from provider;
+------------------------------------------------------------------
+--Muckup Lista Productos
+select pr.idprovider,p.productname,p.producttype,p.purchaseprice,p.saleprice,p.stock,p.criticalstock 
+from product as p join provider as pr
+on(p.idprovider=pr.idprovider) order by pr.idprovider;
+--Filtrar Por Id de Proevedor
+select pr.idprovider,p.productname,p.producttype,p.purchaseprice,p.saleprice,p.stock,p.criticalstock 
+from product as p join provider as pr
+on(p.idprovider=pr.idprovider) where pr.idprovider=1 order by pr.idprovider;
+
+select pr.idprovider,p.productname,p.producttype,p.purchaseprice,p.saleprice,p.stock,p.criticalstock 
+from product as p join provider as pr
+on(p.idprovider=pr.idprovider) where pr.idprovider=2 order by pr.idprovider;
+------------------------------------------------------------------
+--Muckup Lista Clientes
+select clientrut,name1+' '+lastname1,cellphone,blacklist,
+       (cast(datediff(dd,birthdate,GETDATE())/365.25 as int)) as edad from client
+--Filtrar Por Rut
+select clientrut,name1+' '+lastname1,cellphone,blacklist,
+       (cast(datediff(dd,birthdate,GETDATE())/365.25 as int)) as edad from client
+	   where clientrut= '19985537-9'
+------------------------------------------------------------------
+--Muckup lista Ordenes
+select * from orderproduct;
+select * from orderdetails;
+select  
+o.orderid,convert(char(10),o.orderdate,103) as [dd/mm/aaaa]
+,convert(char(8),o.orderhour,108) as [hh:mm:ss],pro.companyname,o.estate 
+from orderproduct as o 
+join orderdetails ord on(o.orderid=ord.odorderid)
+join product p on (p.barcode=ord.odbarcode)
+join provider pro on(pro.idprovider=p.idprovider)
+group by o.orderid,o.orderdate,o.orderhour,pro.companyname,o.estate;
+------------------------------------------------------------------
+--Muckup Lista Venta
+select idticket,convert(char(10),ticketdate,103) as [dd/mm/aaaa],totaltotal,state
+ from ticket;
+------------------------------------------------------------------
+--Muckup Fecha De Vencimiento
+select ex.lotnumber,pro.companyname,p.productname,ex.productquantity,
+convert(char(10),ex.expiredate,103) as [dd/mm/aaaa]
+from provider pro join product p on(p.idprovider=pro.idprovider)
+join expirationdate ex on (ex.barcode=p.barcode);

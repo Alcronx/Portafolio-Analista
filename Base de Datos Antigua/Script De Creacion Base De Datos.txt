@@ -1,0 +1,217 @@
+--Creacion De Tablas Para La Base De Datos
+CREATE TABLE client (
+    clientrut   VARCHAR(10) NOT NULL,
+    name1       VARCHAR(30) NOT NULL,
+    name2       VARCHAR(30),
+    lastname1   VARCHAR(30) NOT NULL,
+    lastname2   VARCHAR(30),
+    cellphone   NUMERIC(11) NOT NULL,
+    blacklist   bit NOT NULL,
+    birthdate   DATE NOT NULL
+)
+
+CREATE TABLE expirationdate (
+    lotnumber         NUMERIC(12) NOT NULL,
+    expiredate       DATE NOT NULL,
+    productquantity   NUMERIC(10) NOT NULL,
+    barcode           NUMERIC(13) NOT NULL
+)
+
+CREATE TABLE orderdetails (
+    odbarcode   NUMERIC(13) NOT NULL,
+    odorderid   NUMERIC(12) NOT NULL,
+    quantity    NUMERIC(10) NOT NULL,
+    total       NUMERIC(12) NOT NULL
+)
+
+
+CREATE TABLE orderproduct (
+    orderid         NUMERIC(12) NOT NULL,
+    orderdate       DATE NOT NULL,
+    orderhour       datetime NOT NULL,
+    estate          CHAR(1) NOT NULL,
+    receptiondate   datetime,
+    receptionhour   datetime,
+    totaltotal      NUMERIC(12)
+)
+
+CREATE TABLE product (
+    barcode              NUMERIC(13) NOT NULL,
+    purchaseprice        NUMERIC(10) NOT NULL,
+    saleprice            NUMERIC(10) NOT NULL,
+    stock                NUMERIC(5) NOT NULL,
+    criticalstock        NUMERIC(3) NOT NULL,
+    productname          VARCHAR(30) NOT NULL,
+    productfamily        VARCHAR(30) NOT NULL,
+    producttype          VARCHAR(30) NOT NULL,
+    productdescription   VARCHAR(100) NOT NULL,
+    idprovider           NUMERIC(3) NOT NULL
+)
+
+CREATE TABLE provider (
+    idprovider    NUMERIC(3) NOT NULL,
+    rut           VARCHAR(10) NOT NULL,
+    companyname   VARCHAR(30) NOT NULL,
+    name1         VARCHAR(30) NOT NULL,
+    name2         VARCHAR(30),
+    lastname1     VARCHAR(30) NOT NULL,
+    lastname2     VARCHAR(30),
+    region        VARCHAR(50) NOT NULL,
+    commune       VARCHAR(50) NOT NULL,
+    direction     VARCHAR(70) NOT NULL,
+    companyitem   VARCHAR(50) NOT NULL,
+    cellphone     NUMERIC(11) NOT NULL,
+    mail          VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE ticket (
+    idticket     NUMERIC(12) NOT NULL,
+    ticketdate   DATE NOT NULL,
+    tickethour   datetime NOT NULL,
+    state        CHAR(1) NOT NULL,
+    totaltotal   NUMERIC(12),
+    idtrusted    NUMERIC(12),
+    clientrut    VARCHAR(10)
+)
+
+CREATE TABLE ticketdetails (
+    tdbarcode    NUMERIC(13) NOT NULL,
+    tdidticket   NUMERIC(12) NOT NULL,
+    quantity     NUMERIC(10) NOT NULL,
+    total        NUMERIC(12) NOT NULL
+)
+
+CREATE TABLE trusted (
+    idtrusted        NUMERIC(12) NOT NULL,
+    state            CHAR(1) NOT NULL,
+    trustdate        datetime NOT NULL,
+    timelimittrust   DATE NOT NULL
+)
+
+--Agregando LLaves Primarias A Cada Tabla
+ALTER TABLE Client ADD constraint client_pk PRIMARY KEY CLUSTERED (clientRut)
+     WITH (
+     ALLOW_PAGE_LOCKS = ON , 
+     ALLOW_ROW_LOCKS = ON ) 
+
+
+
+
+
+ALTER TABLE ExpirationDate ADD constraint expirationdate_pk PRIMARY KEY CLUSTERED (lotNumber)
+     WITH (
+     ALLOW_PAGE_LOCKS = ON , 
+     ALLOW_ROW_LOCKS = ON ) 
+
+
+
+
+
+ALTER TABLE OrderDetails ADD constraint od_pk PRIMARY KEY CLUSTERED (oDbarcode, oDorderId)
+     WITH (
+     ALLOW_PAGE_LOCKS = ON , 
+     ALLOW_ROW_LOCKS = ON ) 
+
+
+
+
+
+ALTER TABLE OrderProduct ADD constraint orderproduct_pk PRIMARY KEY CLUSTERED (orderId)
+     WITH (
+     ALLOW_PAGE_LOCKS = ON , 
+     ALLOW_ROW_LOCKS = ON ) 
+
+
+
+
+
+ALTER TABLE Product ADD constraint product_pk PRIMARY KEY CLUSTERED (barcode)
+     WITH (
+     ALLOW_PAGE_LOCKS = ON , 
+     ALLOW_ROW_LOCKS = ON ) 
+
+
+
+
+
+ALTER TABLE Provider ADD constraint provider_pk PRIMARY KEY CLUSTERED (idProvider)
+     WITH (
+     ALLOW_PAGE_LOCKS = ON , 
+     ALLOW_ROW_LOCKS = ON ) 
+
+
+
+
+
+ALTER TABLE Ticket ADD constraint ticket_pk PRIMARY KEY CLUSTERED (idTicket)
+     WITH (
+     ALLOW_PAGE_LOCKS = ON , 
+     ALLOW_ROW_LOCKS = ON ) 
+
+
+
+
+
+ALTER TABLE TicketDetails ADD constraint td_pk PRIMARY KEY CLUSTERED (tDBarcode, tDidTicket)
+     WITH (
+     ALLOW_PAGE_LOCKS = ON , 
+     ALLOW_ROW_LOCKS = ON ) 
+
+
+
+
+
+ALTER TABLE Trusted ADD constraint trusted_pk PRIMARY KEY CLUSTERED (idTrusted)
+     WITH (
+     ALLOW_PAGE_LOCKS = ON , 
+     ALLOW_ROW_LOCKS = ON ) 
+
+
+--Agregar LLaves Foraneas A La Base De Datos
+ALTER TABLE ExpirationDate
+    ADD CONSTRAINT ed_product_fk FOREIGN KEY ( barcode )
+        REFERENCES product ( barcode )
+            ON DELETE CASCADE 
+    ON UPDATE no action 
+
+ALTER TABLE OrderDetails
+    ADD CONSTRAINT od_orderproduct_fk FOREIGN KEY ( odorderid )
+        REFERENCES orderproduct ( orderid )
+            ON DELETE CASCADE 
+    ON UPDATE no action 
+
+ALTER TABLE OrderDetails
+    ADD CONSTRAINT od_product_fk FOREIGN KEY ( odbarcode )
+        REFERENCES product ( barcode )
+            ON DELETE CASCADE 
+    ON UPDATE no action 
+
+ALTER TABLE Product
+    ADD CONSTRAINT p_provider_fk FOREIGN KEY ( idprovider )
+        REFERENCES provider ( idprovider )
+            ON DELETE CASCADE 
+    ON UPDATE no action 
+
+ALTER TABLE Ticket
+    ADD CONSTRAINT t_client_fk FOREIGN KEY ( clientrut )
+        REFERENCES client ( clientrut )
+            ON DELETE SET NULL 
+    ON UPDATE no action 
+
+ALTER TABLE Ticket
+    ADD CONSTRAINT t_trusted_fk FOREIGN KEY ( idtrusted )
+        REFERENCES trusted ( idtrusted )
+            ON DELETE SET NULL 
+    ON UPDATE no action 
+
+ALTER TABLE TicketDetails
+    ADD CONSTRAINT td_product_fk FOREIGN KEY ( tdbarcode )
+        REFERENCES product ( barcode )
+            ON DELETE CASCADE 
+    ON UPDATE no action 
+
+ALTER TABLE TicketDetails
+    ADD CONSTRAINT td_ticket_fk FOREIGN KEY ( tdidticket )
+        REFERENCES ticket ( idticket )
+            ON DELETE CASCADE 
+    ON UPDATE no action 
