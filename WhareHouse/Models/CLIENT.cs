@@ -11,7 +11,8 @@ namespace WhareHouse.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class CLIENT
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -28,6 +29,8 @@ namespace WhareHouse.Models
         public string LASTNAME2 { get; set; }
         public long CELLPHONE { get; set; }
         public string BLACKLIST { get; set; }
+        [DataType(DataType.Date), Required]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public System.DateTime BIRTHDATE { get; set; }
         public string STATE { get; set; }
     

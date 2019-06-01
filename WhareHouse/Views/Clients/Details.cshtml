@@ -1,0 +1,106 @@
+﻿@model WhareHouse.Models.CLIENT
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="breadcrumb topBar">
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Lista Clientes", "Index", null, null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Agregar Cliente", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+</div>
+
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-user-plus"></i>
+        Detalles Proveedor
+    </div>
+    <div class="card-body">
+        <div class="divdivItems">
+            <div class="divItems">
+
+                <div class="form-group Atributes">
+                    <h5>Id Cliente:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.IDCLIENT)
+                    </div>
+                </div>
+                <div class="form-group Atributes">
+                    <h5>Rut:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.CLIENTRUT)
+                    </div>
+                </div>
+
+
+                <div class="form-group Atributes">
+                    <h5>Nombres:</h5>
+                    <div class="input-group twoImputs col-md-10">
+                        <div class="Inputstext editTextCenter">
+                            @Html.DisplayFor(model => model.NAME1)
+                        </div>
+                        <div class="Inputstext editTextCenter">
+                            @Html.DisplayFor(model => model.NAME2)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group Atributes">
+                    <h5>Apellidos:</h5>
+                    <div class="input-group twoImputs col-md-10">
+                        <div class="Inputstext editTextCenter">
+                            @Html.DisplayFor(model => model.LASTNAME1)
+                        </div>
+                        <div class="Inputstext editTextCenter">
+                            @Html.DisplayFor(model => model.LASTNAME2)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group Atributes">
+                    <h5>Celular:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.CELLPHONE)
+                    </div>
+                </div>
+
+            </div>
+            <div class="divItems">
+                <div class="form-group  Atributes">
+                    <h5>¿Puede Fiar?</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @{ if (Model.BLACKLIST.Equals("1"))
+                            {
+                                <p>Si</p>
+                            }
+                            else
+                            {
+                                <p>No</p>
+                            };
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group Atributes">
+                    <h5>Fecha De Nacimiento:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.BIRTHDATE)
+                    </div>
+                    <div class="detailsDivButton">
+                        @Html.ActionLink("Editar", "Edit", new { id = Model.IDCLIENT }, new { @class = "btn btn-primary detailsButton" })
+                    </div>
+                </div>
+                
+
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</div>
