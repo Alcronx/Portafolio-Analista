@@ -1,59 +1,142 @@
 ﻿@model WhareHouse.Models.EXPIRATIONDATE
-
 @{
     ViewBag.Title = "Create";
+    List<WhareHouse.Models.PRODUCT> lista = ViewBag.ProductList;
+
 }
 
-<h2>Create</h2>
+<div class="breadcrumb topBar">
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Lista Productos", "Index", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Agregar Producto", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+</div>
 
-@using (Html.BeginForm()) 
+
+<div class="form-group Atributes">
+    <h5>ID Proveedor</h5>
+    <div class="col-md-10">
+        @using (Html.BeginForm("Create", "ExpirationDate"))
+        {
+
+            @Html.DropDownList("PROVIDERNAME", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.pro.IDPROVIDER, "", new { @class = "text-danger" })
+            <input type="button" value="Buscar" />
+        }
+    </div>
+</div>
+@using (Html.BeginForm("Create", "ExpirationDate"))
 {
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>EXPIRATIONDATE</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.LOTNUMBER, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LOTNUMBER, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LOTNUMBER, "", new { @class = "text-danger" })
+    <div class="card mb-3">
+
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            Data Table Example
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead class="theadAling">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Stock</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Stock</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </tfoot>
+
+
+                    <tbody>
+
+
+
+                        @for (int i = 0; i < ((List<WhareHouse.Models.PRODUCT>)ViewBag.ProductList).Count(); i++)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(model => lista[i].PRODUCTNAME)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => lista[i].PRODUCTTYPE)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => lista[i].STOCK)
+                                </td>
+                                <td>
+
+
+                                    <div class="inputGroup">
+                                        @Html.RadioButtonFor(model => model.BARCODE, @lista[i].IDBARCODE, new { @id = lista[i].IDBARCODE, @class = "custom-control-input bigRadioButton" })
+                                        @Html.ValidationMessageFor(model => model.BARCODE, "", new { @class = "text-danger" })
+                                        <label for="@lista[i].IDBARCODE">Seleccionar</label>
+                                    </div>
+                                        
+
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    </div>
+
+    <div class="divdivItems">
+        <div class="divItems">
+
+            <div class="form-group Atributes">
+                <h5>N° Lote:</h5>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LOTNUMBER, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LOTNUMBER, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+
+            <div class="form-group Atributes">
+                <h5>Catidad de Producto: </h5>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PRODUCTQUANTITY, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PRODUCTQUANTITY, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+        </div>
+        <div class="divItems">
+
+            <div class="form-group Atributes">
+                <h5>Fecha de Vencimiento</h5>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EXPIREDATE, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EXPIREDATE, "", new { @class = "text-danger" })
+                </div>
+
+                <input type="submit" value="Agregar" class="btn btn-success btnCreate" />
+
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.EXPIREDATE, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EXPIREDATE, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EXPIREDATE, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PRODUCTQUANTITY, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PRODUCTQUANTITY, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PRODUCTQUANTITY, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.BARCODE, "BARCODE", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("BARCODE", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.BARCODE, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
+

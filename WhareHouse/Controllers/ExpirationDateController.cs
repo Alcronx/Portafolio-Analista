@@ -17,6 +17,10 @@ namespace WhareHouse.Controllers
         // GET: ExpirationDate
         public ActionResult Index()
         {
+            var FirsId = from m in db.PRODUCT.ToList()
+                         select m.IDPROVIDER;
+            int id = FirsId.First();
+            ViewBag.IdProviderOne = id;
             var eXPIRATIONDATE = db.EXPIRATIONDATE.Include(e => e.PRODUCT);
             return View(eXPIRATIONDATE.ToList());
         }
@@ -37,9 +41,16 @@ namespace WhareHouse.Controllers
         }
 
         // GET: ExpirationDate/Create
-        public ActionResult Create()
+        public ActionResult Create(int id) 
         {
-            ViewBag.BARCODE = new SelectList(db.PRODUCT, "IDBARCODE", "PRODUCTNAME");
+            var FirsId = from m in db.PRODUCT.ToList()
+                         select m;
+            
+            List<PRODUCT> pro = BuscarProductos(id);
+            ViewBag.PROVIDERNAME = new SelectList(FirsId, "IDPROVIDER", "COMPANYNAME");
+            ViewBag.Provider = new PROVIDER();
+            var ProductCreate = db.PRODUCT.Include(x => x.PROVIDER);
+            ViewBag.ProductList = pro;
             return View();
         }
 
@@ -50,15 +61,9 @@ namespace WhareHouse.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "LOTNUMBER,EXPIREDATE,PRODUCTQUANTITY,BARCODE")] EXPIRATIONDATE eXPIRATIONDATE)
         {
-            if (ModelState.IsValid)
-            {
-                db.EXPIRATIONDATE.Add(eXPIRATIONDATE);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.BARCODE = new SelectList(db.PRODUCT, "IDBARCODE", "PRODUCTNAME", eXPIRATIONDATE.BARCODE);
-            return View(eXPIRATIONDATE);
+                    db.EXPIRATIONDATE.Add(eXPIRATIONDATE);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
         }
 
         // GET: ExpirationDate/Edit/5
@@ -73,7 +78,9 @@ namespace WhareHouse.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.BARCODE = new SelectList(db.PRODUCT, "IDBARCODE", "PRODUCTNAME", eXPIRATIONDATE.BARCODE);
+            ViewBag.PROVIDERNAME = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
+            var ProductCreate = db.PRODUCT.Include(x => x.PROVIDER);
+            ViewBag.ProductList = ProductCreate.ToList();
             return View(eXPIRATIONDATE);
         }
 
@@ -125,8 +132,19 @@ namespace WhareHouse.Controllers
             if (disposing)
             {
                 db.Dispose();
+                
             }
             base.Dispose(disposing);
+        }
+
+        public List<PRODUCT> BuscarProductos(int IdProvedor)
+        {
+            var listProduct = db.PRODUCT.ToList();
+            var consulta = from model in listProduct
+                           where model.IDPROVIDER == IdProvedor
+                           select model;
+
+            return consulta.ToList();
         }
     }
 }

@@ -2,44 +2,139 @@
 
 @{
     ViewBag.Title = "Index";
+
+    int pro = ViewBag.IdProviderOne;
+
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.EXPIREDATE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PRODUCTQUANTITY)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PRODUCT.PRODUCTNAME)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.EXPIREDATE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PRODUCTQUANTITY)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PRODUCT.PRODUCTNAME)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.LOTNUMBER }) |
-            @Html.ActionLink("Details", "Details", new { id=item.LOTNUMBER }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.LOTNUMBER })
-        </td>
-    </tr>
-}
+<div class="breadcrumb topBar">
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Lista Productos", "Index", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Agregar Producto", "Create", new {id = pro }, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+</div>
 
-</table>
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        Data Table Example
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead class="theadAling">
+                    <tr>
+                        <th>N° Lote</th>
+                        <th>Proveedor</th>
+                        <th>Producto</th>
+                        <th>Tipo</th>
+                        <th>Cantidad</th>
+                        <th>Fecha de Vencimiento</th>
+                        <th>Opciones</th>
+
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>N° Lote</th>
+                        <th>Proveedor</th>
+                        <th>Producto</th>
+                        <th>Tipo</th>
+                        <th>Cantidad</th>
+                        <th>Fecha de Vencimiento</th>
+                        <th>Opciones</th>
+
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LOTNUMBER)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PRODUCT.PROVIDER.COMPANYNAME)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PRODUCT.PRODUCTNAME)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PRODUCT.PRODUCTTYPE)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PRODUCTQUANTITY)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EXPIREDATE)
+                        </td>
+                        
+                        <td>
+                            <div class="nav-item dropdown tableMenu">
+                                <a class="nav-link btn tablemenuButton" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-chevron-circle-down fa-2x tableMenu"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.LOTNUMBER }, new { @class = "tableMenu ColorMenu" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Details", "Details", new { id = item.LOTNUMBER }, new { @class = "tableMenu ColorMenu" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.LOTNUMBER }, new { @class = "tableMenu ColorMenu" })
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>
+
+
+@*<h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EXPIREDATE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PRODUCTQUANTITY)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PRODUCT.PRODUCTNAME)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EXPIREDATE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PRODUCTQUANTITY)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PRODUCT.PRODUCTNAME)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.LOTNUMBER }) |
+                @Html.ActionLink("Details", "Details", new { id=item.LOTNUMBER }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.LOTNUMBER })
+            </td>
+        </tr>
+    }
+
+    </table>*@

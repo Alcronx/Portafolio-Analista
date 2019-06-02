@@ -4,39 +4,73 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>EXPIRATIONDATE</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.EXPIREDATE)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EXPIREDATE)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PRODUCTQUANTITY)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PRODUCTQUANTITY)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PRODUCT.PRODUCTNAME)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PRODUCT.PRODUCTNAME)
-        </dd>
-
-    </dl>
+<div class="breadcrumb topBar">
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Lista Clientes", "Index", null, null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Agregar Cliente", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.LOTNUMBER }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-user-plus"></i>
+        Detalles Proveedor
+    </div>
+    <div class="card-body">
+        <div class="divdivItems">
+            <div class="divItems">
+
+                <div class="form-group Atributes">
+                    <h5>N° Lote:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.LOTNUMBER)
+                    </div>
+                </div>
+
+                <div class="form-group Atributes">
+                    <h5>Productor:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.PRODUCT.PROVIDER.COMPANYNAME)
+                    </div>
+                </div>
+
+                <div class="form-group Atributes">
+                    <h5>Fecha De Vencimiento:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.EXPIREDATE)
+                    </div>
+                </div>
+
+            </div>
+            <div class="divItems">
+
+                <div class="form-group Atributes">
+                    <h5>Cantidad De Producto:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.PRODUCTQUANTITY)
+                    </div>
+                </div>
+                <div class="form-group Atributes">
+                    <h5>Nombre Producto:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.PRODUCT.PRODUCTNAME)
+                    </div>
+                    <div class="detailsDivButton">
+                        @Html.ActionLink("Editar", "Edit", new { id = Model.LOTNUMBER }, new { @class = "btn btn-primary detailsButton" })
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</div>

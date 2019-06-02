@@ -34,6 +34,7 @@ namespace WhareHouse.Models
         public string PRODUCTDESCRIPTION { get; set; }
         public string STATE { get; set; }
         public short IDPROVIDER { get; set; }
+        
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EXPIRATIONDATE> EXPIRATIONDATE { get; set; }
