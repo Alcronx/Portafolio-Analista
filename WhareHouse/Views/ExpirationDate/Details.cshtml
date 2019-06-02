@@ -1,0 +1,42 @@
+﻿@model WhareHouse.Models.EXPIRATIONDATE
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EXPIRATIONDATE</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EXPIREDATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EXPIREDATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PRODUCTQUANTITY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PRODUCTQUANTITY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PRODUCT.PRODUCTNAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PRODUCT.PRODUCTNAME)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.LOTNUMBER }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
