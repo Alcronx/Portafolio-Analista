@@ -2,9 +2,6 @@
 
 @{
     ViewBag.Title = "Index";
-
-    int pro = ViewBag.IdProviderOne;
-
 }
 
 
@@ -14,7 +11,7 @@
         @Html.ActionLink("Lista Productos", "Index", null, new { @class = "btn btn-outline-primary topButtons" })
     </div>
     <div class="topButtonsContainer">
-        @Html.ActionLink("Agregar Producto", "Create", new {id = pro }, new { @class = "btn btn-outline-primary topButtons" })
+        @Html.ActionLink("Agregar Producto", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
     </div>
 </div>
 

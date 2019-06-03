@@ -18,16 +18,17 @@
 <div class="form-group Atributes">
     <h5>ID Proveedor</h5>
     <div class="col-md-10">
-        @using (Html.BeginForm("Create", "ExpirationDate"))
+        @using (Html.BeginForm("CreateSearch", "ExpirationDate"))
         {
-
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.AntiForgeryToken()
             @Html.DropDownList("PROVIDERNAME", null, htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.pro.IDPROVIDER, "", new { @class = "text-danger" })
-            <input type="button" value="Buscar" />
+            <input type="submit" value="Buscar" />
         }
     </div>
 </div>
-@using (Html.BeginForm("Create", "ExpirationDate"))
+@using (Html.BeginForm("CreateExpiredate", "ExpirationDate"))
 {
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.AntiForgeryToken()
@@ -39,7 +40,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="myTable" width="100%" cellspacing="0">
                     <thead class="theadAling">
                         <tr>
                             <th>Nombre</th>
@@ -82,7 +83,7 @@
                                         @Html.ValidationMessageFor(model => model.BARCODE, "", new { @class = "text-danger" })
                                         <label for="@lista[i].IDBARCODE">Seleccionar</label>
                                     </div>
-                                        
+
 
                                 </td>
                             </tr>
@@ -137,6 +138,4 @@
 
     </div>
 }
-
-
 
