@@ -40,7 +40,7 @@ namespace WhareHouse.Controllers
         public ActionResult Create(string PROVIDERNAME="0") 
         {
             int convert = Convert.ToInt16(PROVIDERNAME);
-            var ProductCreate = db.PRODUCT.Include(x => x.PROVIDER).Where(x => x.IDPROVIDER == convert); ;
+            var ProductCreate = db.PRODUCT.Include(x => x.PROVIDER).Where(x => x.IDPROVIDER == convert); 
             ViewBag.ProductList = ProductCreate.ToList();
             ViewBag.PROVIDERNAME = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
             ViewBag.Provider = new PROVIDER();
@@ -70,8 +70,9 @@ namespace WhareHouse.Controllers
         }
 
         // GET: ExpirationDate/Edit/5
-        public ActionResult Edit(long? id)
+        public ActionResult Edit(long? id, string PROVIDERNAME = "0")
         {
+            int convert = Convert.ToInt16(PROVIDERNAME);
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -82,14 +83,27 @@ namespace WhareHouse.Controllers
                 return HttpNotFound();
             }
             ViewBag.PROVIDERNAME = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
-            var ProductCreate = db.PRODUCT.Include(x => x.PROVIDER);
-            ViewBag.ProductList = ProductCreate.ToList();
+            
+            if (convert == 0)
+            {
+                var lotnumber = (from model in db.EXPIRATIONDATE where model.LOTNUMBER == id select new { model.BARCODE }).Single();
+                int converLotNumber = lotnumber.BARCODE;
+                var idbarcode = (from model in db.PRODUCT where model.IDBARCODE == converLotNumber select new { model.IDPROVIDER }).Single();
+                int convertidbarcode = idbarcode.IDPROVIDER;
+                var ProductCreate = db.PRODUCT.Include(x => x.PROVIDER).Where(x => x.IDBARCODE== convertidbarcode);
+                ViewBag.ProductList = ProductCreate.ToList();
+                return View(eXPIRATIONDATE);
+            }
+
+            var Product = db.PRODUCT.Include(x => x.PROVIDER).Where(x => x.IDPROVIDER==convert);
+            ViewBag.ProductList = Product.ToList();
             return View(eXPIRATIONDATE);
         }
 
         // POST: ExpirationDate/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [ActionName("EditExpiredate")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "LOTNUMBER,EXPIREDATE,PRODUCTQUANTITY,BARCODE")] EXPIRATIONDATE eXPIRATIONDATE)
@@ -102,6 +116,15 @@ namespace WhareHouse.Controllers
             }
             ViewBag.BARCODE = new SelectList(db.PRODUCT, "IDBARCODE", "PRODUCTNAME", eXPIRATIONDATE.BARCODE);
             return View(eXPIRATIONDATE);
+        }
+        [ActionName("SearchExpiredate")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int PROVIDERNAME,int LOTNUMBER)
+        {
+
+            string convert = PROVIDERNAME.ToString();
+            return RedirectToAction("edit", new { id = LOTNUMBER, PROVIDERNAME = convert });
         }
 
         // GET: ExpirationDate/Delete/5
