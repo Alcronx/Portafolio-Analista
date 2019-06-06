@@ -88,8 +88,8 @@ namespace WhareHouse.Controllers
             {
                 var lotnumber = (from model in db.EXPIRATIONDATE where model.LOTNUMBER == id select new { model.BARCODE }).Single();
                 int converLotNumber = lotnumber.BARCODE;
-                var idbarcode = (from model in db.PRODUCT where model.IDBARCODE == converLotNumber select new { model.IDPROVIDER }).Single();
-                int convertidbarcode = idbarcode.IDPROVIDER;
+                var idbarcode = (from model in db.PRODUCT where model.IDBARCODE == converLotNumber select new { model.IDBARCODE }).Single();
+                int convertidbarcode = idbarcode.IDBARCODE;
                 var ProductCreate = db.PRODUCT.Include(x => x.PROVIDER).Where(x => x.IDBARCODE== convertidbarcode);
                 ViewBag.ProductList = ProductCreate.ToList();
                 return View(eXPIRATIONDATE);

@@ -18,7 +18,9 @@ namespace WhareHouse
                        "~/Content/vendor/datatables/dataTables.bootstrap4.js",
                        "~/Content/js/sb-admin.min.js",
                        "~/Content/js/demo/datatables-demo.js",
-                       "~/Content/js/demo/chart-area-demo.js"));
+                       "~/Content/js/demo/chart-area-demo.js",
+                       "~/Content/js/Customjs/Clock.js"
+                       ));
 
             bundles.Add(new StyleBundle("~/content/css").Include(
                       "~/Content/vendor/fontawesome-free/css/all.min.css",

@@ -24,7 +24,7 @@ namespace WhareHouse.Models
     
         public short IDBARCODE { get; set; }
         public long BARCODE { get; set; }
-        public int PURCHASEPRICE { get; set; }
+        public int  PURCHASEPRICE { get; set; }
         public int SALEPRICE { get; set; }
         public short STOCK { get; set; }
         public byte CRITICALSTOCK { get; set; }

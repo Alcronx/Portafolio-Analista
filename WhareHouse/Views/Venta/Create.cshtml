@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    List<WhareHouse.Models.PRODUCT> lista = ViewBag.productListt;
+}
+
+
+<div class="breadcrumb topBar">
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Realizar Venta", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Lista Ventas", "Index", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+</div>
+
+<div>
+    <div class="Venta-Create">
+        <div class="alingCenter" >
+                <p>Fecha Emision: @System.DateTime.Now.ToString("dd-MM-yyyy")</p>
+        </div>
+        <div class="input-group" style="width:200px">
+            <div class="Inputstext">
+            <p>Hora Emision:</p>
+            </div>
+            <div class="Inputstext">
+                <p id="MyClockDisplay" class="clock" onload="showTime()"></p>
+            </div>
+        </div>
+
+        <div>
+            <p>N° Boleta: 0000001(Cambiar)</p>
+        </div>
+    </div>
+    <div class="border border-info rounded">
+        <div class="centerCreatesale">
+            <h3>Ingrese El Codigo De Barra De Los Productos</h3>
+        </div>
+        <div style="padding-top: 40px;">
+            <div class="form-group centerCreatesale2 ">
+                @using (Html.BeginForm("ViegbagTickerDetails", "Venta"))
+                {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.AntiForgeryToken()
+                    <div class="centerCreatesale3" style="padding-right:10px;">
+                        <i class="fas fa-barcode fa-5x" style="padding-right:10px;"></i>
+                        @Html.Editor("id", new { htmlAttributes = new { @class = "form-control", @style = "width:200px;" } })
+                    </div>
+                    <input type="submit" value="Buscar" class="btn btn-primary" style="height: 40px;" />
+                }
+            </div>
+            
+        </div>
+    </div>
+
+    <div>
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Data Table Example
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead class="theadAling">
+                            <tr>
+                                <th>Nombre Producto</th>
+                                <th>Tipo Producto</th>
+                                <th>Precio Venta</th>
+                                
+
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Nombre Producto</th>
+                                <th>Tipo Producto</th>
+                                <th>Precio Venta</th>
+
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @for (int i = 0; i < ((List<WhareHouse.Models.PRODUCT>)ViewBag.productListt).Count(); i++)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => lista[i].PRODUCTNAME)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => lista[i].PRODUCTTYPE)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => lista[i].SALEPRICE)
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+    </div>
+    <div class="FotterSale">
+        <div style="padding-right:30%; padding-bottom:20px;">
+            <input type="submit" value="Cobrar" class="btn btn-success" style="width:300px" />
+        </div>
+        <div style="padding-right:30px;">
+            <p>Total: 5000</p>
+        </div>
+    </div>
+</div>
