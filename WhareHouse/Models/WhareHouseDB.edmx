@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="WhareHouseDbModel.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="WhareHouseDbModel.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="18.0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CLIENT">
           <Key>
             <PropertyRef Name="IDCLIENT" />
@@ -227,6 +227,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="CREATESEQUENCETICKET" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB" />
+        <Function Name="SELECTSEQUENCETICKET" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB">
+          <Parameter Name="IDTICKET" Type="number" Mode="Out" />
+        </Function>
         <EntityContainer Name="WhareHouseDbModelStoreContainer">
           <EntitySet Name="CLIENT" EntityType="Self.CLIENT" Schema="YUYITOSDB" store:Type="Tables" />
           <EntitySet Name="EXPIRATIONDATE" EntityType="Self.EXPIRATIONDATE" Schema="YUYITOSDB" store:Type="Tables" />
@@ -270,8 +274,7 @@
             <End Role="TICKETDETAILS" EntitySet="TICKETDETAILS" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="WhareHouseDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -555,6 +558,10 @@
             <End Role="TICKET" EntitySet="TICKET" />
             <End Role="TICKETDETAILS" EntitySet="TICKETDETAILS" />
           </AssociationSet>
+          <FunctionImport Name="CREATESEQUENCETICKET" />
+          <FunctionImport Name="SELECTSEQUENCETICKET">
+            <Parameter Name="IDTICKET" Mode="Out" Type="Decimal" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -683,6 +690,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CREATESEQUENCETICKET" FunctionName="WhareHouseDbModel.Store.CREATESEQUENCETICKET" />
+          <FunctionImportMapping FunctionImportName="SELECTSEQUENCETICKET" FunctionName="WhareHouseDbModel.Store.SELECTSEQUENCETICKET" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

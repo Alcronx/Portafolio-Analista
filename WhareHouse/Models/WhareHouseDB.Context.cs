@@ -12,6 +12,8 @@ namespace WhareHouse.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class WhareHouseWebcn : DbContext
     {
@@ -34,5 +36,15 @@ namespace WhareHouse.Models
         public virtual DbSet<TICKET> TICKET { get; set; }
         public virtual DbSet<TICKETDETAILS> TICKETDETAILS { get; set; }
         public virtual DbSet<TRUSTED> TRUSTED { get; set; }
+    
+        public virtual int CREATESEQUENCETICKET()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CREATESEQUENCETICKET");
+        }
+    
+        public virtual int SELECTSEQUENCETICKET(ObjectParameter iDTICKET)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SELECTSEQUENCETICKET", iDTICKET);
+        }
     }
 }

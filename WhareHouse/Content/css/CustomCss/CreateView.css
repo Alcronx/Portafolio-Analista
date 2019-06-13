@@ -202,10 +202,30 @@ html {
     display: flex;
     flex-direction:row;
     align-items: center;
+    
 }
 .FotterSale{
     display: flex;
     flex-direction:row;
     justify-content:flex-end;
 }
+
+.formTable{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.FormVenta{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.FormVenta input{
+    
+    margin:auto;
+}
+
 
