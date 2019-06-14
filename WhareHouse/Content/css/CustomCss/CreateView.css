@@ -207,7 +207,7 @@ html {
 .FotterSale{
     display: flex;
     flex-direction:row;
-    justify-content:flex-end;
+    justify-content: space-between;
 }
 
 .formTable{
@@ -228,4 +228,10 @@ html {
     margin:auto;
 }
 
+.DivButtons{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap:nowrap;
+    
+}
 

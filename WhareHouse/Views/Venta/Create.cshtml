@@ -3,9 +3,9 @@
     ViewBag.Title = "Create";
     List<WhareHouse.Models.PRODUCT> listpro = ViewBag.listPro;
     List<WhareHouse.Models.PRODUCT> listpro2 = ViewBag.listPro2;
-    List<WhareHouse.Models.TICKETDETAILS> td = ViewBag.listTicketDetails;
-    var innerjoinTdP = (from p in listpro2 join t in td on p.IDBARCODE equals t.TDIDBARCODE select new {t,p}).ToList();
+    List<WhareHouse.Models.TICKETDETAILS> td = ViewBag.td;
     long ticketID = ViewBag.idTicket;
+    Int64 total = ViewBag.total;
 }
 
 
@@ -140,41 +140,45 @@
                         </tfoot>
                         <tbody>
 
-                            @if (innerjoinTdP == null)
+                            @if (listpro2.Count() == 0)
                             {
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
                             }
                             else
                             {
-
-                                for (int i = 0; i < innerjoinTdP.Count(); i++)
+                                if (td.Count() >= 1)
                                 {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => innerjoinTdP[i].p.PRODUCTNAME)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => innerjoinTdP[i].p.PRODUCTTYPE)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => innerjoinTdP[i].p.SALEPRICE)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => innerjoinTdP[i].t.QUANTITY)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => innerjoinTdP[i].t.TOTAL)
-                                </td>
 
-                            </tr>
+                                    
+                                    var innerjoinTdP = (from p in listpro2 join t in td on p.IDBARCODE equals t.TDIDBARCODE select new { t, p }).ToList();
+                                    for (int i = 0; i < innerjoinTdP.Count(); i++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => innerjoinTdP[i].p.PRODUCTNAME)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => innerjoinTdP[i].p.PRODUCTTYPE)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => innerjoinTdP[i].p.SALEPRICE)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => innerjoinTdP[i].t.QUANTITY)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => innerjoinTdP[i].t.TOTAL)
+                                            </td>
+
+                                        </tr>
+                                    }
                                 }
-
                             }
 
                         </tbody>
@@ -185,11 +189,12 @@
         </div>
     </div>
     <div class="FotterSale">
-        <div style="padding-right:30%; padding-bottom:20px;">
+        <div style="width:80%; padding-bottom: 20px" class="DivButtons">
+            <input type="button" value="Cancelar" class="btn btn-danger" style="width:300px;" onclick="location.href='@Url.Action("CamcelTicket", "Venta")'" />
             <input type="submit" value="Cobrar" class="btn btn-success" style="width:300px" />
         </div>
         <div style="padding-right:30px;">
-            <p>Total: 5000</p>
+            <p>Total: @total</p>
         </div>
     </div>
 </div>

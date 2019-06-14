@@ -18,7 +18,8 @@ namespace WhareHouse.Models
         public System.DateTime EXPIREDATE { get; set; }
         public int PRODUCTQUANTITY { get; set; }
         public short BARCODE { get; set; }
-    
+
+        public PRODUCT pro;
         public virtual PRODUCT PRODUCT { get; set; }
     }
 }

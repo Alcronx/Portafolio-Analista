@@ -54,6 +54,7 @@ namespace WhareHouse.Controllers
             ViewBag.listPro= listPro;
             ViewBag.listPro2= listPro2;
             ViewBag.td = listTicketDetails;
+            ViewBag.total = listTicketDetails.Sum(x => x.TOTAL);
             return View();
         }
 
@@ -92,29 +93,40 @@ namespace WhareHouse.Controllers
                 QUANTITY = quantity,
                 TOTAL = quantity * SalePrice
             };
-            listTicketDetails.Add(TD);
-            SaveCacheTD();
-            //////////////////////////////////////////////////////////////////////////////
+            if(listTicketDetails.Find(x => x.TDIDBARCODE == IdBarcode)== null)
+            {
+                listTicketDetails.Add(TD);
+                var ProductViegbag = (from model in db.PRODUCT.AsEnumerable()
+                                      where model.IDBARCODE == IdBarcode
+                                      select new PRODUCT()
+                                      {
+                                          IDBARCODE = model.IDBARCODE,
+                                          BARCODE = model.BARCODE,
+                                          PURCHASEPRICE = model.PURCHASEPRICE,
+                                          SALEPRICE = model.SALEPRICE,
+                                          STOCK = model.STOCK,
+                                          CRITICALSTOCK = model.CRITICALSTOCK,
+                                          PRODUCTNAME = model.PRODUCTNAME,
+                                          PRODUCTFAMILY = model.PRODUCTFAMILY,
+                                          PRODUCTTYPE = model.PRODUCTTYPE,
+                                          PRODUCTDESCRIPTION = model.PRODUCTDESCRIPTION,
+                                          STATE = model.STATE,
+                                          IDPROVIDER = model.IDPROVIDER
+                                      }).ToList();
 
-            var ProductViegbag = (from model in db.PRODUCT.AsEnumerable()
-                                  where model.IDBARCODE == IdBarcode
-                                  select new PRODUCT()
-                                  {
-                                      IDBARCODE = model.IDBARCODE,
-                                      BARCODE = model.BARCODE,
-                                      PURCHASEPRICE = model.PURCHASEPRICE,
-                                      SALEPRICE = model.SALEPRICE,
-                                      STOCK = model.STOCK,
-                                      CRITICALSTOCK = model.CRITICALSTOCK,
-                                      PRODUCTNAME = model.PRODUCTNAME,
-                                      PRODUCTFAMILY = model.PRODUCTFAMILY,
-                                      PRODUCTTYPE = model.PRODUCTTYPE,
-                                      PRODUCTDESCRIPTION = model.PRODUCTDESCRIPTION,
-                                      STATE = model.STATE,
-                                      IDPROVIDER = model.IDPROVIDER
-                                  }).ToList();
-            listPro2.Add(ProductViegbag.First());
+                listPro2.Add(ProductViegbag.First());
+            }
+            else
+            {
+                var list = listTicketDetails.FirstOrDefault(x => x.TDIDBARCODE == IdBarcode);
+                list.QUANTITY = list.QUANTITY + quantity;
+                long total = list.QUANTITY;
+                list.TOTAL = SalePrice * total;
+            };
+
+            SaveCacheTD();
             SaveCachePro2();
+
             return RedirectToAction("Create");
         }
 
@@ -163,6 +175,17 @@ namespace WhareHouse.Controllers
             con.Dispose();
             objectcon = null;
             return TicketId;
+        }
+
+        public ActionResult CamcelTicket()
+        {
+            listPro = new List<PRODUCT>();
+            listPro2 = new List<PRODUCT>();
+            listTicketDetails = new List<TICKETDETAILS>();
+            SaveCachePro();
+            SaveCachePro2();
+            SaveCacheTD();
+            return RedirectToAction("Create");
         }
     }
 
