@@ -76,7 +76,7 @@ namespace WhareHouse.Controllers
                     IDTICKET = TicketId,
                     TICKETDATE = System.DateTime.Now,
                     TICKETHOUR = DateTime.Now,
-                    STATE = "V",
+                    STATE = "1",
                     TOTALTOTAL = total,
                     IDCLIENT = null,
                     IDTRUSTED = null
@@ -95,7 +95,7 @@ namespace WhareHouse.Controllers
                         IDTICKET = TicketId,
                         TICKETDATE = System.DateTime.Now,
                         TICKETHOUR = DateTime.Now,
-                        STATE = "V",
+                        STATE = "1",
                         TOTALTOTAL = total,
                         IDCLIENT = Convert.ToInt16(cliente),
                         IDTRUSTED = null
@@ -109,9 +109,9 @@ namespace WhareHouse.Controllers
                     TRUSTED tru = new TRUSTED
                     {
                         IDTRUSTED = TicketId,
-                        STATE = "d",
+                        STATE = "1",
                         TRUSTDATE = DateTime.Now,
-                        TIMELIMITTRUST = DateTime.Now,
+                        TIMELIMITTRUST = DateTime.Now.AddMonths(1),
                         STATETRUSTED = "1"
                     };
                     db.TRUSTED.Add(tru);
@@ -120,7 +120,7 @@ namespace WhareHouse.Controllers
                         IDTICKET = TicketId,
                         TICKETDATE = System.DateTime.Now,
                         TICKETHOUR = DateTime.Now,
-                        STATE = "V",
+                        STATE = "1",
                         TOTALTOTAL = total,
                         IDCLIENT = Convert.ToInt16(cliente),
                         IDTRUSTED = TicketId
@@ -134,6 +134,23 @@ namespace WhareHouse.Controllers
             CamcelTicket();
             return RedirectToAction("Index", "Home");
         }
+        //Detalle De Ticket
+        public ActionResult Details(short? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            TICKET tICKET = db.TICKET.Find(id);
+            if (tICKET == null)
+            {
+                return HttpNotFound();
+            }
+            var TicketDetail = (from model in db.TICKETDETAILS where (model.TDIDTICKET == id) select model).ToList();
+            ViewBag.TicketDetails = TicketDetail;
+            return View(tICKET);
+        }
+
         public ActionResult ticketDetails(string id)
         {
             listPro = new List<PRODUCT>();
@@ -270,6 +287,45 @@ namespace WhareHouse.Controllers
             SaveCacheTD();
             return RedirectToAction("Create");
         }
+
+        public ActionResult Index()
+        {
+
+            return View(db.TICKET.ToList());
+        }
+
+        public ActionResult CancelTicket(short? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            TICKET tIcket = db.TICKET.Find(id);
+            if (tIcket == null)
+            {
+                return HttpNotFound();
+            }
+            tIcket.STATE = "0";
+            db.SaveChanges();
+            return RedirectToAction("index");
+        }
+        public ActionResult DontCancelTicket(short? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            TICKET tIcket = db.TICKET.Find(id);
+            if (tIcket == null)
+            {
+                return HttpNotFound();
+            }
+            tIcket.STATE = "1";
+            db.SaveChanges();
+            return RedirectToAction("index");
+        }
+
+
     }
 
     
