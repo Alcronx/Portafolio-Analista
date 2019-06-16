@@ -42,7 +42,7 @@ namespace WhareHouse.Controllers
         // GET: Products/Create
         public ActionResult Create()
         {
-            ViewBag.IDPROVIDER = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
+            ViewBag.IDPROVIDER = new SelectList(db.PROVIDER,"IDPROVIDER","COMPANYNAME");
             return View();
         }
 

@@ -19,16 +19,15 @@ namespace WhareHouse.Controllers
         private List<PRODUCT> listPro2;
         private ObjectCache cache = MemoryCache.Default;
         private List<TICKETDETAILS> listTicketDetails;
-        private long ticketid;
         public VentaController()
         {
             listPro = cache["productList"] as List<PRODUCT>;
             listPro2 = cache["productList2"] as List<PRODUCT>;
             listTicketDetails = cache["listTicketDetails"] as List<TICKETDETAILS>;
             
-            PRODUCT pro = db.PRODUCT.Find(1);
+            TICKET tick = db.TICKET.Find(1);
            
-            if (pro == null)
+            if (tick == null)
             {
                 CreateTicketId();
             }
@@ -43,21 +42,98 @@ namespace WhareHouse.Controllers
         }
         public ActionResult Create()
         {
-            if (ticketid==0)
-            {
-                ViewBag.idTicket = 1;
+            TICKET tick = db.TICKET.Find(1);
+            if (tick!=null){
+                long idTicket = db.TICKET.Max(x => x.IDTICKET);
+                ViewBag.idTicket = (idTicket + 1);
             }
             else
             {
-                ViewBag.idTicket = ticketid;
+                ViewBag.idTicket = 1;
             }
             ViewBag.listPro= listPro;
             ViewBag.listPro2= listPro2;
             ViewBag.td = listTicketDetails;
             ViewBag.total = listTicketDetails.Sum(x => x.TOTAL);
+            var ViegbagClient = db.CLIENT.Select(s => new 
+                 { 
+                   IdClientes = s.IDCLIENT,
+                   NombreCompleto = s.NAME1.ToString() +" "+ s.LASTNAME1.ToString()
+                 })
+                 .ToList();
+
+            ViewBag.cliente = new SelectList(ViegbagClient, "IdClientes", "NombreCompleto");
             return View();
         }
-
+        [HttpPost]
+        public ActionResult Create(string cliente, string PaidForm, int total,long TicketId)
+        {
+            int paid = Convert.ToInt16(PaidForm);
+            if (cliente.Equals(""))
+            {
+                TICKET ti = new TICKET
+                {
+                    IDTICKET = TicketId,
+                    TICKETDATE = System.DateTime.Now,
+                    TICKETHOUR = DateTime.Now,
+                    STATE = "V",
+                    TOTALTOTAL = total,
+                    IDCLIENT = null,
+                    IDTRUSTED = null
+                };
+                db.TICKET.Add(ti);
+                db.TICKETDETAILS.AddRange(listTicketDetails);
+                db.SaveChanges();
+                
+            }
+            else
+            {
+                if (paid == 1)
+                {
+                    TICKET ti = new TICKET
+                    {
+                        IDTICKET = TicketId,
+                        TICKETDATE = System.DateTime.Now,
+                        TICKETHOUR = DateTime.Now,
+                        STATE = "V",
+                        TOTALTOTAL = total,
+                        IDCLIENT = Convert.ToInt16(cliente),
+                        IDTRUSTED = null
+                    };
+                    db.TICKET.Add(ti);
+                    db.TICKETDETAILS.AddRange(listTicketDetails);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    TRUSTED tru = new TRUSTED
+                    {
+                        IDTRUSTED = TicketId,
+                        STATE = "d",
+                        TRUSTDATE = DateTime.Now,
+                        TIMELIMITTRUST = DateTime.Now,
+                        STATETRUSTED = "1"
+                    };
+                    db.TRUSTED.Add(tru);
+                    TICKET ti = new TICKET
+                    {
+                        IDTICKET = TicketId,
+                        TICKETDATE = System.DateTime.Now,
+                        TICKETHOUR = DateTime.Now,
+                        STATE = "V",
+                        TOTALTOTAL = total,
+                        IDCLIENT = Convert.ToInt16(cliente),
+                        IDTRUSTED = TicketId
+                    };
+                    db.TICKET.Add(ti);
+                    db.TICKETDETAILS.AddRange(listTicketDetails);
+                    db.SaveChanges();
+                } 
+            }
+            TicketIdAumentate();
+            CamcelTicket();
+            return RedirectToAction("Index", "Home");
+        }
         public ActionResult ticketDetails(string id)
         {
             listPro = new List<PRODUCT>();
@@ -152,14 +228,21 @@ namespace WhareHouse.Controllers
             OracleCommand cmd = con.CreateCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "CREATESEQUENCETICKET";
-            cmd.ExecuteNonQuery();
-            con.Close();
-            cmd.Dispose();
-            con.Dispose();
-            objectcon = null;
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+                con.Dispose();
+                objectcon = null;
+            }
+            
         }
       
-        public long GetTicketId()
+        public long TicketIdAumentate()
         {
             Connection objectcon = new Connection();
             OracleConnection con = objectcon.GetConection();

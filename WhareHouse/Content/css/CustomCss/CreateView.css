@@ -38,7 +38,6 @@
 
 .createTextArea {
     width: 100%;
-    border: 0.5px solid rgba(0, 0, 0, 0.2);
 }
 
 .RadioCenter{
@@ -233,5 +232,10 @@ html {
     justify-content: space-between;
     flex-wrap:nowrap;
     
+}
+
+.VentaVuelto{
+    display: flex;
+    flex-direction: row;
 }
 
