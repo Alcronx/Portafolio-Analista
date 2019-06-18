@@ -239,3 +239,9 @@ html {
     flex-direction: row;
 }
 
+.OrderADDquantity{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

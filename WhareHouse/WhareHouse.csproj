@@ -137,6 +137,7 @@
     <Compile Include="Controllers\Connection.cs" />
     <Compile Include="Controllers\ExpirationDateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ProvidersController.cs" />
     <Compile Include="Controllers\TrustedController.cs" />
@@ -1996,6 +1997,7 @@
     <Content Include="Views\Trusted\Index.cshtml" />
     <Content Include="Views\Venta\Index.cshtml" />
     <Content Include="Views\Venta\Details.cshtml" />
+    <Content Include="Views\Order\CreateOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
