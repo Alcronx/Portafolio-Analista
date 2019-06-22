@@ -67,6 +67,15 @@
                 
             });
         });
+
+        $(".number").on("click", function () {
+            if ($(".number:checked").length == $(".number").length) {
+                $('#ConfirmReception').prop('disabled', false);
+            }
+            else {
+                $('#ConfirmReception').prop('disabled', true);
+            }
+        });
     </script>
 </body>
 </html>

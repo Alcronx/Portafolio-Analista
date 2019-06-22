@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Runtime.Caching;
 using System.Web;
 using System.Web.Mvc;
 using Oracle.DataAccess.Client;
@@ -13,37 +14,344 @@ namespace WhareHouse.Controllers
 {
     public class OrderController : Controller
     {
+        private ObjectCache cache = MemoryCache.Default;
         private WhareHouseWebcn db = new WhareHouseWebcn();
         private List<PRODUCT> pro;
+        private List<PRODUCT> pro2;
+        private List<ORDERDETAILS> OrderDetails2;
+        private List<ORDERDETAILS> OrderDetails;
+
         // GET: Order
         public OrderController()
         {
-            
-          
+            pro = cache["pro"] as List<PRODUCT>;
+            pro2 = cache["pro2"] as List<PRODUCT>;
+            OrderDetails2 = cache["OrderDetails2"] as List<ORDERDETAILS>;
+            OrderDetails = cache["OrderDetails"] as List<ORDERDETAILS>;
+            if (pro2 == null){
+                pro2 = new List<PRODUCT>();
+            }
+            if (OrderDetails2 == null)
+            {
+                OrderDetails2 = new List<ORDERDETAILS>();
+            }
+            if (OrderDetails == null)
+            {
+                OrderDetails = new List<ORDERDETAILS>();
+            }
         }
         public ActionResult CreateOrder()
         {
-            if (pro == null)
+            ViewBag.PROVIDERNAME = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
+            ViewBag.pro = pro;
+            ViewBag.pro2 = pro2;
+            ViewBag.orderDetails = OrderDetails;
+            ViewBag.total = OrderDetails.Sum(x => x.TOTAL);
+            return View();
+        }
+        [HttpPost]
+        public ActionResult CreateOrder(long total)
+        {
+            db.ORDERDETAILS.AddRange(OrderDetails);
+            ORDERPRODUCT OR = new ORDERPRODUCT
             {
-                pro = new List<PRODUCT>();
-                ViewBag.ListProducts = pro;
+                ORDERID = 1, //CAMBIAR
+                ORDERDATE = System.DateTime.Now,
+                ORDERHOUR = DateTime.Now,
+                STATE = "0",
+                TOTALTOTAL = total,
+                RECEPTIONDATE = null,
+                RECEPTIONHOUR = null
+            };
+            db.ORDERPRODUCT.Add(OR);
+            db.SaveChanges();
+            AllListNull();
+            return RedirectToAction("index", "Home");
+        }
+
+        public ActionResult Index()
+        {
+            AllListNull();
+            ViewBag.OrderProduct = db.ORDERPRODUCT.ToList();
+            ViewBag.OrderDetails = db.ORDERDETAILS.ToList();
+            ViewBag.Product = db.PRODUCT.ToList();
+            ViewBag.Provider = db.PROVIDER.ToList();
+            return View();
+        }
+        public ActionResult Edit(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ORDERPRODUCT oRDERPRODUCT = db.ORDERPRODUCT.Find(id);
+            if (oRDERPRODUCT == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.PROVIDERNAME = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
+            ViewBag.pro = pro;
+            ViewBag.pro2 = pro2;
+            ViewBag.orderid = id;
+            if(OrderDetails.Count()==0){
+                var order = (from model in db.ORDERDETAILS where (model.ODORDERID == id) select model).ToList();
+                ViewBag.OrderDetails = order;
+                ViewBag.total = order.Sum(x => x.TOTAL);
             }
             else
             {
-                ViewBag.ListProducts = pro;
+
+                ViewBag.total = OrderDetails.Sum(x => x.TOTAL);
+                ViewBag.orderDetails = OrderDetails;
             }
             
+            
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(long total,long OrderID)
+        {
+            if (ModelState.IsValid)
+            {
+                var orderFor = (from model in db.ORDERDETAILS where model.ODORDERID == OrderID select model).ToList();
+                for (int i = 0; i < orderFor.Count(); i++)
+                {
+                    
+                        short idbarcode = orderFor[i].ODIDBARCODE;
+                        var list = db.ORDERDETAILS.FirstOrDefault(x => x.ODIDBARCODE == idbarcode);
+                        list.QUANTITY = list.QUANTITY + orderFor[i].QUANTITY;
+                        long totall = list.QUANTITY;
+                        list.TOTAL = orderFor[i].PRODUCT.PURCHASEPRICE * totall;
+                    db.SaveChanges();
+                }
+                db.ORDERDETAILS.AddRange(OrderDetails2);
+                OrderDetails2 = new List<ORDERDETAILS>();
+                SaveCacheOrderDetails2();
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
             ViewBag.PROVIDERNAME = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
+            ViewBag.pro = pro;
+            ViewBag.pro2 = pro2;
+            ViewBag.orderid = OrderID;
+            if (OrderDetails.Count() == 0)
+            {
+                var order = (from model in db.ORDERDETAILS where (model.ODORDERID == OrderID) select model).ToList();
+                ViewBag.OrderDetails = order;
+                ViewBag.total = order.Sum(x => x.TOTAL);
+            }
+            else
+            {
+
+                ViewBag.total = OrderDetails.Sum(x => x.TOTAL);
+                ViewBag.orderDetails = OrderDetails;
+            }
+            return View();
+        }
+        //public ActionResult Details()
+        //{
+
+        //}
+        public ActionResult Reception(int idOrder,string CompannyName)
+        {
+            ViewBag.CompannyName = CompannyName;
+            ViewBag.idorder = idOrder;
+            var Listorder = db.ORDERDETAILS.Where(x => x.ODORDERID == idOrder);
+
+            ViewBag.orderlist = Listorder.ToList();
             return View();
         }
 
-        public ActionResult CreateSearch(string PROVIDERNAME)
+        public ActionResult ConfirmReception(int idReception)
+        {
+            var list = db.ORDERPRODUCT.FirstOrDefault(x => x.ORDERID == idReception);
+            list.RECEPTIONDATE = System.DateTime.Now;
+            list.RECEPTIONHOUR = System.DateTime.Now;
+            list.STATE = "1";
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult CreateSearch(string PROVIDERNAME,string buttonValue,long? orderid)
         {
             pro = new List<PRODUCT>();
-            short idProvider = Convert.ToInt16(PROVIDERNAME);
-            var listProducts = (from model in db.PRODUCT where model.IDPROVIDER == idProvider select model).ToList();
-            pro = listProducts;
+            long id = Convert.ToInt16(PROVIDERNAME);
+
+            var ProductViegbag = (from model in db.PRODUCT.AsEnumerable()
+                                  where model.IDPROVIDER == id
+                                  select model).ToList();
+            pro.AddRange(ProductViegbag);
+            SaveCachePro();
+            if (buttonValue.Equals("Create"))
+            {
+                return RedirectToAction("CreateOrder");
+            }
+            else
+            {
+                return RedirectToAction("Edit",new {id=orderid});
+            }
+        }
+
+        public ActionResult ListOrderDetails(string IDBARCODE, int quantity)
+        {
+            short IdProduct = Convert.ToInt16(IDBARCODE);
+            var purchasePrice = (from model in db.PRODUCT where model.IDBARCODE == IdProduct select new { model.PURCHASEPRICE }).First();
+            long Purchase = Convert.ToInt64(purchasePrice.PURCHASEPRICE);
+            
+            ORDERDETAILS or = new ORDERDETAILS
+            {
+                ODIDBARCODE = IdProduct,
+                ODORDERID = 1,//Cambiar
+                QUANTITY = quantity,
+                TOTAL = quantity * Purchase
+            };
+            if (OrderDetails.Find(x => x.ODIDBARCODE == IdProduct) == null)
+            {
+                OrderDetails.Add(or);
+                var ProductViegbag = (from model in db.PRODUCT.AsEnumerable()
+                                      where model.IDBARCODE == IdProduct
+                                      select new PRODUCT()
+                                      {
+                                          IDBARCODE = model.IDBARCODE,
+                                          BARCODE = model.BARCODE,
+                                          PURCHASEPRICE = model.PURCHASEPRICE,
+                                          SALEPRICE = model.SALEPRICE,
+                                          STOCK = model.STOCK,
+                                          CRITICALSTOCK = model.CRITICALSTOCK,
+                                          PRODUCTNAME = model.PRODUCTNAME,
+                                          PRODUCTFAMILY = model.PRODUCTFAMILY,
+                                          PRODUCTTYPE = model.PRODUCTTYPE,
+                                          PRODUCTDESCRIPTION = model.PRODUCTDESCRIPTION,
+                                          STATE = model.STATE,
+                                          IDPROVIDER = model.IDPROVIDER
+                                      }).ToList();
+                
+                pro2.Add(ProductViegbag.First());
+                
+            }
+            else
+            {
+                var list = OrderDetails.FirstOrDefault(x => x.ODIDBARCODE == IdProduct);
+                list.QUANTITY = list.QUANTITY + quantity;
+                long total = list.QUANTITY;
+                list.TOTAL = Purchase * total;
+            };
+
+            SaveCacheOrderDetails();
+            SaveCachePro2();
+            
             return RedirectToAction("CreateOrder");
+        }
+        public ActionResult EditListOrderDetails(long IdOrder, string IDBARCODE, int quantity)
+        {
+
+            if(OrderDetails.Count == 0)
+            {
+                var addOrderDetail = (from model in db.ORDERDETAILS where model.ODORDERID == IdOrder select model).ToList();
+                OrderDetails.AddRange(addOrderDetail);
+                SaveCacheOrderDetails();
+            }
+            if (pro2.Count == 0)
+            {
+                var orderFor = (from model in db.ORDERDETAILS where model.ODORDERID == IdOrder select model).ToList();
+                for (int i = 0; i < orderFor.Count(); i++)
+                {
+                    var ProductViegbag = (from model in db.PRODUCT.AsEnumerable()
+                                          where model.IDBARCODE == orderFor[i].ODIDBARCODE
+                                          select new PRODUCT()
+                                          {
+                                              IDBARCODE = model.IDBARCODE,
+                                              BARCODE = model.BARCODE,
+                                              PURCHASEPRICE = model.PURCHASEPRICE,
+                                              SALEPRICE = model.SALEPRICE,
+                                              STOCK = model.STOCK,
+                                              CRITICALSTOCK = model.CRITICALSTOCK,
+                                              PRODUCTNAME = model.PRODUCTNAME,
+                                              PRODUCTFAMILY = model.PRODUCTFAMILY,
+                                              PRODUCTTYPE = model.PRODUCTTYPE,
+                                              PRODUCTDESCRIPTION = model.PRODUCTDESCRIPTION,
+                                              STATE = model.STATE,
+                                              IDPROVIDER = model.IDPROVIDER
+                                          }).ToList();
+                    pro2.Add(ProductViegbag.First());
+                }
+                SaveCachePro2();
+            }
+            short IdProduct = Convert.ToInt16(IDBARCODE);
+            var purchasePrice = (from model in db.PRODUCT where model.IDBARCODE == IdProduct select new { model.PURCHASEPRICE }).First();
+            long Purchase = Convert.ToInt64(purchasePrice.PURCHASEPRICE);
+
+            if (OrderDetails.Find(x => x.ODIDBARCODE == IdProduct) == null)
+            {
+                ORDERDETAILS or = new ORDERDETAILS
+                {
+                    ODIDBARCODE = IdProduct,
+                    ODORDERID = IdOrder,
+                    QUANTITY = quantity,
+                    TOTAL = quantity * Purchase
+                };
+                OrderDetails.Add(or);
+                OrderDetails2.Add(or);
+                var ProductViegbag = (from model in db.PRODUCT.AsEnumerable()
+                                      where model.IDBARCODE == IdProduct
+                                      select new PRODUCT()
+                                      {
+                                          IDBARCODE = model.IDBARCODE,
+                                          BARCODE = model.BARCODE,
+                                          PURCHASEPRICE = model.PURCHASEPRICE,
+                                          SALEPRICE = model.SALEPRICE,
+                                          STOCK = model.STOCK,
+                                          CRITICALSTOCK = model.CRITICALSTOCK,
+                                          PRODUCTNAME = model.PRODUCTNAME,
+                                          PRODUCTFAMILY = model.PRODUCTFAMILY,
+                                          PRODUCTTYPE = model.PRODUCTTYPE,
+                                          PRODUCTDESCRIPTION = model.PRODUCTDESCRIPTION,
+                                          STATE = model.STATE,
+                                          IDPROVIDER = model.IDPROVIDER
+                                      }).ToList();
+
+                pro2.Add(ProductViegbag.First());
+            }
+            else
+            {
+                var list = OrderDetails.FirstOrDefault(x => x.ODIDBARCODE == IdProduct);
+                list.QUANTITY = list.QUANTITY + quantity;
+                long total = list.QUANTITY;
+                list.TOTAL = Purchase * total;
+            };
+
+            SaveCacheOrderDetails();
+            SaveCachePro2();
+            SaveCacheOrderDetails2();
+            return RedirectToAction("Edit", new { id = IdOrder });
+        }
+
+        public void SaveCachePro()
+        {
+            cache["pro"] = pro;
+        }
+        public void SaveCachePro2()
+        {
+            cache["pro2"] = pro2;
+        }
+        public void SaveCacheOrderDetails2()
+        {
+            cache["OrderDetails2"] = OrderDetails2;
+        }
+        public void SaveCacheOrderDetails()
+        {
+            cache["OrderDetails"] = OrderDetails;
+        }
+
+        public void AllListNull()
+        {
+            pro = new List<PRODUCT>();
+            pro2 = new List<PRODUCT>();
+            OrderDetails = new List<ORDERDETAILS>();
+            SaveCachePro();
+            SaveCachePro2();
+            SaveCacheOrderDetails();
         }
     }
 }

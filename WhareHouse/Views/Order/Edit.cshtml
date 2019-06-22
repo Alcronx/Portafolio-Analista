@@ -1,10 +1,15 @@
 ﻿@model WhareHouse.Models.PRODUCT
 @{
+    ViewBag.Title = "Edit";
+}
+
+@{
     ViewBag.Title = "CreateOrder";
     List<WhareHouse.Models.PRODUCT> pro = ViewBag.pro;
     List<WhareHouse.Models.PRODUCT> pro2 = ViewBag.pro2;
-    List<WhareHouse.Models.ORDERDETAILS> orderDetails = ViewBag.orderDetails;
+    List<WhareHouse.Models.ORDERDETAILS> orderDetails = ViewBag.OrderDetails;
     long total = ViewBag.total;
+    long orderid = ViewBag.orderid;
 }
 
 <div class="breadcrumb topBar">
@@ -44,7 +49,8 @@
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             @Html.AntiForgeryToken()
                             @Html.DropDownList("PROVIDERNAME", null, htmlAttributes: new { @class = "form-control" })
-                            @Html.Hidden("buttonValue", "Create")
+                            @Html.Hidden("buttonValue", "Editar")
+                            @Html.Hidden("orderid", @orderid)
                         </div>
                         <div class="buttonSearchdiv">
                             <input type="submit" value="Buscar" class="btn btn-primary buttonsearch" />
@@ -53,7 +59,7 @@
                 }
             </div>
         </div>
-        @using (Html.BeginForm("ListOrderDetails", "Order"))
+        @using (Html.BeginForm("EditListOrderDetails","Order"))
         {
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.AntiForgeryToken()
@@ -136,6 +142,7 @@
             <div style="padding-bottom:15px;">
                 <div class="OrderADDquantity" style="width:310px">
                     <div>
+                        @Html.Hidden("IdOrder", orderid)
                         @Html.TextBox("quantity", 1, new { @type = "number", @style = "width: 100px;", @min = 1, @max = 100 })
                     </div>
                     <div>
@@ -147,8 +154,8 @@
             </div>
         }
     </div>
-    
-    
+
+
     <div class="card mb-3">
 
         <div class="card-header">
@@ -181,44 +188,57 @@
                     <tbody>
                         @if (pro2.Count() == 0)
                         {
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                            for (int i = 0; i < orderDetails.Count(); i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => orderDetails[i].PRODUCT.PRODUCTNAME)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => orderDetails[i].PRODUCT.PRODUCTTYPE)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => orderDetails[i].PRODUCT.PURCHASEPRICE)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => orderDetails[i].QUANTITY)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => orderDetails[i].TOTAL)
+                                    </td>
+
+                                </tr>
+                            }
                         }
                         else
                         {
-                            if (orderDetails.Count() >= 1)
+
+                            var innerjoinTdP = (from p in pro2 join t in orderDetails on p.IDBARCODE equals t.ODIDBARCODE select new { t, p }).ToList();
+                            for (int i = 0; i < innerjoinTdP.Count(); i++)
                             {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => innerjoinTdP[i].p.PRODUCTNAME)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => innerjoinTdP[i].p.PRODUCTTYPE)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => innerjoinTdP[i].p.PURCHASEPRICE)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => innerjoinTdP[i].t.QUANTITY)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => innerjoinTdP[i].t.TOTAL)
+                                    </td>
 
-
-                                var innerjoinTdP = (from p in pro2 join t in orderDetails on p.IDBARCODE equals t.ODIDBARCODE select new { t, p }).ToList();
-                                for (int i = 0; i < innerjoinTdP.Count(); i++)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => innerjoinTdP[i].p.PRODUCTNAME)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => innerjoinTdP[i].p.PRODUCTTYPE)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => innerjoinTdP[i].p.PURCHASEPRICE)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => innerjoinTdP[i].t.QUANTITY)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => innerjoinTdP[i].t.TOTAL)
-                                        </td>
-
-                                    </tr>
-                                }
+                                </tr>
                             }
+
+
                         }
+
                     </tbody>
 
                 </table>
@@ -230,16 +250,17 @@
     <div>
         <div>
             <input type="submit" value="Completar Venta E Imprimir" class="btn btn-primary buttonsearch" style="width:200px;" />
-            @using (Html.BeginForm("CreateOrder", "Order"))
+            @using (Html.BeginForm("Edit", "Order"))
             {
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.AntiForgeryToken()
                 <input type="submit" value="Completar Venta" class="btn btn-primary buttonsearch" style="width:200px;" />
                 @Html.Hidden("Total", total);
+                @Html.Hidden("OrderID", orderid);
             }
-                <p>Total: @total</p>
-            </div>
+            <p>Total: @total</p>
+        </div>
     </div>
-    
+
 </div>
 

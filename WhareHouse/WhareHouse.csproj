@@ -172,6 +172,7 @@
     <Compile Include="Models\TRUSTED.cs">
       <DependentUpon>WhareHouseDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Ood.cs" />
     <Compile Include="Models\WhareHouseDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1998,6 +1999,9 @@
     <Content Include="Views\Venta\Index.cshtml" />
     <Content Include="Views\Venta\Details.cshtml" />
     <Content Include="Views\Order\CreateOrder.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Order\Reception.cshtml" />
+    <Content Include="Views\Order\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
