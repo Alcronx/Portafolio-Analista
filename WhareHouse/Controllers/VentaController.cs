@@ -12,6 +12,7 @@ using Oracle.DataAccess.Client;
 
 namespace WhareHouse.Controllers
 {
+    [Authorize]
     public class VentaController : Controller
     {
         private WhareHouseWebcn db = new WhareHouseWebcn();

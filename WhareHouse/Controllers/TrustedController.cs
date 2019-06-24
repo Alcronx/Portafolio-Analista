@@ -10,6 +10,7 @@ using WhareHouse.Models;
 
 namespace WhareHouse.Controllers
 {
+    [Authorize]
     public class TrustedController : Controller
     {
         private WhareHouseWebcn db = new WhareHouseWebcn();

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<WhareHouse.Models.LOGIN>
+
+@{
+    ViewBag.Title = "Index";
+    WhareHouse.Controllers.AccountController account = new WhareHouse.Controllers.AccountController();
+}
+
+@if (account.IsAdmin(@Request.Cookies["IsAdmin"].Value))
+{
+    <div class="breadcrumb topBar">
+        <div class="topButtonsContainer">
+            @Html.ActionLink("Lista Usuarios", "Index", null, null, new { @class = "btn btn-outline-primary topButtons" })
+        </div>
+        <div class="topButtonsContainer">
+            @Html.ActionLink("Agregar Usuario", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            Data Table Example
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead class="theadAling">
+                        <tr>
+                            <th>Id Usuario</th>
+                            <th>Nombre</th>
+                            <th>Contraseña</th>
+                            <th>Rol</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Id Usuario</th>
+                            <th>Nombre</th>
+                            <th>Contraseña</th>
+                            <th>Rol</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="NombreApellido">
+                                    @Html.DisplayFor(modelItem => item.IDUSER)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.USERNAME)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PASSWORDUSER)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ROL)
+                                </td>
+                                <td>
+                                    <div class="nav-item dropdown tableMenu">
+                                        <a class="nav-link btn tablemenuButton" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-chevron-circle-down fa-2x tableMenu"></i>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                                            @Html.ActionLink("Edit", "Edit", new { id = item.IDUSER }, new { @class = "tableMenu ColorMenu" })
+                                            <div class="dropdown-divider"></div>
+                                            @Html.ActionLink("Details", "Details", new { id = item.IDUSER }, new { @class = "tableMenu ColorMenu" })
+                                            <div class="dropdown-divider"></div>
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.IDUSER }, new { @class = "tableMenu ColorMenu" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    </div>
+}
+@Html.Partial("IsnotAdmin")

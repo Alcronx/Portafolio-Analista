@@ -12,6 +12,7 @@ using Oracle.DataAccess.Types;
 
 namespace WhareHouse.Controllers
 {
+    [Authorize]
     public class ProvidersController : Controller
     {
         private WhareHouseWebcn db = new WhareHouseWebcn();

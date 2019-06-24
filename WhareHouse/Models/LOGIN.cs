@@ -12,13 +12,11 @@ namespace WhareHouse.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class EXPIRATIONDATE
+    public partial class LOGIN
     {
-        public long LOTNUMBER { get; set; }
-        public System.DateTime EXPIREDATE { get; set; }
-        public int PRODUCTQUANTITY { get; set; }
-        public short BARCODE { get; set; }
-    
-        public virtual PRODUCT PRODUCT { get; set; }
+        public short IDUSER { get; set; }
+        public string USERNAME { get; set; }
+        public string PASSWORDUSER { get; set; }
+        public string ROL { get; set; }
     }
 }

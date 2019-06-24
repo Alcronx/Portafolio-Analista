@@ -36,6 +36,7 @@ namespace WhareHouse.Models
         public virtual DbSet<TICKET> TICKET { get; set; }
         public virtual DbSet<TICKETDETAILS> TICKETDETAILS { get; set; }
         public virtual DbSet<TRUSTED> TRUSTED { get; set; }
+        public virtual DbSet<LOGIN> LOGIN { get; set; }
     
         public virtual int CREATESEQUENCETICKET()
         {

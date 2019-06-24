@@ -12,6 +12,7 @@ using WhareHouse.Models;
 
 namespace WhareHouse.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private WhareHouseWebcn db = new WhareHouseWebcn();

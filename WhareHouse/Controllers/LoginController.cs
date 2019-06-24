@@ -11,111 +11,110 @@ using WhareHouse.Models;
 namespace WhareHouse.Controllers
 {
     [Authorize]
-    public class ClientsController : Controller
+    public class LoginController : Controller
     {
         private WhareHouseWebcn db = new WhareHouseWebcn();
 
-        // GET: Clients
+        // GET: Login
         public ActionResult Index()
         {
-            return View(db.CLIENT.ToList());
+            return View(db.LOGIN.ToList());
         }
 
-        // GET: Clients/Details/5
+        // GET: Login/Details/5
         public ActionResult Details(short? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CLIENT cLIENT = db.CLIENT.Find(id);
-            if (cLIENT == null)
+            LOGIN lOGIN = db.LOGIN.Find(id);
+            if (lOGIN == null)
             {
                 return HttpNotFound();
             }
-            return View(cLIENT);
+            return View(lOGIN);
         }
 
-        // GET: Clients/Create
+        // GET: Login/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Clients/Create
+        // POST: Login/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IDCLIENT,CLIENTRUT,NAME1,NAME2,LASTNAME1,LASTNAME2,CELLPHONE,BLACKLIST,BIRTHDATE,STATE")] CLIENT cLIENT)
+        public ActionResult Create([Bind(Include = "IDUSER,USERNAME,PASSWORDUSER,ROL")] LOGIN lOGIN)
         {
             if (ModelState.IsValid)
             {
-                db.CLIENT.Add(cLIENT);
+                db.LOGIN.Add(lOGIN);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(cLIENT);
+            return View(lOGIN);
         }
 
-        // GET: Clients/Edit/5
+        // GET: Login/Edit/5
         public ActionResult Edit(short? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CLIENT cLIENT = db.CLIENT.Find(id);
-            if (cLIENT == null)
+            LOGIN lOGIN = db.LOGIN.Find(id);
+            if (lOGIN == null)
             {
                 return HttpNotFound();
             }
-            return View(cLIENT);
+            return View(lOGIN);
         }
 
-        // POST: Clients/Edit/5
+        // POST: Login/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IDCLIENT,CLIENTRUT,NAME1,NAME2,LASTNAME1,LASTNAME2,CELLPHONE,BLACKLIST,BIRTHDATE,STATE")] CLIENT cLIENT)
+        public ActionResult Edit([Bind(Include = "IDUSER,USERNAME,PASSWORDUSER,ROL")] LOGIN lOGIN)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(cLIENT).State = EntityState.Modified;
+                db.Entry(lOGIN).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(cLIENT);
+            return View(lOGIN);
         }
 
-        // GET: Clients/Delete/5
+        // GET: Login/Delete/5
         public ActionResult Delete(short? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CLIENT cLIENT = db.CLIENT.Find(id);
-            if (cLIENT == null)
+            LOGIN lOGIN = db.LOGIN.Find(id);
+            if (lOGIN == null)
             {
                 return HttpNotFound();
             }
-            return View(cLIENT);
+            return View(lOGIN);
         }
 
-        // POST: Clients/Delete/5
+        // POST: Login/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(short id)
         {
-            CLIENT cLIENT = db.CLIENT.Find(id);
-            db.CLIENT.Remove(cLIENT);
+            LOGIN lOGIN = db.LOGIN.Find(id);
+            db.LOGIN.Remove(lOGIN);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -124,5 +123,7 @@ namespace WhareHouse.Controllers
             }
             base.Dispose(disposing);
         }
+
+        
     }
 }

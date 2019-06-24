@@ -10,6 +10,7 @@ using WhareHouse.Models;
 
 namespace WhareHouse.Controllers
 {
+    [Authorize]
     public class ExpirationDateController : Controller
     {
         private WhareHouseWebcn db = new WhareHouseWebcn();

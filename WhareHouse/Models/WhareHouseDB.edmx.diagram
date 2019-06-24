@@ -22,6 +22,7 @@
         <AssociationConnector Association="WhareHouseDbModel.TD_PRODUCT_FK" ManuallyRouted="false" />
         <AssociationConnector Association="WhareHouseDbModel.T_TRUSTED_FK" ManuallyRouted="false" />
         <AssociationConnector Association="WhareHouseDbModel.TD_TICKET_FK" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="WhareHouseDbModel.LOGIN" Width="1.5" PointX="9.875" PointY="6.375" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

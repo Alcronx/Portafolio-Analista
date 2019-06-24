@@ -1,0 +1,80 @@
+﻿@model WhareHouse.Models.LOGIN
+
+@{
+    ViewBag.Title = "Create";
+    WhareHouse.Controllers.AccountController account = new WhareHouse.Controllers.AccountController();
+}
+
+@if (account.IsAdmin(@Request.Cookies["IsAdmin"].Value))
+{
+    <div class="breadcrumb topBar">
+        <div class="topButtonsContainer">
+            @Html.ActionLink("Lista Usuarios", "Index", null, null, new { @class = "btn btn-outline-primary topButtons" })
+        </div>
+        <div class="topButtonsContainer">
+            @Html.ActionLink("Agregar Usuario", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
+        </div>
+    </div>
+
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-user-plus"></i>
+            Agregar Proveedor
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "divdivItems" }))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="divItems">
+                    <div class="form-group Atributes">
+                        <h5>ID Usuario</h5>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.IDUSER, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.IDUSER, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group Atributes">
+                        <h5>Nombre Usuario</h5>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.USERNAME, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.USERNAME, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                </div>
+                <div class="divItems">
+                    <div class="form-group  Atributes">
+                        <h5>Contraseña</h5>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.PASSWORDUSER, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PASSWORDUSER, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group Atributes">
+                        <h5>Rol</h5>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ROL, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ROL, "", new { @class = "text-danger" })
+                        </div>
+                        <input type="submit" value="Agregar" class="btn btn-success btnCreate" />
+
+                    </div>
+
+
+                </div>
+
+
+
+            }
+
+        </div>
+
+    </div>
+}
+
+@Html.Partial("IsnotAdmin")

@@ -12,6 +12,7 @@ using Oracle.DataAccess.Types;
 using WhareHouse.Models;
 namespace WhareHouse.Controllers
 {
+    [Authorize]
     public class OrderController : Controller
     {
         private ObjectCache cache = MemoryCache.Default;

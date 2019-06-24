@@ -29,6 +29,15 @@
           <Property Name="PRODUCTQUANTITY" Type="number" Precision="10" Scale="0" Nullable="false" />
           <Property Name="BARCODE" Type="number" Precision="4" Scale="0" Nullable="false" />
         </EntityType>
+        <EntityType Name="LOGIN">
+          <Key>
+            <PropertyRef Name="IDUSER" />
+          </Key>
+          <Property Name="IDUSER" Type="number" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="USERNAME" Type="varchar2" MaxLength="30" Nullable="false" />
+          <Property Name="PASSWORDUSER" Type="varchar2" MaxLength="30" Nullable="false" />
+          <Property Name="ROL" Type="varchar2" MaxLength="30" Nullable="false" />
+        </EntityType>
         <EntityType Name="ORDERDETAILS">
           <Key>
             <PropertyRef Name="ODORDERID" />
@@ -234,6 +243,7 @@
         <EntityContainer Name="WhareHouseDbModelStoreContainer">
           <EntitySet Name="CLIENT" EntityType="Self.CLIENT" Schema="YUYITOSDB" store:Type="Tables" />
           <EntitySet Name="EXPIRATIONDATE" EntityType="Self.EXPIRATIONDATE" Schema="YUYITOSDB" store:Type="Tables" />
+          <EntitySet Name="LOGIN" EntityType="Self.LOGIN" Schema="YUYITOSDB" store:Type="Tables" />
           <EntitySet Name="ORDERDETAILS" EntityType="Self.ORDERDETAILS" Schema="YUYITOSDB" store:Type="Tables" />
           <EntitySet Name="ORDERPRODUCT" EntityType="Self.ORDERPRODUCT" Schema="YUYITOSDB" store:Type="Tables" />
           <EntitySet Name="PRODUCT" EntityType="Self.PRODUCT" Schema="YUYITOSDB" store:Type="Tables" />
@@ -560,9 +570,19 @@
           </AssociationSet>
           <FunctionImport Name="CREATESEQUENCETICKET" />
           <FunctionImport Name="SELECTSEQUENCETICKET">
-            <Parameter Name="IDTICKET" Mode="Out" Type="Decimal" />
+          <Parameter Name="IDTICKET" Mode="Out" Type="Decimal" />
           </FunctionImport>
+          <EntitySet Name="LOGIN" EntityType="WhareHouseDbModel.LOGIN" />
         </EntityContainer>
+        <EntityType Name="LOGIN">
+          <Key>
+            <PropertyRef Name="IDUSER" />
+          </Key>
+          <Property Name="IDUSER" Type="Int16" Nullable="false" />
+          <Property Name="USERNAME" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PASSWORDUSER" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ROL" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -692,6 +712,16 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="CREATESEQUENCETICKET" FunctionName="WhareHouseDbModel.Store.CREATESEQUENCETICKET" />
           <FunctionImportMapping FunctionImportName="SELECTSEQUENCETICKET" FunctionName="WhareHouseDbModel.Store.SELECTSEQUENCETICKET" />
+          <EntitySetMapping Name="LOGIN">
+            <EntityTypeMapping TypeName="WhareHouseDbModel.LOGIN">
+              <MappingFragment StoreEntitySet="LOGIN">
+                <ScalarProperty Name="ROL" ColumnName="ROL" />
+                <ScalarProperty Name="PASSWORDUSER" ColumnName="PASSWORDUSER" />
+                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
+                <ScalarProperty Name="IDUSER" ColumnName="IDUSER" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
