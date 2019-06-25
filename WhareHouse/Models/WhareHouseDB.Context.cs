@@ -38,14 +38,74 @@ namespace WhareHouse.Models
         public virtual DbSet<TRUSTED> TRUSTED { get; set; }
         public virtual DbSet<LOGIN> LOGIN { get; set; }
     
+        public virtual int CREATESEQUENCECLIENT()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CREATESEQUENCECLIENT");
+        }
+    
+        public virtual int CREATESEQUENCEEXPIRATIONDATE()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CREATESEQUENCEEXPIRATIONDATE");
+        }
+    
+        public virtual int CREATESEQUENCEORDERPRODUCT()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CREATESEQUENCEORDERPRODUCT");
+        }
+    
+        public virtual int CREATESEQUENCEPRODUCT()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CREATESEQUENCEPRODUCT");
+        }
+    
+        public virtual int CREATESEQUENCEPROVIDER()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CREATESEQUENCEPROVIDER");
+        }
+    
         public virtual int CREATESEQUENCETICKET()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CREATESEQUENCETICKET");
         }
     
+        public virtual int CREATESEQUENCETRUSTED()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CREATESEQUENCETRUSTED");
+        }
+    
+        public virtual int SELECTSEQUENCECLIENT(ObjectParameter iDCLIENT)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SELECTSEQUENCECLIENT", iDCLIENT);
+        }
+    
+        public virtual int SELECTSEQUENCEEXPIRATIONDATE(ObjectParameter iDEXPIRATIONDATE)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SELECTSEQUENCEEXPIRATIONDATE", iDEXPIRATIONDATE);
+        }
+    
+        public virtual int SELECTSEQUENCEORDERPRODUCT(ObjectParameter iDORDERPRODUCT)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SELECTSEQUENCEORDERPRODUCT", iDORDERPRODUCT);
+        }
+    
+        public virtual int SELECTSEQUENCEPRODUCT(ObjectParameter iDPRODUCT)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SELECTSEQUENCEPRODUCT", iDPRODUCT);
+        }
+    
+        public virtual int SELECTSEQUENCEPROVIDER(ObjectParameter iDPROVIDER)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SELECTSEQUENCEPROVIDER", iDPROVIDER);
+        }
+    
         public virtual int SELECTSEQUENCETICKET(ObjectParameter iDTICKET)
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SELECTSEQUENCETICKET", iDTICKET);
+        }
+    
+        public virtual int SELECTSEQUENCETRUSTED(ObjectParameter iDTRUSTED)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SELECTSEQUENCETRUSTED", iDTRUSTED);
         }
     }
 }

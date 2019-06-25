@@ -7,17 +7,26 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WhareHouse.Models;
-
+using Oracle.DataAccess.Client;
 namespace WhareHouse.Controllers
 {
     [Authorize]
     public class ClientsController : Controller
     {
         private WhareHouseWebcn db = new WhareHouseWebcn();
-
+        
+        public ClientsController()
+        {
+            CLIENT cli = db.CLIENT.Find(1);
+            if (cli == null)
+            {
+                CreateClientId();
+            }
+        }
         // GET: Clients
         public ActionResult Index()
         {
+            
             return View(db.CLIENT.ToList());
         }
 
@@ -39,6 +48,16 @@ namespace WhareHouse.Controllers
         // GET: Clients/Create
         public ActionResult Create()
         {
+            if (db.CLIENT.Find(1)==null)
+            {
+                ViewBag.idClient = 1;
+            }
+            else
+            {
+                short idClient = db.CLIENT.Max(x => x.IDCLIENT);
+                ViewBag.idClient = idClient+1;
+            }
+           
             return View();
         }
 
@@ -47,15 +66,17 @@ namespace WhareHouse.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IDCLIENT,CLIENTRUT,NAME1,NAME2,LASTNAME1,LASTNAME2,CELLPHONE,BLACKLIST,BIRTHDATE,STATE")] CLIENT cLIENT)
+        public ActionResult Create([Bind(Include = "CLIENTRUT,NAME1,NAME2,LASTNAME1,LASTNAME2,CELLPHONE,BLACKLIST,BIRTHDATE")] CLIENT cLIENT)
         {
             if (ModelState.IsValid)
             {
+                cLIENT.IDCLIENT = ClientIdAumentate();
+                cLIENT.STATE = "1";
                 db.CLIENT.Add(cLIENT);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            ViewBag.idClient = 1;
             return View(cLIENT);
         }
 
@@ -123,6 +144,46 @@ namespace WhareHouse.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public void CreateClientId()
+        {
+            Connection objectcon = new Connection();
+            OracleConnection con = objectcon.GetConection();
+            con.Open();
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "CREATESEQUENCECLIENT";
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+                con.Dispose();
+                objectcon = null;
+            }
+
+        }
+
+        public short ClientIdAumentate()
+        {
+            Connection objectcon = new Connection();
+            OracleConnection con = objectcon.GetConection();
+            con.Open();
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "SELECTSEQUENCECLIENT";
+            cmd.Parameters.Add("@IDCLIENT", OracleDbType.Int64).Direction = ParameterDirection.Output;
+            cmd.ExecuteNonQuery();
+            short ClientId = Convert.ToInt16(cmd.Parameters["@IDCLIENT"].Value.ToString());
+            con.Close();
+            cmd.Dispose();
+            con.Dispose();
+            objectcon = null;
+            return ClientId;
         }
     }
 }

@@ -236,9 +236,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="CREATESEQUENCECLIENT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB" />
+        <Function Name="CREATESEQUENCEEXPIRATIONDATE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB" />
+        <Function Name="CREATESEQUENCEORDERPRODUCT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB" />
+        <Function Name="CREATESEQUENCEPRODUCT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB" />
+        <Function Name="CREATESEQUENCEPROVIDER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB" />
         <Function Name="CREATESEQUENCETICKET" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB" />
+        <Function Name="CREATESEQUENCETRUSTED" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB" />
+        <Function Name="SELECTSEQUENCECLIENT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB">
+          <Parameter Name="IDCLIENT" Type="number" Mode="Out" />
+        </Function>
+        <Function Name="SELECTSEQUENCEEXPIRATIONDATE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB">
+          <Parameter Name="IDEXPIRATIONDATE" Type="number" Mode="Out" />
+        </Function>
+        <Function Name="SELECTSEQUENCEORDERPRODUCT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB">
+          <Parameter Name="IDORDERPRODUCT" Type="number" Mode="Out" />
+        </Function>
+        <Function Name="SELECTSEQUENCEPRODUCT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB">
+          <Parameter Name="IDPRODUCT" Type="number" Mode="Out" />
+        </Function>
+        <Function Name="SELECTSEQUENCEPROVIDER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB">
+          <Parameter Name="IDPROVIDER" Type="number" Mode="Out" />
+        </Function>
         <Function Name="SELECTSEQUENCETICKET" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB">
           <Parameter Name="IDTICKET" Type="number" Mode="Out" />
+        </Function>
+        <Function Name="SELECTSEQUENCETRUSTED" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="YUYITOSDB">
+          <Parameter Name="IDTRUSTED" Type="number" Mode="Out" />
         </Function>
         <EntityContainer Name="WhareHouseDbModelStoreContainer">
           <EntitySet Name="CLIENT" EntityType="Self.CLIENT" Schema="YUYITOSDB" store:Type="Tables" />
@@ -568,11 +592,35 @@
             <End Role="TICKET" EntitySet="TICKET" />
             <End Role="TICKETDETAILS" EntitySet="TICKETDETAILS" />
           </AssociationSet>
-          <FunctionImport Name="CREATESEQUENCETICKET" />
-          <FunctionImport Name="SELECTSEQUENCETICKET">
-          <Parameter Name="IDTICKET" Mode="Out" Type="Decimal" />
-          </FunctionImport>
           <EntitySet Name="LOGIN" EntityType="WhareHouseDbModel.LOGIN" />
+          <FunctionImport Name="CREATESEQUENCECLIENT" />
+          <FunctionImport Name="CREATESEQUENCEEXPIRATIONDATE" />
+          <FunctionImport Name="CREATESEQUENCEORDERPRODUCT" />
+          <FunctionImport Name="CREATESEQUENCEPRODUCT" />
+          <FunctionImport Name="CREATESEQUENCEPROVIDER" />
+          <FunctionImport Name="CREATESEQUENCETICKET" />
+          <FunctionImport Name="CREATESEQUENCETRUSTED" />
+          <FunctionImport Name="SELECTSEQUENCECLIENT">
+            <Parameter Name="IDCLIENT" Mode="Out" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="SELECTSEQUENCEEXPIRATIONDATE">
+            <Parameter Name="IDEXPIRATIONDATE" Mode="Out" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="SELECTSEQUENCEORDERPRODUCT">
+            <Parameter Name="IDORDERPRODUCT" Mode="Out" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="SELECTSEQUENCEPRODUCT">
+            <Parameter Name="IDPRODUCT" Mode="Out" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="SELECTSEQUENCEPROVIDER">
+            <Parameter Name="IDPROVIDER" Mode="Out" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="SELECTSEQUENCETICKET">
+            <Parameter Name="IDTICKET" Mode="Out" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="SELECTSEQUENCETRUSTED">
+            <Parameter Name="IDTRUSTED" Mode="Out" Type="Decimal" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="LOGIN">
           <Key>
@@ -710,8 +758,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="CREATESEQUENCETICKET" FunctionName="WhareHouseDbModel.Store.CREATESEQUENCETICKET" />
-          <FunctionImportMapping FunctionImportName="SELECTSEQUENCETICKET" FunctionName="WhareHouseDbModel.Store.SELECTSEQUENCETICKET" />
           <EntitySetMapping Name="LOGIN">
             <EntityTypeMapping TypeName="WhareHouseDbModel.LOGIN">
               <MappingFragment StoreEntitySet="LOGIN">
@@ -722,6 +768,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CREATESEQUENCECLIENT" FunctionName="WhareHouseDbModel.Store.CREATESEQUENCECLIENT" />
+          <FunctionImportMapping FunctionImportName="CREATESEQUENCEEXPIRATIONDATE" FunctionName="WhareHouseDbModel.Store.CREATESEQUENCEEXPIRATIONDATE" />
+          <FunctionImportMapping FunctionImportName="CREATESEQUENCEORDERPRODUCT" FunctionName="WhareHouseDbModel.Store.CREATESEQUENCEORDERPRODUCT" />
+          <FunctionImportMapping FunctionImportName="CREATESEQUENCEPRODUCT" FunctionName="WhareHouseDbModel.Store.CREATESEQUENCEPRODUCT" />
+          <FunctionImportMapping FunctionImportName="CREATESEQUENCEPROVIDER" FunctionName="WhareHouseDbModel.Store.CREATESEQUENCEPROVIDER" />
+          <FunctionImportMapping FunctionImportName="CREATESEQUENCETICKET" FunctionName="WhareHouseDbModel.Store.CREATESEQUENCETICKET" />
+          <FunctionImportMapping FunctionImportName="CREATESEQUENCETRUSTED" FunctionName="WhareHouseDbModel.Store.CREATESEQUENCETRUSTED" />
+          <FunctionImportMapping FunctionImportName="SELECTSEQUENCECLIENT" FunctionName="WhareHouseDbModel.Store.SELECTSEQUENCECLIENT" />
+          <FunctionImportMapping FunctionImportName="SELECTSEQUENCEEXPIRATIONDATE" FunctionName="WhareHouseDbModel.Store.SELECTSEQUENCEEXPIRATIONDATE" />
+          <FunctionImportMapping FunctionImportName="SELECTSEQUENCEORDERPRODUCT" FunctionName="WhareHouseDbModel.Store.SELECTSEQUENCEORDERPRODUCT" />
+          <FunctionImportMapping FunctionImportName="SELECTSEQUENCEPRODUCT" FunctionName="WhareHouseDbModel.Store.SELECTSEQUENCEPRODUCT" />
+          <FunctionImportMapping FunctionImportName="SELECTSEQUENCEPROVIDER" FunctionName="WhareHouseDbModel.Store.SELECTSEQUENCEPROVIDER" />
+          <FunctionImportMapping FunctionImportName="SELECTSEQUENCETICKET" FunctionName="WhareHouseDbModel.Store.SELECTSEQUENCETICKET" />
+          <FunctionImportMapping FunctionImportName="SELECTSEQUENCETRUSTED" FunctionName="WhareHouseDbModel.Store.SELECTSEQUENCETRUSTED" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
