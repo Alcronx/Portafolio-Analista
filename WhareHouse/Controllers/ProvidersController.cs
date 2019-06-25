@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using WhareHouse.Models;
 using Oracle.DataAccess.Client;
-using Oracle.DataAccess.Types;
 
 namespace WhareHouse.Controllers
 {
@@ -17,6 +16,14 @@ namespace WhareHouse.Controllers
     {
         private WhareHouseWebcn db = new WhareHouseWebcn();
 
+        public ProvidersController()
+        {
+            PROVIDER PRO = db.PROVIDER.Find(1);
+            if (PRO == null)
+            {
+                CreateProviderId();
+            }
+        }
         // GET: Providers
         public ActionResult Index()
         {    
@@ -41,6 +48,15 @@ namespace WhareHouse.Controllers
         // GET: Providers/Create
         public ActionResult Create()
         {
+            if (db.PROVIDER.Find(1) == null)
+            {
+                ViewBag.idProvider = 1;
+            }
+            else
+            {
+                short idProvider = db.PROVIDER.Max(x => x.IDPROVIDER);
+                ViewBag.idProvider = idProvider + 1;
+            }
             return View();
         }
 
@@ -49,10 +65,12 @@ namespace WhareHouse.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IDPROVIDER,RUT,COMPANYNAME,NAME1,NAME2,LASTNAME1,LASTNAME2,REGION,COMMUNE,DIRECTION,COMPANYITEM,CELLPHONE,MAIL,STATE")] PROVIDER pROVIDER)
+        public ActionResult Create([Bind(Include = "RUT,COMPANYNAME,NAME1,NAME2,LASTNAME1,LASTNAME2,REGION,COMMUNE,DIRECTION,COMPANYITEM,CELLPHONE,MAIL")] PROVIDER pROVIDER)
         {
             if (ModelState.IsValid)
             {
+                pROVIDER.IDPROVIDER = ProviderIdAumentate();
+                pROVIDER.STATE = "1";
                 db.PROVIDER.Add(pROVIDER);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -125,6 +143,46 @@ namespace WhareHouse.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public void CreateProviderId()
+        {
+            Connection objectcon = new Connection();
+            OracleConnection con = objectcon.GetConection();
+            con.Open();
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "CREATESEQUENCEPROVIDER";
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+                con.Dispose();
+                objectcon = null;
+            }
+
+        }
+
+        public short ProviderIdAumentate()
+        {
+            Connection objectcon = new Connection();
+            OracleConnection con = objectcon.GetConection();
+            con.Open();
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "SELECTSEQUENCEPROVIDER";
+            cmd.Parameters.Add("@IDPROVIDER", OracleDbType.Int64).Direction = ParameterDirection.Output;
+            cmd.ExecuteNonQuery();
+            short ClientId = Convert.ToInt16(cmd.Parameters["@IDPROVIDER"].Value.ToString());
+            con.Close();
+            cmd.Dispose();
+            con.Dispose();
+            objectcon = null;
+            return ClientId;
         }
     }
 }

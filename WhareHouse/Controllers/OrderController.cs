@@ -8,7 +8,6 @@ using System.Runtime.Caching;
 using System.Web;
 using System.Web.Mvc;
 using Oracle.DataAccess.Client;
-using Oracle.DataAccess.Types;
 using WhareHouse.Models;
 namespace WhareHouse.Controllers
 {
@@ -40,6 +39,12 @@ namespace WhareHouse.Controllers
             {
                 OrderDetails = new List<ORDERDETAILS>();
             }
+
+            ORDERPRODUCT orP = db.ORDERPRODUCT.Find(1);
+            if (orP == null)
+            {
+                CreateOrderProductId();
+            }
         }
         public ActionResult CreateOrder()
         {
@@ -48,6 +53,16 @@ namespace WhareHouse.Controllers
             ViewBag.pro2 = pro2;
             ViewBag.orderDetails = OrderDetails;
             ViewBag.total = OrderDetails.Sum(x => x.TOTAL);
+
+            if (db.ORDERPRODUCT.Find(1) == null)
+            {
+                ViewBag.idOrderProduct = 1;
+            }
+            else
+            {
+                long idOrderProduct = db.ORDERPRODUCT.Max(x => x.ORDERID);
+                ViewBag.idOrderProduct = idOrderProduct + 1;
+            }
             return View();
         }
         [HttpPost]
@@ -56,7 +71,7 @@ namespace WhareHouse.Controllers
             db.ORDERDETAILS.AddRange(OrderDetails);
             ORDERPRODUCT OR = new ORDERPRODUCT
             {
-                ORDERID = 1, //CAMBIAR
+                ORDERID = OrderProductIdAumentate(),
                 ORDERDATE = System.DateTime.Now,
                 ORDERHOUR = DateTime.Now,
                 STATE = "0",
@@ -194,7 +209,7 @@ namespace WhareHouse.Controllers
             }
         }
 
-        public ActionResult ListOrderDetails(string IDBARCODE, int quantity)
+        public ActionResult ListOrderDetails(string IDBARCODE, int quantity, long OrderId)
         {
             short IdProduct = Convert.ToInt16(IDBARCODE);
             var purchasePrice = (from model in db.PRODUCT where model.IDBARCODE == IdProduct select new { model.PURCHASEPRICE }).First();
@@ -203,7 +218,7 @@ namespace WhareHouse.Controllers
             ORDERDETAILS or = new ORDERDETAILS
             {
                 ODIDBARCODE = IdProduct,
-                ODORDERID = 1,//Cambiar
+                ODORDERID = OrderId,
                 QUANTITY = quantity,
                 TOTAL = quantity * Purchase
             };
@@ -343,6 +358,46 @@ namespace WhareHouse.Controllers
         public void SaveCacheOrderDetails()
         {
             cache["OrderDetails"] = OrderDetails;
+        }
+
+        public void CreateOrderProductId()
+        {
+            Connection objectcon = new Connection();
+            OracleConnection con = objectcon.GetConection();
+            con.Open();
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "CREATESEQUENCEORDERPRODUCT";
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+                con.Dispose();
+                objectcon = null;
+            }
+
+        }
+
+        public long OrderProductIdAumentate()
+        {
+            Connection objectcon = new Connection();
+            OracleConnection con = objectcon.GetConection();
+            con.Open();
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "SELECTSEQUENCEORDERPRODUCT";
+            cmd.Parameters.Add("@IDORDERPRODUCT", OracleDbType.Int64).Direction = ParameterDirection.Output;
+            cmd.ExecuteNonQuery();
+            long OrderProductId = Convert.ToInt16(cmd.Parameters["@IDORDERPRODUCT"].Value.ToString());
+            con.Close();
+            cmd.Dispose();
+            con.Dispose();
+            objectcon = null;
+            return OrderProductId;
         }
 
         public void AllListNull()

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WhareHouse.Models;
+using Oracle.DataAccess.Client;
 
 namespace WhareHouse.Controllers
 {
@@ -14,7 +15,14 @@ namespace WhareHouse.Controllers
     public class ExpirationDateController : Controller
     {
         private WhareHouseWebcn db = new WhareHouseWebcn();
-
+        public ExpirationDateController()
+        {
+            EXPIRATIONDATE exp = db.EXPIRATIONDATE.Find(1);
+            if (exp == null)
+            {
+                CreateExpirationDateId();
+            }
+        }
         // GET: ExpirationDate
         public ActionResult Index()
         {
@@ -40,6 +48,15 @@ namespace WhareHouse.Controllers
         // GET: ExpirationDate/Create
         public ActionResult Create(string PROVIDERNAME="0") 
         {
+            if (db.EXPIRATIONDATE.Find(1) == null)
+            {
+                ViewBag.idExpirationDate = 1;
+            }
+            else
+            {
+                long idExpirationDate = db.EXPIRATIONDATE.Max(x => x.LOTNUMBER);
+                ViewBag.idExpirationDate = idExpirationDate + 1;
+            }
             int convert = Convert.ToInt16(PROVIDERNAME);
             var ProductCreate = db.PRODUCT.Include(x => x.PROVIDER).Where(x => x.IDPROVIDER == convert); 
             ViewBag.ProductList = ProductCreate.ToList();
@@ -56,6 +73,7 @@ namespace WhareHouse.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "LOTNUMBER,EXPIREDATE,PRODUCTQUANTITY,BARCODE")] EXPIRATIONDATE eXPIRATIONDATE)
         {
+            eXPIRATIONDATE.LOTNUMBER = ExpirationDateIdAumentate();
             ViewBag.PROVIDERNAME = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
             db.EXPIRATIONDATE.Add(eXPIRATIONDATE);
             db.SaveChanges();
@@ -152,6 +170,46 @@ namespace WhareHouse.Controllers
             db.EXPIRATIONDATE.Remove(eXPIRATIONDATE);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public void CreateExpirationDateId()
+        {
+            Connection objectcon = new Connection();
+            OracleConnection con = objectcon.GetConection();
+            con.Open();
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "CREATESEQUENCEEXPIRATIONDATE";
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+                con.Dispose();
+                objectcon = null;
+            }
+
+        }
+
+        public long ExpirationDateIdAumentate()
+        {
+            Connection objectcon = new Connection();
+            OracleConnection con = objectcon.GetConection();
+            con.Open();
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "SELECTSEQUENCEEXPIRATIONDATE";
+            cmd.Parameters.Add("@IDEXPIRATIONDATE", OracleDbType.Int64).Direction = ParameterDirection.Output;
+            cmd.ExecuteNonQuery();
+            long ExpirationDateId = Convert.ToInt64(cmd.Parameters["@IDEXPIRATIONDATE"].Value.ToString());
+            con.Close();
+            cmd.Dispose();
+            con.Dispose();
+            objectcon = null;
+            return ExpirationDateId;
         }
 
         protected override void Dispose(bool disposing)

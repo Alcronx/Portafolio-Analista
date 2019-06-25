@@ -2,15 +2,16 @@
 @{
     ViewBag.Title = "Create";
     List<WhareHouse.Models.PRODUCT> lista = ViewBag.ProductList;
+    long ExpirationDateId = ViewBag.idExpirationDate;
 
 }
 
 <div class="breadcrumb topBar">
     <div class="topButtonsContainer">
-        @Html.ActionLink("Lista Productos", "Index", null, new { @class = "btn btn-outline-primary topButtons" })
+        @Html.ActionLink("Lista Fecha De Vencimiento", "Index", null, new { @class = "btn btn-outline-primary topButtons" })
     </div>
     <div class="topButtonsContainer">
-        @Html.ActionLink("Agregar Producto", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
+        @Html.ActionLink("Agregar Fecha De Vencimiento", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
     </div>
 </div>
 
@@ -111,14 +112,12 @@
                         <div class="form-group Atributes">
                             <h5>N° Lote:</h5>
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.LOTNUMBER, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.LOTNUMBER, "", new { @class = "text-danger" })
-
+                                <p class="form-control">@ExpirationDateId</p>
                             </div>
                         </div>
 
                         <div class="form-group Atributes">
-                            <h5>Catidad de Producto: </h5>
+                            <h5>Cantidad de Producto: </h5>
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.PRODUCTQUANTITY, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.PRODUCTQUANTITY, "", new { @class = "text-danger" })
@@ -132,7 +131,7 @@
                         <div class="form-group Atributes">
                             <h5>Fecha de Vencimiento</h5>
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.EXPIREDATE, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => model.EXPIREDATE, new { htmlAttributes = new { @class = "form-control", @min = "System.DateTime.Now" } })
                                 @Html.ValidationMessageFor(model => model.EXPIREDATE, "", new { @class = "text-danger" })
                             </div>
 

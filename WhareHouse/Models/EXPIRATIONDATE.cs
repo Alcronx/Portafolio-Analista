@@ -11,14 +11,17 @@ namespace WhareHouse.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class EXPIRATIONDATE
     {
         public long LOTNUMBER { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}"),]
         public System.DateTime EXPIREDATE { get; set; }
         public int PRODUCTQUANTITY { get; set; }
         public short BARCODE { get; set; }
-    
+
         public virtual PRODUCT PRODUCT { get; set; }
     }
 }

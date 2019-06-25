@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Oracle.DataAccess.Client;
-using Oracle.DataAccess.Types;
 using WhareHouse.Models;
 
 namespace WhareHouse.Controllers
@@ -16,6 +15,14 @@ namespace WhareHouse.Controllers
     public class ProductsController : Controller
     {
         private WhareHouseWebcn db = new WhareHouseWebcn();
+        public ProductsController()
+        {
+            PRODUCT exp = db.PRODUCT.Find(1);
+            if (exp == null)
+            {
+                CreateProductId();
+            }
+        }
 
         // GET: Products
         public ActionResult Index()
@@ -43,6 +50,15 @@ namespace WhareHouse.Controllers
         // GET: Products/Create
         public ActionResult Create()
         {
+            if (db.PRODUCT.Find(1) == null)
+            {
+                ViewBag.idProduct = 1;
+            }
+            else
+            {
+                long idProduct = db.PRODUCT.Max(x => x.IDBARCODE);
+                ViewBag.idProduct = idProduct + 1;
+            }
             ViewBag.IDPROVIDER = new SelectList(db.PROVIDER,"IDPROVIDER","COMPANYNAME");
             return View();
         }
@@ -52,10 +68,12 @@ namespace WhareHouse.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include ="IDBARCODE,BARCODE,PURCHASEPRICE,SALEPRICE,STOCK,CRITICALSTOCK,PRODUCTNAME,PRODUCTFAMILY,PRODUCTTYPE,PRODUCTDESCRIPTION,IDPROVIDER,STATE")] PRODUCT pRODUCT)
+        public ActionResult Create([Bind(Include ="BARCODE,PURCHASEPRICE,SALEPRICE,STOCK,CRITICALSTOCK,PRODUCTNAME,PRODUCTFAMILY,PRODUCTTYPE,PRODUCTDESCRIPTION,IDPROVIDER")] PRODUCT pRODUCT)
         {
             if (ModelState.IsValid)
             {
+                pRODUCT.STATE = "1";
+                pRODUCT.IDBARCODE = ProductIdAumentate();
                 db.PRODUCT.Add(pRODUCT);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -132,6 +150,45 @@ namespace WhareHouse.Controllers
             base.Dispose(disposing);
         }
 
-       
+        public void CreateProductId()
+        {
+            Connection objectcon = new Connection();
+            OracleConnection con = objectcon.GetConection();
+            con.Open();
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "CREATESEQUENCEPRODUCT";
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+                con.Dispose();
+                objectcon = null;
+            }
+
+        }
+
+        public short ProductIdAumentate()
+        {
+            Connection objectcon = new Connection();
+            OracleConnection con = objectcon.GetConection();
+            con.Open();
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "SELECTSEQUENCEPRODUCT";
+            cmd.Parameters.Add("@IDPRODUCT", OracleDbType.Int64).Direction = ParameterDirection.Output;
+            cmd.ExecuteNonQuery();
+            short ProductId = Convert.ToInt16(cmd.Parameters["@IDPRODUCT"].Value.ToString());
+            con.Close();
+            cmd.Dispose();
+            con.Dispose();
+            objectcon = null;
+            return ProductId;
+        }
+
     }
 }

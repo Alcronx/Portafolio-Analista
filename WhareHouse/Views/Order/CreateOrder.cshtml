@@ -5,6 +5,7 @@
     List<WhareHouse.Models.PRODUCT> pro2 = ViewBag.pro2;
     List<WhareHouse.Models.ORDERDETAILS> orderDetails = ViewBag.orderDetails;
     long total = ViewBag.total;
+    long idOrderProduct = ViewBag.idOrderProduct;
 }
 
 <div class="breadcrumb topBar">
@@ -30,7 +31,7 @@
         </div>
 
         <div>
-            <p>N° Boleta: Cambiar</p>
+            <p>N° Boleta: @idOrderProduct</p>
         </div>
     </div>
     <div>
@@ -139,7 +140,7 @@
                         @Html.TextBox("quantity", 1, new { @type = "number", @style = "width: 100px;", @min = 1, @max = 100 })
                     </div>
                     <div>
-
+                        @Html.Hidden("OrderId", idOrderProduct)
                         <input type="submit" value="Agregar Cantidad" class="btn btn-primary buttonsearch" style="width:200px;" />
                     </div>
                 </div>

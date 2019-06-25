@@ -27,7 +27,11 @@ namespace WhareHouse.Controllers
             listTicketDetails = cache["listTicketDetails"] as List<TICKETDETAILS>;
             
             TICKET tick = db.TICKET.Find(1);
-           
+            TRUSTED tru = db.TRUSTED.Find(1);
+            if (tru == null)
+            {
+                CreateTrustedId();
+            }
             if (tick == null)
             {
                 CreateTicketId();
@@ -67,9 +71,10 @@ namespace WhareHouse.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Create(string cliente, string PaidForm, int total,long TicketId)
+        public ActionResult Create(string cliente, string PaidForm, int total)
         {
             int paid = Convert.ToInt16(PaidForm);
+            long TicketId = TicketIdAumentate();
             if (cliente.Equals(""))
             {
                 TICKET ti = new TICKET
@@ -109,7 +114,7 @@ namespace WhareHouse.Controllers
                 {
                     TRUSTED tru = new TRUSTED
                     {
-                        IDTRUSTED = TicketId,
+                        IDTRUSTED = TrustedIdAumentate(),
                         STATE = "1",
                         TRUSTDATE = DateTime.Now,
                         TIMELIMITTRUST = DateTime.Now.AddMonths(1),
@@ -131,7 +136,6 @@ namespace WhareHouse.Controllers
                     db.SaveChanges();
                 } 
             }
-            TicketIdAumentate();
             CamcelTicket();
             return RedirectToAction("Index", "Home");
         }
@@ -324,6 +328,47 @@ namespace WhareHouse.Controllers
             tIcket.STATE = "1";
             db.SaveChanges();
             return RedirectToAction("index");
+        }
+
+
+        public void CreateTrustedId()
+        {
+            Connection objectcon = new Connection();
+            OracleConnection con = objectcon.GetConection();
+            con.Open();
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "CREATESEQUENCETRUSTED";
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+                con.Dispose();
+                objectcon = null;
+            }
+
+        }
+
+        public long TrustedIdAumentate()
+        {
+            Connection objectcon = new Connection();
+            OracleConnection con = objectcon.GetConection();
+            con.Open();
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "SELECTSEQUENCETRUSTED";
+            cmd.Parameters.Add("@IDTRUSTED", OracleDbType.Int64).Direction = ParameterDirection.Output;
+            cmd.ExecuteNonQuery();
+            long TrustedId = Convert.ToInt16(cmd.Parameters["@IDTRUSTED"].Value.ToString());
+            con.Close();
+            cmd.Dispose();
+            con.Dispose();
+            objectcon = null;
+            return TrustedId;
         }
 
 
