@@ -46,7 +46,7 @@ namespace WhareHouse.Controllers
         }
 
         // GET: ExpirationDate/Create
-        public ActionResult Create(string PROVIDERNAME="0") 
+        public ActionResult Create(string PROVIDERNAME="0", int Error = 0) 
         {
             if (db.EXPIRATIONDATE.Find(1) == null)
             {
@@ -58,32 +58,56 @@ namespace WhareHouse.Controllers
                 ViewBag.idExpirationDate = idExpirationDate + 1;
             }
             int convert = Convert.ToInt16(PROVIDERNAME);
+            ViewBag.Error = Error;
             var ProductCreate = db.PRODUCT.Include(x => x.PROVIDER).Where(x => x.IDPROVIDER == convert); 
             ViewBag.ProductList = ProductCreate.ToList();
             ViewBag.PROVIDERNAME = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
-            ViewBag.Provider = new PROVIDER();
             return View();
         }
 
         // POST: ExpirationDate/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
-        [ActionName("CreateExpiredate")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "LOTNUMBER,EXPIREDATE,PRODUCTQUANTITY,BARCODE")] EXPIRATIONDATE eXPIRATIONDATE)
+        public ActionResult Create([Bind(Include = "LOTNUMBER,EXPIREDATE,PRODUCTQUANTITY,BARCODE")] EXPIRATIONDATE eXPIRATIONDATE,string PROVIDERNAME= "0", int Error = 0)
         {
-            eXPIRATIONDATE.LOTNUMBER = ExpirationDateIdAumentate();
+            if (eXPIRATIONDATE.BARCODE == 0)
+            {
+                if (ModelState.IsValid)
+                {
+                    eXPIRATIONDATE.LOTNUMBER = ExpirationDateIdAumentate();
+                    db.EXPIRATIONDATE.Add(eXPIRATIONDATE);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            if (db.EXPIRATIONDATE.Find(1) == null)
+            {
+                ViewBag.idExpirationDate = 1;
+            }
+            else
+            {
+                long idExpirationDate = db.EXPIRATIONDATE.Max(x => x.LOTNUMBER);
+                ViewBag.idExpirationDate = idExpirationDate + 1;
+            }
+            int convert = Convert.ToInt16(PROVIDERNAME);
+            ViewBag.Error = Error;
+            ViewBag.ErrorRadioButton = "Seleccione Un Producto";
+            var ProductCreate = db.PRODUCT.Include(x => x.PROVIDER).Where(x => x.IDPROVIDER == convert);
+            ViewBag.ProductList = ProductCreate.ToList();
             ViewBag.PROVIDERNAME = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
-            db.EXPIRATIONDATE.Add(eXPIRATIONDATE);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            return View(eXPIRATIONDATE);
         }
         [ActionName("CreateSearch")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int PROVIDERNAME)
+        public ActionResult Create(int? PROVIDERNAME)
         {
+            if(PROVIDERNAME == null)
+            {
+                return RedirectToAction("Create", new { Error = 1 });
+            }
             string convert = PROVIDERNAME.ToString();
             return RedirectToAction("Create",new { PROVIDERNAME = convert });
         }
@@ -92,6 +116,7 @@ namespace WhareHouse.Controllers
         public ActionResult Edit(long? id, string PROVIDERNAME = "0")
         {
             int convert = Convert.ToInt16(PROVIDERNAME);
+            ViewBag.PROVIDERNAME = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -101,7 +126,6 @@ namespace WhareHouse.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.PROVIDERNAME = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
             
             if (convert == 0)
             {
@@ -122,17 +146,40 @@ namespace WhareHouse.Controllers
         // POST: ExpirationDate/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
-        [ActionName("EditExpiredate")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "LOTNUMBER,EXPIREDATE,PRODUCTQUANTITY,BARCODE")] EXPIRATIONDATE eXPIRATIONDATE)
+        public ActionResult Edit([Bind(Include = "LOTNUMBER,EXPIREDATE,PRODUCTQUANTITY,BARCODE")] EXPIRATIONDATE eXPIRATIONDATE,string PROVIDERNAME = "0")
         {
+            ViewBag.PROVIDERNAME = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
             if (ModelState.IsValid)
             {
                 db.Entry(eXPIRATIONDATE).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            long id = eXPIRATIONDATE.LOTNUMBER;
+            int convert = Convert.ToInt16(PROVIDERNAME);
+            EXPIRATIONDATE Expire = db.EXPIRATIONDATE.Find(id);
+            if (eXPIRATIONDATE == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (convert == 0)
+            {
+                var lotnumber = (from model in db.EXPIRATIONDATE where model.LOTNUMBER == id select new { model.BARCODE }).Single();
+                int converLotNumber = lotnumber.BARCODE;
+                var idbarcode = (from model in db.PRODUCT where model.IDBARCODE == converLotNumber select new { model.IDBARCODE }).Single();
+                int convertidbarcode = idbarcode.IDBARCODE;
+                var ProductCreate = db.PRODUCT.Include(x => x.PROVIDER).Where(x => x.IDBARCODE == convertidbarcode);
+                ViewBag.ProductList = ProductCreate.ToList();
+                return View(eXPIRATIONDATE);
+            }
+
+            var Product = db.PRODUCT.Include(x => x.PROVIDER).Where(x => x.IDPROVIDER == convert);
+            ViewBag.ProductList = Product.ToList();
+
+            ViewBag.PROVIDERNAME = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
             ViewBag.BARCODE = new SelectList(db.PRODUCT, "IDBARCODE", "PRODUCTNAME", eXPIRATIONDATE.BARCODE);
             return View(eXPIRATIONDATE);
         }

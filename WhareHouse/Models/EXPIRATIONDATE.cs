@@ -15,11 +15,16 @@ namespace WhareHouse.Models
 
     public partial class EXPIRATIONDATE
     {
+        [Required]
         public long LOTNUMBER { get; set; }
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}"),]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [Required(ErrorMessage ="Debe Ingresar Fecha De Vencimiento")]
         public System.DateTime EXPIREDATE { get; set; }
+        [Required(ErrorMessage = "Debe Ingresar Cantidad De Producto")]
+        [Range(1,9999999999, ErrorMessage = "La Cantidad Debe Ser Mayor A 0")]
         public int PRODUCTQUANTITY { get; set; }
+        [Required]
         public short BARCODE { get; set; }
 
         public virtual PRODUCT PRODUCT { get; set; }

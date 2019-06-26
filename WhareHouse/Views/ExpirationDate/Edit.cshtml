@@ -22,7 +22,6 @@
         {
         <div class="SearchButtonExpirationDate">
             <div class="dropdownCustom">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.AntiForgeryToken()
 
                 @Html.DropDownList("PROVIDERNAME", null, htmlAttributes: new { @class = "form-control" })
@@ -36,7 +35,7 @@
         }
     </div>
 </div>
-@using (Html.BeginForm("EditExpiredate", "ExpirationDate"))
+@using (Html.BeginForm("Edit", "ExpirationDate"))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -113,7 +112,7 @@
 
 
             <div class="form-group Atributes">
-                <h5>Catidad de Producto: </h5>
+                <h5>Cantidad de Producto: </h5>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.PRODUCTQUANTITY, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.PRODUCTQUANTITY, "", new { @class = "text-danger" })
