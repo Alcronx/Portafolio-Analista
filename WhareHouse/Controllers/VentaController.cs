@@ -44,8 +44,12 @@ namespace WhareHouse.Controllers
             {
                 listPro2 = new List<PRODUCT>();
             }
+            if (listPro == null)
+            {
+                listPro = new List<PRODUCT>();
+            }
         }
-        public ActionResult Create()
+        public ActionResult Create(int Error = 0)
         {
             TICKET tick = db.TICKET.Find(1);
             if (tick!=null){
@@ -59,6 +63,7 @@ namespace WhareHouse.Controllers
             ViewBag.listPro= listPro;
             ViewBag.listPro2= listPro2;
             ViewBag.td = listTicketDetails;
+            ViewBag.Error = Error;
             ViewBag.total = listTicketDetails.Sum(x => x.TOTAL);
             var ViegbagClient = db.CLIENT.Select(s => new 
                  { 
@@ -68,11 +73,13 @@ namespace WhareHouse.Controllers
                  .ToList();
 
             ViewBag.cliente = new SelectList(ViegbagClient, "IdClientes", "NombreCompleto");
-            return View();
+            var pRODUCT = db.PRODUCT.Include(p => p.PROVIDER);
+            return View(pRODUCT.ToList());
         }
         [HttpPost]
-        public ActionResult Create(string cliente, string PaidForm, int total)
+        public ActionResult Create(string cliente, string PaidForm, int total,int Error = 0)
         {
+            ViewBag.Error = Error;
             int paid = Convert.ToInt16(PaidForm);
             long TicketId = TicketIdAumentate();
             if (cliente.Equals(""))
@@ -156,31 +163,43 @@ namespace WhareHouse.Controllers
             return View(tICKET);
         }
 
-        public ActionResult ticketDetails(string id)
+        public ActionResult ticketDetails(Int64? id)
         {
+            
+            if (id == null) {
+                return RedirectToAction("Create", new { Error = 1 });
+            }
+
+            var any = db.PRODUCT.Any(x => x.BARCODE == id);
+            if (any == false)
+            {
+                return RedirectToAction("Create", new { Error = 2 });
+            }
+
             listPro = new List<PRODUCT>();
             long barcodeP = Convert.ToInt64(id);
-           
+
             var ProductViegbag = (from model in db.PRODUCT.AsEnumerable()
-                                       where model.BARCODE == barcodeP
+                                  where model.BARCODE == barcodeP
                                   select new PRODUCT()
-                                       {
-                                           IDBARCODE = model.IDBARCODE,
-                                           BARCODE = model.BARCODE,
-                                           PURCHASEPRICE = model.PURCHASEPRICE,
-                                           SALEPRICE = model.SALEPRICE,
-                                           STOCK = model.STOCK,
-                                           CRITICALSTOCK = model.CRITICALSTOCK,
-                                           PRODUCTNAME = model.PRODUCTNAME,
-                                           PRODUCTFAMILY = model.PRODUCTFAMILY,
-                                           PRODUCTTYPE = model.PRODUCTTYPE,
-                                           PRODUCTDESCRIPTION = model.PRODUCTDESCRIPTION,
-                                           STATE = model.STATE,
-                                           IDPROVIDER = model.IDPROVIDER
-                                       }).ToList();
+                                  {
+                                      IDBARCODE = model.IDBARCODE,
+                                      BARCODE = model.BARCODE,
+                                      PURCHASEPRICE = model.PURCHASEPRICE,
+                                      SALEPRICE = model.SALEPRICE,
+                                      STOCK = model.STOCK,
+                                      CRITICALSTOCK = model.CRITICALSTOCK,
+                                      PRODUCTNAME = model.PRODUCTNAME,
+                                      PRODUCTFAMILY = model.PRODUCTFAMILY,
+                                      PRODUCTTYPE = model.PRODUCTTYPE,
+                                      PRODUCTDESCRIPTION = model.PRODUCTDESCRIPTION,
+                                      STATE = model.STATE,
+                                      IDPROVIDER = model.IDPROVIDER
+                                  }).ToList();
             listPro.Add(ProductViegbag.First());
             SaveCachePro();
             return RedirectToAction("Create");
+           
         }
         public ActionResult ViegbagTicketDetails(int quantity,Int16 IdBarcode, int SalePrice,int IdTicket)
         {
