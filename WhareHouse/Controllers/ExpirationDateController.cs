@@ -72,7 +72,7 @@ namespace WhareHouse.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "LOTNUMBER,EXPIREDATE,PRODUCTQUANTITY,BARCODE")] EXPIRATIONDATE eXPIRATIONDATE,string PROVIDERNAME= "0", int Error = 0)
         {
-            if (eXPIRATIONDATE.BARCODE == 0)
+            if (eXPIRATIONDATE.BARCODE != 0)
             {
                 if (ModelState.IsValid)
                 {
@@ -91,9 +91,12 @@ namespace WhareHouse.Controllers
                 long idExpirationDate = db.EXPIRATIONDATE.Max(x => x.LOTNUMBER);
                 ViewBag.idExpirationDate = idExpirationDate + 1;
             }
+            if (eXPIRATIONDATE.BARCODE == 0)
+            {
+                ViewBag.ErrorRadioButton = "Seleccione Un Producto";
+            }
             int convert = Convert.ToInt16(PROVIDERNAME);
             ViewBag.Error = Error;
-            ViewBag.ErrorRadioButton = "Seleccione Un Producto";
             var ProductCreate = db.PRODUCT.Include(x => x.PROVIDER).Where(x => x.IDPROVIDER == convert);
             ViewBag.ProductList = ProductCreate.ToList();
             ViewBag.PROVIDERNAME = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");

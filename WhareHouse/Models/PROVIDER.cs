@@ -11,7 +11,8 @@ namespace WhareHouse.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class PROVIDER
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,23 +20,72 @@ namespace WhareHouse.Models
         {
             this.PRODUCT = new HashSet<PRODUCT>();
         }
-    
+
+        [Required(ErrorMessage = "Ingrese el ID del Proveedor")]
         public short IDPROVIDER { get; set; }
+
+        [Required(ErrorMessage = "Ingrese Rut del Proveedor")]
+        [MaxLength(length: 10, ErrorMessage = "Maximo 10 caracteres, sin guion")]
+        [MinLength(length: 8, ErrorMessage = "Minimo 8 caracteres, sin guion")]
         public string RUT { get; set; }
+
+        [Required(ErrorMessage = "Ingrese el nombre de la compañia")]
+        [MaxLength(length: 30, ErrorMessage = "Maximo 30 caracteres")]
+        [MinLength(length: 1)]
         public string COMPANYNAME { get; set; }
+
+        [Required(ErrorMessage = "Ingrese el Primer nombre del Proveedor")]
+        [MaxLength(length: 30, ErrorMessage = "Maximo 30 caracteres")]
+        [MinLength(length: 1)]
         public string NAME1 { get; set; }
+        [MaxLength(length: 30, ErrorMessage = "Maximo 30 caracteres")]
         public string NAME2 { get; set; }
+
+        [Required(ErrorMessage = "Ingrese el apellido Paterno del Proveedor")]
+        [MaxLength(length: 30, ErrorMessage = "Maximo 30 caracteres")]
+        [MinLength(length: 1)]
         public string LASTNAME1 { get; set; }
+        [MaxLength(length: 30, ErrorMessage = "Maximo 30 caracteres")]
         public string LASTNAME2 { get; set; }
+
+        [Required(ErrorMessage = "Ingrese region del proveedor")]
+        [MaxLength(length: 50, ErrorMessage = "Maximo 50 caracteres")]
+        [MinLength(length: 1)]
         public string REGION { get; set; }
+
+        [Required(ErrorMessage = "Ingrese comuna del Proveedor")]
+        [MaxLength(length: 50, ErrorMessage = "Maximo 50 caracteres")]
+        [MinLength(length: 1)]
         public string COMMUNE { get; set; }
+
+        [Required(ErrorMessage = "Ingrese la direccion del Proveedor")]
+        [MaxLength(length: 70, ErrorMessage = "Maximo 70 caracteres")]
+        [MinLength(length: 1)]
         public string DIRECTION { get; set; }
+
+        [Required(ErrorMessage = "Ingrese rubro del Proveedor")]
+        [MaxLength(length: 50, ErrorMessage = "Maximo 50 caracteres")]
+        [MinLength(length: 1)]
         public string COMPANYITEM { get; set; }
+
+        [Required(ErrorMessage = "Ingrese el numero de Celular del Proveedor")]
+        [Range(10000000000, 99999999999, ErrorMessage = "Ingrese el numero con el codigo de area")]
         public long CELLPHONE { get; set; }
+
+        [Required(ErrorMessage = "Ingrese el mail del proveedor")]
+        [DataType(DataType.EmailAddress)]
+        [MaxLength(length: 50, ErrorMessage = "Maximo 50 caracteres")]
         public string MAIL { get; set; }
+
+
         public string STATE { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PRODUCT> PRODUCT { get; set; }
     }
 }
+
+
+
+
+

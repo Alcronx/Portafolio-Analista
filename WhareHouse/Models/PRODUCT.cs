@@ -11,7 +11,8 @@ namespace WhareHouse.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class PRODUCT
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,19 +22,43 @@ namespace WhareHouse.Models
             this.ORDERDETAILS = new HashSet<ORDERDETAILS>();
             this.TICKETDETAILS = new HashSet<TICKETDETAILS>();
         }
-    
+
+        [Required(ErrorMessage = "Ingrese el ID del Producto")]
         public short IDBARCODE { get; set; }
+        [Required(ErrorMessage = "Ingrese el codigo de barra")]
+        [Range(1000000000000, 9999999999999, ErrorMessage = "Ingrese correctamente el codigo de barra, 13 digitos.")]
         public long BARCODE { get; set; }
+        [Required(ErrorMessage = "Ingrese el precio de compra")]
+        [Range(1, 9999999999, ErrorMessage = "Ingrese correctamente precio de compra.")]
         public int PURCHASEPRICE { get; set; }
+        [Required(ErrorMessage = "Ingrese el precio de venta")]
+        [Range(1, 9999999999, ErrorMessage = "Ingrese correctamente precio de venta.")]
         public int SALEPRICE { get; set; }
+        [Required(ErrorMessage = "Ingrese el stock")]
+        [Range(1, 99999, ErrorMessage = "Ingrese correctamente el stock.")]
         public short STOCK { get; set; }
+        [Required(ErrorMessage = "Ingrese el stock critico")]
+        [Range(1, 999, ErrorMessage = "Ingrese correctamente el stock critico")]
         public byte CRITICALSTOCK { get; set; }
+        [Required(ErrorMessage = "Ingrese el nombre del producto.")]
+        [MaxLength(length: 30, ErrorMessage = "Maximo 30 caracteres")]
+        [MinLength(length: 1)]
         public string PRODUCTNAME { get; set; }
+        [Required(ErrorMessage = "Ingrese la familia del producto.")]
+        [MaxLength(length: 30, ErrorMessage = "Maximo 30 caracteres")]
+        [MinLength(length: 1)]
         public string PRODUCTFAMILY { get; set; }
+        [Required(ErrorMessage = "Ingrese el tipo del producto.")]
+        [MaxLength(length: 30, ErrorMessage = "Maximo 30 caracteres")]
+        [MinLength(length: 1)]
         public string PRODUCTTYPE { get; set; }
+        [Required(ErrorMessage = "Ingrese la descripcion del producto.")]
+        [MaxLength(length: 30, ErrorMessage = "Maximo 100 caracteres")]
+        [MinLength(length: 1)]
         public string PRODUCTDESCRIPTION { get; set; }
         public string STATE { get; set; }
-        public short IDPROVIDER { get; set; }
+
+        public short IDPROVIDER { get; set; }//Validar
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EXPIRATIONDATE> EXPIRATIONDATE { get; set; }
@@ -44,3 +69,25 @@ namespace WhareHouse.Models
         public virtual ICollection<TICKETDETAILS> TICKETDETAILS { get; set; }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -59,6 +59,7 @@ namespace WhareHouse.Controllers
                 long idProduct = db.PRODUCT.Max(x => x.IDBARCODE);
                 ViewBag.idProduct = idProduct + 1;
             }
+            ViewBag.error = 0;
             ViewBag.IDPROVIDER = new SelectList(db.PROVIDER,"IDPROVIDER","COMPANYNAME");
             return View();
         }
@@ -70,15 +71,28 @@ namespace WhareHouse.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include ="BARCODE,PURCHASEPRICE,SALEPRICE,STOCK,CRITICALSTOCK,PRODUCTNAME,PRODUCTFAMILY,PRODUCTTYPE,PRODUCTDESCRIPTION,IDPROVIDER")] PRODUCT pRODUCT)
         {
-            if (ModelState.IsValid)
+            if (pRODUCT.IDPROVIDER != 0)
             {
-                pRODUCT.STATE = "1";
-                pRODUCT.IDBARCODE = ProductIdAumentate();
-                db.PRODUCT.Add(pRODUCT);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    pRODUCT.STATE = "1";
+                    pRODUCT.IDBARCODE = ProductIdAumentate();
+                    db.PRODUCT.Add(pRODUCT);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
-            ViewBag.IDPROVIDER = new SelectList(db.PROVIDER, "IDPROVIDER", "RUT",pRODUCT.IDPROVIDER);
+            if (db.PRODUCT.Find(1) == null)
+            {
+                ViewBag.idProduct = 1;
+            }
+            else
+            {
+                long idProduct = db.PRODUCT.Max(x => x.IDBARCODE);
+                ViewBag.idProduct = idProduct + 1;
+            }
+            ViewBag.error = 1;
+            ViewBag.IDPROVIDER = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
             return View(pRODUCT);
         }
 
@@ -94,7 +108,7 @@ namespace WhareHouse.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.IDPROVIDER = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME", pRODUCT.IDPROVIDER);
+            ViewBag.IDPROVIDER = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
             return View(pRODUCT);
         }
 
@@ -111,7 +125,7 @@ namespace WhareHouse.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IDPROVIDER = new SelectList(db.PROVIDER, "IDPROVIDER", "RUT", pRODUCT.IDPROVIDER);
+            ViewBag.IDPROVIDER = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
             return View(pRODUCT);
         }
 

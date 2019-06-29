@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Create";
     long idProduct = ViewBag.idProduct;
+    int error = ViewBag.error;
 }
 
 <div class="breadcrumb topBar">
@@ -31,7 +32,9 @@
                 <h5>ID Proveedor</h5>
                 <div class="col-md-10">
                     @Html.DropDownList("IDPROVIDER", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.IDPROVIDER, "", new { @class = "text-danger" })
+                    @if(error==1){
+                    @Html.ValidationMessage("IDPROVIDER","Ingrese Proveedor Porfavor", new { @class = "text-danger" })
+                    }
                 </div>
             </div>
 

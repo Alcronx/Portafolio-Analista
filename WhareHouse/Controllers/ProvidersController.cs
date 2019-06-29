@@ -76,6 +76,16 @@ namespace WhareHouse.Controllers
                 return RedirectToAction("Index");
             }
 
+            if (db.PROVIDER.Find(1) == null)
+            {
+                ViewBag.idProvider = 1;
+            }
+            else
+            {
+                short idProvider = db.PROVIDER.Max(x => x.IDPROVIDER);
+                ViewBag.idProvider = idProvider + 1;
+            }
+
             return View(pROVIDER);
         }
 

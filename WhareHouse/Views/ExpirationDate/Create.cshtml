@@ -4,7 +4,7 @@
     List<WhareHouse.Models.PRODUCT> lista = ViewBag.ProductList;
     long ExpirationDateId = ViewBag.idExpirationDate;
     int error = ViewBag.Error;
-
+    string minvalue = DateTime.Now.ToString("yyyy/MM/dd");
 }
 
 <div class="breadcrumb topBar">
@@ -136,10 +136,10 @@
                         <div class="form-group Atributes">
                             <h5>Fecha de Vencimiento</h5>
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.EXPIREDATE, new { htmlAttributes = new { @class = "form-control", @min = "System.DateTime.Now" } })
+                                @Html.EditorFor(model => model.EXPIREDATE, new { htmlAttributes = new { @class = "form-control DateFrom", @min = @minvalue} })
                                 @Html.ValidationMessageFor(model => model.EXPIREDATE, "", new { @class = "text-danger" })
                             </div>
-
+                            
                             <input type="submit" value="Agregar" class="btn btn-success btnCreate" />
 
                         </div>
