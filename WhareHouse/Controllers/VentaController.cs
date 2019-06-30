@@ -144,7 +144,21 @@ namespace WhareHouse.Controllers
                     db.SaveChanges();
                 } 
             }
-            CamcelTicket();
+
+            var ProductUpdate = (from model in listTicketDetails select new { model.QUANTITY,model.TDIDBARCODE }).ToList();
+
+            for (int i = 0; i < ProductUpdate.Count(); i++)
+            {
+                short quantity = Convert.ToInt16(ProductUpdate[i].QUANTITY);
+                short IdProduct = ProductUpdate[i].TDIDBARCODE;
+                PRODUCT pRODUCT = db.PRODUCT.Find(IdProduct);
+                Int16 finalstock = Convert.ToInt16(pRODUCT.STOCK - quantity);
+                pRODUCT.STOCK = finalstock;
+                db.SaveChanges();
+
+            }
+
+                CamcelTicket();
             return RedirectToAction("Index", "Home");
         }
         //Detalle De Ticket
@@ -204,6 +218,14 @@ namespace WhareHouse.Controllers
         }
         public ActionResult ViegbagTicketDetails(int quantity,Int16 IdBarcode, int SalePrice,int IdTicket)
         {
+            
+                short quantit = Convert.ToInt16(quantity);
+                PRODUCT pRODUCT = db.PRODUCT.Find(IdBarcode);
+                if ((pRODUCT.STOCK - quantit) <= 0)
+                {
+                    return RedirectToAction("Create", new { Error = 3 });
+                }
+            
             TICKETDETAILS TD = new TICKETDETAILS
             {
                 TDIDTICKET = IdTicket,

@@ -65,6 +65,10 @@
                 {
                     @Html.ValidationMessage("id", "Ingrese Un Codigo De Barra Existente", new { @class = "text-danger" })
                 }
+                @if (error == 3)
+                {
+                    @Html.ValidationMessage("id", "No Queda Mas Stock", new { @class = "text-danger" })
+                }
             </div>
             <div class="form-group formTable" style="margin-top: 20px;">
                 @using (Html.BeginForm("ViegbagTicketDetails", "Venta", FormMethod.Post, new { @style = "width:100%;", @class = "FormVenta" }))
@@ -98,7 +102,7 @@
                                         <td>@Html.DisplayFor(model => listpro[i].PRODUCTNAME)</td>
                                         <td>@Html.DisplayFor(model => listpro[i].PRODUCTTYPE)</td>
                                         <td>@Html.DisplayFor(model => listpro[i].SALEPRICE)</td>
-                                        <td>@Html.TextBox("quantity", 1, new { @type = "number", @style = "width: 100px;", @min = 1, @max = 9999999999 })</td>
+                                        <td>@Html.TextBox("quantity", 1, new { @type = "number", @style = "width: 100px;", @min = 1, @max = 99999 })</td>
                                         @Html.Hidden("IdBarcode", listpro[i].IDBARCODE)
                                         @Html.Hidden("SalePrice", listpro[i].SALEPRICE)
                                     </tr>
@@ -308,6 +312,7 @@
                                             <th>Proveedor</th>
                                             <th>Nombre Producto</th>
                                             <th>Tipo</th>
+                                            <th>Stock</th>
                                             <th>Precio Venta</th>
                                             
                                         </tr>
@@ -318,6 +323,7 @@
                                             <th>Proveedor</th>
                                             <th>Nombre Producto</th>
                                             <th>Tipo</th>
+                                            <th>Stock</th>
                                             <th>Precio Venta</th>
 
                                         </tr>
@@ -325,23 +331,26 @@
                                     <tbody>
                                         @foreach (var item in Model)
                                         {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.BARCODE)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.PROVIDER.COMPANYNAME)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.PRODUCTNAME)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.PRODUCTTYPE)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.SALEPRICE)
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.BARCODE)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PROVIDER.COMPANYNAME)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PRODUCTNAME)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PRODUCTTYPE)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.STOCK)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SALEPRICE)
+                                            </td>
+                                        </tr>
                                         }
 
                                     </tbody>

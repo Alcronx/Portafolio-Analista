@@ -50,6 +50,7 @@
                             {
                                 @Html.ValidationMessage("PROVIDERNAME", "Ingrese Proveedor Porfavor", new { @class = "text-danger" })
                             }
+                           
                             @Html.Hidden("buttonValue", "Create")
                         </div>
                         <div class="buttonSearchdiv">
@@ -77,6 +78,7 @@
                                     <th>Nombre</th>
                                     <th>Tipo</th>
                                     <th>Precio Compra</th>
+                                    <th>Stock</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -85,6 +87,7 @@
                                     <th>Nombre</th>
                                     <th>Tipo</th>
                                     <th>Precio Compra</th>
+                                    <th>Stock</th>
                                     <th>Opciones</th>
                                 </tr>
                             </tfoot>
@@ -94,40 +97,44 @@
 
                                 @if (pro.Count() == 0)
                                 {
-                                    <tr>
-                                        <td>Seleccione</td>
-                                        <td>un</td>
-                                        <td>Proveedor</td>
-                                        <td>Porfavor</td>
-                                    </tr>
+                                <tr>
+                                    <td>Seleccione</td>
+                                    <td>un</td>
+                                    <td>Proveedor</td>
+                                    <td>Porfavor</td>
+                                    <td></td>
+                                </tr>
 
                                 }
                                 else
                                 {
                                     for (int i = 0; i < pro.Count(); i++)
                                     {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(model => pro[i].PRODUCTNAME)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(model => pro[i].PRODUCTTYPE)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(model => pro[i].PURCHASEPRICE)
-                                            </td>
-                                            <td>
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(model => pro[i].PRODUCTNAME)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => pro[i].PRODUCTTYPE)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => pro[i].PURCHASEPRICE)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => pro[i].STOCK)
+                                        </td>
+                                        <td>
 
 
-                                                <div class="inputGroup">
-                                                    @Html.RadioButtonFor(model => model.IDBARCODE, pro[i].IDBARCODE, new { @id = pro[i].IDBARCODE, @class = "custom-control-input bigRadioButton RadioButtonEneabled" })
-                                                    @Html.ValidationMessageFor(model => model.IDBARCODE, "", new { @class = "text-danger" })
-                                                    <label for="@pro[i].IDBARCODE">Seleccionar</label>
-                                                </div>
+                                            <div class="inputGroup">
+                                                @Html.RadioButtonFor(model => model.IDBARCODE, pro[i].IDBARCODE, new { @id = pro[i].IDBARCODE, @class = "custom-control-input bigRadioButton RadioButtonEneabled" })
+                                                @Html.ValidationMessageFor(model => model.IDBARCODE, "", new { @class = "text-danger" })
+                                                <label for="@pro[i].IDBARCODE">Seleccionar</label>
+                                            </div>
 
 
-                                            </td>
-                                        </tr>
+                                        </td>
+                                    </tr>
                                     }
                                 }
 
@@ -141,12 +148,19 @@
             <div style="padding-bottom:15px;">
                 <div class="OrderADDquantity" style="width:310px">
                     <div>
-                        @Html.TextBox("quantity", 1, new { @type = "number", @style = "width: 100px;", @min = 1, @max = 9999999999 })
+                        @Html.TextBox("quantity", 1, new { @type = "number", @style = "width: 100px;", @min = 1, @max = 99999 })
+                       
                     </div>
                     <div>
                         @Html.Hidden("OrderId", idOrderProduct)
                             <input type="submit" value="Agregar Cantidad" id="AddCuantity" class="btn btn-primary buttonsearch" style="width:200px;" disabled />
                         
+                    </div>
+                    <div style="width: 400px">
+                        @if (error == 3)
+                        {
+                        <p class = "text-danger">Error: La Cantidad De Producto Exede El Maximo</p>
+                        }
                     </div>
                 </div>
 

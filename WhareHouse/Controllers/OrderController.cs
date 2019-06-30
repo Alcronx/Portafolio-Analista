@@ -74,6 +74,7 @@ namespace WhareHouse.Controllers
         [HttpPost]
         public ActionResult CreateOrder(long total)
         {
+            
             db.ORDERDETAILS.AddRange(OrderDetails);
             ORDERPRODUCT OR = new ORDERPRODUCT
             {
@@ -199,8 +200,20 @@ namespace WhareHouse.Controllers
             return View();
         }
 
-        public ActionResult ConfirmReception(int idReception)
+        public ActionResult ConfirmReception(long idReception)
         {
+            var ProductUpdate = (from model in db.ORDERDETAILS where model.ODORDERID==idReception select new { model.QUANTITY, model.ODIDBARCODE }).ToList();
+
+            for (int i = 0; i < ProductUpdate.Count(); i++)
+            {
+                short quantity = Convert.ToInt16(ProductUpdate[i].QUANTITY);
+                short IdProduct = ProductUpdate[i].ODIDBARCODE;
+                PRODUCT pRODUCT = db.PRODUCT.Find(IdProduct);
+                Int16 finalstock = Convert.ToInt16(pRODUCT.STOCK + quantity);
+                pRODUCT.STOCK = finalstock;
+                db.SaveChanges();
+            }
+
             var list = db.ORDERPRODUCT.FirstOrDefault(x => x.ORDERID == idReception);
             list.RECEPTIONDATE = System.DateTime.Now;
             list.RECEPTIONHOUR = System.DateTime.Now;
@@ -245,6 +258,15 @@ namespace WhareHouse.Controllers
         public ActionResult ListOrderDetails(string IDBARCODE, int quantity, long OrderId)
         {
             short IdProduct = Convert.ToInt16(IDBARCODE);
+            int quantit = (quantity);
+            PRODUCT pRODUCT = db.PRODUCT.Find(IdProduct);
+            if ((pRODUCT.STOCK + quantit)>99999)
+            {
+                return RedirectToAction("CreateOrder", new { Error = 3 });
+            }
+
+
+           
             var purchasePrice = (from model in db.PRODUCT where model.IDBARCODE == IdProduct select new { model.PURCHASEPRICE }).First();
             long Purchase = Convert.ToInt64(purchasePrice.PURCHASEPRICE);
             
