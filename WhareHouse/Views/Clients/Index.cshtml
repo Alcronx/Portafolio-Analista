@@ -16,7 +16,7 @@
 <div class="card mb-3">
     <div class="card-header">
         <i class="fas fa-table"></i>
-        Data Table Example
+        Lista Clientes
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -27,7 +27,7 @@
                         <th>Rut</th>
                         <th>Telefono</th>
                         <th>¿Fiar?</th>
-                        <th>Edad</th>
+                        <th>Fecha De Nacimiento</th>
                         <th>Opciones</th>
                     </tr>
                 </thead>
@@ -37,7 +37,7 @@
                         <th>Rut</th>
                         <th>Telefono</th>
                         <th>¿Fiar?</th>
-                        <th>Edad</th>
+                        <th>Fecha De Nacimiento</th>
                         <th>Opciones</th>
                     </tr>
                 </tfoot>
@@ -77,11 +77,11 @@
                                     <i class="fas fa-chevron-circle-down fa-2x tableMenu"></i>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.IDCLIENT }, new { @class = "tableMenu ColorMenu" })
+                                    @Html.ActionLink("Editar", "Edit", new { id = item.IDCLIENT }, new { @class = "tableMenu ColorMenu" })
                                     <div class="dropdown-divider"></div>
-                                    @Html.ActionLink("Details", "Details", new { id = item.IDCLIENT }, new { @class = "tableMenu ColorMenu" })
+                                    @Html.ActionLink("Detalles", "Details", new { id = item.IDCLIENT }, new { @class = "tableMenu ColorMenu" })
                                     <div class="dropdown-divider"></div>
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.IDCLIENT }, new { @class = "tableMenu ColorMenu" })
+                                    @Html.ActionLink("Borrar", "Delete", new { id = item.IDCLIENT }, new { @class = "tableMenu ColorMenu" })
                                 </div>
                             </div>
                         </td>
@@ -92,6 +92,5 @@
             </table>
         </div>
     </div>
-    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
 </div>
 

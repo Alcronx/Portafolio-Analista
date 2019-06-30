@@ -23,11 +23,11 @@
 <div>
     <div class="Venta-Create">
         <div class="alingCenter">
-            <p>Fecha Registro: @System.DateTime.Now.ToString("dd-MM-yyyy")</p>
+            <p>Fecha Orden: @System.DateTime.Now.ToString("dd-MM-yyyy")</p>
         </div>
         <div class="input-group" style="width:245px">
             <div class="Inputstext">
-                <p>Fecha Recepcion:</p>
+                <p>Hora Orden:</p>
             </div>
             <div class="Inputstext">
                 <p id="MyClockDisplay" class="clock" onload="showTime()"></p>
@@ -35,7 +35,7 @@
         </div>
 
         <div>
-            <p>N° Boleta: Cambiar</p>
+            <p>N° Boleta: @orderid</p>
         </div>
     </div>
     <div>
@@ -67,7 +67,7 @@
 
                 <div class="card-header">
                     <i class="fas fa-table"></i>
-                    Data Table Example
+                    Lista Productos
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -137,7 +137,6 @@
 
                     </div>
                 </div>
-                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
             </div>
             <div style="padding-bottom:15px;">
                 <div class="OrderADDquantity" style="width:310px">
@@ -160,7 +159,7 @@
 
         <div class="card-header">
             <i class="fas fa-table"></i>
-            Data Table Example
+            Orden
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -245,16 +244,14 @@
 
             </div>
         </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
     </div>
     <div>
-        <div>
-            <input type="submit" value="Completar Venta E Imprimir" class="btn btn-primary buttonsearch" style="width:200px;" />
+        <div class="orderCreate">
             @using (Html.BeginForm("Edit", "Order"))
             {
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.AntiForgeryToken()
-                <input type="submit" value="Completar Venta" class="btn btn-primary buttonsearch" style="width:200px;" />
+                <input type="submit" value="Editar Orden" class="btn btn-primary buttonsearch" style="width:200px;" />
                 @Html.Hidden("Total", total);
                 @Html.Hidden("OrderID", orderid);
             }

@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using WhareHouse.Models;
 using Oracle.DataAccess.Client;
+using System.Data.Entity.Migrations;
 
 namespace WhareHouse.Controllers
 {
@@ -156,7 +157,7 @@ namespace WhareHouse.Controllers
             ViewBag.PROVIDERNAME = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
             if (ModelState.IsValid)
             {
-                db.Entry(eXPIRATIONDATE).State = EntityState.Modified;
+                db.Set<EXPIRATIONDATE>().AddOrUpdate(eXPIRATIONDATE);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

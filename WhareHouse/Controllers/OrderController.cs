@@ -28,6 +28,11 @@ namespace WhareHouse.Controllers
             pro2 = cache["pro2"] as List<PRODUCT>;
             OrderDetails2 = cache["OrderDetails2"] as List<ORDERDETAILS>;
             OrderDetails = cache["OrderDetails"] as List<ORDERDETAILS>;
+
+            if (pro == null)
+            {
+                pro = new List<PRODUCT>();
+            }
             if (pro2 == null){
                 pro2 = new List<PRODUCT>();
             }
@@ -46,13 +51,14 @@ namespace WhareHouse.Controllers
                 CreateOrderProductId();
             }
         }
-        public ActionResult CreateOrder()
+        public ActionResult CreateOrder(int error = 0)
         {
             ViewBag.PROVIDERNAME = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
             ViewBag.pro = pro;
             ViewBag.pro2 = pro2;
             ViewBag.orderDetails = OrderDetails;
             ViewBag.total = OrderDetails.Sum(x => x.TOTAL);
+            ViewBag.error = error;
 
             if (db.ORDERPRODUCT.Find(1) == null)
             {
@@ -79,6 +85,7 @@ namespace WhareHouse.Controllers
                 RECEPTIONDATE = null,
                 RECEPTIONHOUR = null
             };
+            ViewBag.error = 0;
             db.ORDERPRODUCT.Add(OR);
             db.SaveChanges();
             AllListNull();
@@ -133,10 +140,11 @@ namespace WhareHouse.Controllers
                 var orderFor = (from model in db.ORDERDETAILS where model.ODORDERID == OrderID select model).ToList();
                 for (int i = 0; i < orderFor.Count(); i++)
                 {
-                    
+                    var OrderDetail = (from model in OrderDetails where model.ODIDBARCODE == orderFor[i].ODIDBARCODE select new { model.QUANTITY }).First();
+
                         short idbarcode = orderFor[i].ODIDBARCODE;
                         var list = db.ORDERDETAILS.FirstOrDefault(x => x.ODIDBARCODE == idbarcode);
-                        list.QUANTITY = list.QUANTITY + orderFor[i].QUANTITY;
+                        list.QUANTITY = OrderDetail.QUANTITY;
                         long totall = list.QUANTITY;
                         list.TOTAL = orderFor[i].PRODUCT.PURCHASEPRICE * totall;
                     db.SaveChanges();
@@ -165,10 +173,22 @@ namespace WhareHouse.Controllers
             }
             return View();
         }
-        //public ActionResult Details()
-        //{
-
-        //}
+        //get
+        public ActionResult Details(long? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ORDERPRODUCT oRDERPRODUCT = db.ORDERPRODUCT.Find(id);
+            if (oRDERPRODUCT == null)
+            {
+                return HttpNotFound();
+            }
+            var orderdetails = (from model in db.ORDERDETAILS where (model.ODORDERID == id) select model).ToList();
+            ViewBag.OrderDetails = orderdetails;
+            return View(oRDERPRODUCT);
+        }
         public ActionResult Reception(int idOrder,string CompannyName)
         {
             ViewBag.CompannyName = CompannyName;
@@ -191,22 +211,35 @@ namespace WhareHouse.Controllers
 
         public ActionResult CreateSearch(string PROVIDERNAME,string buttonValue,long? orderid)
         {
-            pro = new List<PRODUCT>();
-            long id = Convert.ToInt16(PROVIDERNAME);
+            if (PROVIDERNAME != null) {
+                pro = new List<PRODUCT>();
+                long id = Convert.ToInt16(PROVIDERNAME);
 
-            var ProductViegbag = (from model in db.PRODUCT.AsEnumerable()
-                                  where model.IDPROVIDER == id
-                                  select model).ToList();
-            pro.AddRange(ProductViegbag);
-            SaveCachePro();
+                var ProductViegbag = (from model in db.PRODUCT.AsEnumerable()
+                                      where model.IDPROVIDER == id
+                                      select model).ToList();
+                pro.AddRange(ProductViegbag);
+                SaveCachePro();
+                if (buttonValue.Equals("Create"))
+                {
+                    return RedirectToAction("CreateOrder");
+                }
+                else
+                {
+                    return RedirectToAction("Edit", new { id = orderid });
+                }
+            }
             if (buttonValue.Equals("Create"))
             {
-                return RedirectToAction("CreateOrder");
+                int errorr = 1;
+                return RedirectToAction("CreateOrder", new { error = errorr });
             }
             else
             {
-                return RedirectToAction("Edit",new {id=orderid});
+                return RedirectToAction("Edit", new { id = orderid });
             }
+            
+
         }
 
         public ActionResult ListOrderDetails(string IDBARCODE, int quantity, long OrderId)
@@ -408,6 +441,19 @@ namespace WhareHouse.Controllers
             SaveCachePro();
             SaveCachePro2();
             SaveCacheOrderDetails();
+        }
+
+        public ActionResult CamcelOrder()
+        {
+            pro = new List<PRODUCT>();
+            pro2 = new List<PRODUCT>();
+            OrderDetails = new List<ORDERDETAILS>();
+            OrderDetails2 = new List<ORDERDETAILS>();
+            SaveCachePro();
+            SaveCachePro2();
+            SaveCacheOrderDetails();
+            SaveCacheOrderDetails2();
+            return RedirectToAction("CreateOrder");
         }
     }
 }

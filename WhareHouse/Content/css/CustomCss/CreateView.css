@@ -323,3 +323,10 @@ html {
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
+
+.orderCreate{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}

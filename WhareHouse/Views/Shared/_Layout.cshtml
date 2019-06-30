@@ -68,7 +68,7 @@
                 
             });
         });
-
+        
         $(".number").on("click", function () {
             if ($(".number:checked").length == $(".number").length) {
                 $('#ConfirmReception').prop('disabled', false);
@@ -78,8 +78,24 @@
             }
         });
 
-        
+        $(".RadioButtonEneabled").on("click", function () {
+                $('#AddCuantity').prop('disabled', false);
+            
+        });
 
+        $(function () {
+            $("#ClientCascade").change(function () {
+
+                $.get("/Venta/ClientCascadeJson", { cliente: $("#ClientCascade").val() }, function (data) {
+                    $("#St").empty();
+                    $.each(data, function (index, row) {
+                        $("#St").append("<option value='" + row.Value + "'>" + row.Text + "</option>")
+                    })
+
+                });
+
+            });
+        });
   
     </script>
 </body>

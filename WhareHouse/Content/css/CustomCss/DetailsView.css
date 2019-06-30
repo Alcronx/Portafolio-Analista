@@ -6,3 +6,10 @@
     width: 150px;
 }
 
+.VentaDetails{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin: 10px;
+}
+

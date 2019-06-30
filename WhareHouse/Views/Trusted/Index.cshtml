@@ -13,7 +13,7 @@
 <div class="card mb-3">
     <div class="card-header">
         <i class="fas fa-table"></i>
-        Data Table Example
+        Lista Fiados
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -24,6 +24,7 @@
                         <th>Cliente</th>
                         <th>Fecha Fiado</th>
                         <th>Fecha Limite Fiado</th>
+                        <th>Deuda Total</th>
                         <th>Estado</th>
                         <th>Opciones</th>
                     </tr>
@@ -34,6 +35,7 @@
                         <th>Cliente</th>
                         <th>Fecha Fiado</th>
                         <th>Fecha Limite Fiado</th>
+                        <th>Deuda Total</th>
                         <th>Estado</th>
                         <th>Opciones</th>
                     </tr>
@@ -55,6 +57,9 @@
 
                         <td>
                             @Html.DisplayFor(modelItem => item.TRUSTED.TIMELIMITTRUST)
+                        </td>
+                        <td>
+                            $@Html.DisplayFor(modelItem => item.TOTALTOTAL)
                         </td>
                         <td>
                             @if (item.TRUSTED.STATE == "1")

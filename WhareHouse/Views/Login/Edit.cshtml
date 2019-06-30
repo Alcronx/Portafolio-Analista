@@ -7,7 +7,7 @@
 
 @if (account.IsAdmin(@Request.Cookies["IsAdmin"].Value))
 {
-    <<div class="breadcrumb topBar">
+    <div class="breadcrumb topBar">
         <div class="topButtonsContainer">
             @Html.ActionLink("Lista Usuarios", "Index", null, null, new { @class = "btn btn-outline-primary topButtons" })
         </div>
@@ -19,7 +19,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <i class="fas fa-user-plus"></i>
-            Editar Proveedor
+            Editar Usuario
         </div>
         <div class="card-body">
             @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "divdivItems" }))

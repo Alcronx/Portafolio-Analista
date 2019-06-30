@@ -44,7 +44,7 @@
         <div style="padding-top: 40px;">
             <div class="form-group centerCreatesale2 ">
                 <button type="button" class="btn btn-primary" data-toggle="modal" style="margin-right:10px;" data-target=".bd-example-modal-lg">Lista Productos</button>
-                @using (Html.BeginForm("ticketDetails", "Venta", FormMethod.Post, new { @style = "width:400px;" }))
+                @using (Html.BeginForm("TicketDetails", "Venta", FormMethod.Post, new { @style = "width:400px;" }))
                 {
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.AntiForgeryToken()
@@ -98,7 +98,7 @@
                                         <td>@Html.DisplayFor(model => listpro[i].PRODUCTNAME)</td>
                                         <td>@Html.DisplayFor(model => listpro[i].PRODUCTTYPE)</td>
                                         <td>@Html.DisplayFor(model => listpro[i].SALEPRICE)</td>
-                                        <td>@Html.TextBox("quantity", 1, new { @type = "number", @style = "width: 100px;", @min = 1, @max = 100 })</td>
+                                        <td>@Html.TextBox("quantity", 1, new { @type = "number", @style = "width: 100px;", @min = 1, @max = 9999999999 })</td>
                                         @Html.Hidden("IdBarcode", listpro[i].IDBARCODE)
                                         @Html.Hidden("SalePrice", listpro[i].SALEPRICE)
                                     </tr>
@@ -132,7 +132,7 @@
         <div class="card mb-3">
             <div class="card-header">
                 <i class="fas fa-table"></i>
-                Data Table Example
+                Boleta
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -241,19 +241,17 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group Atributes">
-                                    <h5>ID Proveedor</h5>
+                                    <h5>Nombre Cliente</h5>
                                     <div class="col-md-10">
-                                        @Html.DropDownList("cliente", null, "Ninguno", htmlAttributes: new { @class = "form-control" })
+                                        @Html.DropDownList("cliente", null, "Ninguno", htmlAttributes: new { @class = "form-control", @id="ClientCascade" })
                                     </div>
                                 </div>
                                 <div class="form-group Atributes">
                                     <h5>Seleccione Forma De Pago:</h5>
                                     <div class="col-md-10">
-                                        @Html.DropDownList("PaidForm", new List<SelectListItem>
-                                            {
-                                               new SelectListItem{ Text="Efectivo", Value = "1" },
-                                               new SelectListItem{ Text="Fiado", Value = "2" }
-                                            },htmlAttributes: new { @class = "form-control" })
+                                        <select id="St" name="PaidForm" class = "form-control">
+                                            <option value="1">Efectivo</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div>

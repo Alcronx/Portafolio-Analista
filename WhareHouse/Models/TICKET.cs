@@ -11,7 +11,8 @@ namespace WhareHouse.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class TICKET
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,7 +22,9 @@ namespace WhareHouse.Models
         }
     
         public long IDTICKET { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}"),]
         public System.DateTime TICKETDATE { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:hh:mm:ss}"),]
         public System.DateTime TICKETHOUR { get; set; }
         public string STATE { get; set; }
         public Nullable<long> TOTALTOTAL { get; set; }

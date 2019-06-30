@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Oracle.DataAccess.Client;
 using WhareHouse.Models;
+using System.Data.Entity.Migrations;
 
 namespace WhareHouse.Controllers
 {
@@ -91,7 +92,11 @@ namespace WhareHouse.Controllers
                 long idProduct = db.PRODUCT.Max(x => x.IDBARCODE);
                 ViewBag.idProduct = idProduct + 1;
             }
-            ViewBag.error = 1;
+            if (pRODUCT.IDPROVIDER == 0)
+            {
+                ViewBag.error = 1;
+            }
+            ViewBag.error = 0;
             ViewBag.IDPROVIDER = new SelectList(db.PROVIDER, "IDPROVIDER", "COMPANYNAME");
             return View(pRODUCT);
         }
@@ -117,11 +122,12 @@ namespace WhareHouse.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IDBARCODE,BARCODE,PURCHASEPRICE,SALEPRICE,STOCK,CRITICALSTOCK,PRODUCTNAME,PRODUCTFAMILY,PRODUCTTYPE,PRODUCTDESCRIPTION,IDPROVIDER,STATE")] PRODUCT pRODUCT)
+        public ActionResult Edit([Bind(Include = "IDBARCODE,BARCODE,PURCHASEPRICE,SALEPRICE,STOCK,CRITICALSTOCK,PRODUCTNAME,PRODUCTFAMILY,PRODUCTTYPE,PRODUCTDESCRIPTION,IDPROVIDER")] PRODUCT pRODUCT)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(pRODUCT).State = EntityState.Modified;
+                pRODUCT.STATE = "1";
+                db.Set<PRODUCT>().AddOrUpdate(pRODUCT);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

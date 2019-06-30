@@ -25,7 +25,7 @@ namespace WhareHouse.Controllers
             if (isValid)
             {
                 var User = (from model in db.LOGIN where model.USERNAME == UserName && model.PASSWORDUSER == Pasword select new { model.IDUSER }).FirstOrDefault();
-                FormsAuthentication.SetAuthCookie(UserName, false);
+                FormsAuthentication.SetAuthCookie(UserName, true);
                 UserIDCookie.Value = User.IDUSER.ToString();
                 UserIDCookie.Expires = DateTime.Now.AddDays(1);
                 HttpContext.Response.SetCookie(UserIDCookie);

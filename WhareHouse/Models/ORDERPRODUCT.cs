@@ -11,7 +11,8 @@ namespace WhareHouse.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class ORDERPRODUCT
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,7 +25,9 @@ namespace WhareHouse.Models
         public System.DateTime ORDERDATE { get; set; }
         public System.DateTime ORDERHOUR { get; set; }
         public string STATE { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}"),]
         public Nullable<System.DateTime> RECEPTIONDATE { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:hh:mm:ss}"),]   
         public Nullable<System.DateTime> RECEPTIONHOUR { get; set; }
         public Nullable<long> TOTALTOTAL { get; set; }
     

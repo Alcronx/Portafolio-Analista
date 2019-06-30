@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using WhareHouse.Models;
 using Oracle.DataAccess.Client;
+using System.Data.Entity.Migrations;
 
 namespace WhareHouse.Controllers
 {
@@ -109,11 +110,13 @@ namespace WhareHouse.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IDPROVIDER,RUT,COMPANYNAME,NAME1,NAME2,LASTNAME1,LASTNAME2,REGION,COMMUNE,DIRECTION,COMPANYITEM,CELLPHONE,MAIL,STATE")] PROVIDER pROVIDER)
+        public ActionResult Edit([Bind(Include = "IDPROVIDER,RUT,COMPANYNAME,NAME1,NAME2,LASTNAME1,LASTNAME2,REGION,COMMUNE,DIRECTION,COMPANYITEM,CELLPHONE,MAIL")] PROVIDER pROVIDER)
         {
+           
             if (ModelState.IsValid)
             {
-                db.Entry(pROVIDER).State = EntityState.Modified;
+                 pROVIDER.STATE = "1";
+                db.Set<PROVIDER>().AddOrUpdate(pROVIDER);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

@@ -17,10 +17,10 @@
 <div class="card mb-3">
     <div class="card-header">
         <i class="fas fa-user-plus"></i>
-        Detalles Proveedor
+        Boleta
     </div>
     <div class="card-body">
-        <div>
+        <div class="VentaDetails">
             <p><strong>Id Ticket: @Model.IDTICKET</strong></p>
             @if (Model.IDCLIENT == null)
             {
@@ -30,7 +30,7 @@
             {
                 <p><strong>Cliente: @Model.CLIENT.NAME1 @Model.CLIENT.LASTNAME1</strong></p>
             }
-            @if (Model.IDTRUSTED== null)
+            @if (Model.IDTRUSTED == null)
             {
                 <p><strong>Tipo Pago: Efectivo </strong></p>
             }
@@ -38,6 +38,8 @@
             {
                 <p><strong>Tipo Pago: Fiado</strong></p>
             }
+
+            <p><strong>Fecha Y Hora Venta: @Model.TICKETDATE</strong></p>
         </div>
         <div>
             <div class="table-responsive">

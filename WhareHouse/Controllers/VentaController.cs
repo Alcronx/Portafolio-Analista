@@ -119,9 +119,10 @@ namespace WhareHouse.Controllers
                 }
                 else
                 {
+                    long id = TrustedIdAumentate();
                     TRUSTED tru = new TRUSTED
                     {
-                        IDTRUSTED = TrustedIdAumentate(),
+                        IDTRUSTED = id,
                         STATE = "1",
                         TRUSTDATE = DateTime.Now,
                         TIMELIMITTRUST = DateTime.Now.AddMonths(1),
@@ -136,7 +137,7 @@ namespace WhareHouse.Controllers
                         STATE = "1",
                         TOTALTOTAL = total,
                         IDCLIENT = Convert.ToInt16(cliente),
-                        IDTRUSTED = TicketId
+                        IDTRUSTED = id
                     };
                     db.TICKET.Add(ti);
                     db.TICKETDETAILS.AddRange(listTicketDetails);
@@ -163,7 +164,7 @@ namespace WhareHouse.Controllers
             return View(tICKET);
         }
 
-        public ActionResult ticketDetails(Int64? id)
+        public ActionResult TicketDetails(Int64? id)
         {
             
             if (id == null) {
@@ -391,6 +392,39 @@ namespace WhareHouse.Controllers
         }
 
 
+        public JsonResult ClientCascadeJson(string cliente)
+        {
+            if(cliente.Equals("")){
+                var list = new List<SelectListItem>
+                                            {
+                                               new SelectListItem{ Text="Efectivo", Value = "1" }
+                                            };
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            short client = Convert.ToInt16(cliente);
+            var canTrust = db.CLIENT.Where(x => x.IDCLIENT == client).First();
+            string result = canTrust.BLACKLIST;
+            if (result.Equals("1"))
+            {
+                var list1 = new List<SelectListItem>
+                                            {
+                                               new SelectListItem{ Text="Efectivo", Value = "1" },
+                                               new SelectListItem{ Text="Fiado", Value = "2" }
+                                            };
+                
+                return Json(list1, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var list2 = new List<SelectListItem>
+                                            {
+                                               new SelectListItem{ Text="Efectivo", Value = "1" }
+                                            };
+                return Json(list2, JsonRequestBehavior.AllowGet);
+            }
+        }
+                                            
+    
     }
 
     

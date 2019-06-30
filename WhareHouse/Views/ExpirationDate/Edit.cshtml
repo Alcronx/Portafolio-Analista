@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Edit";
     List<WhareHouse.Models.PRODUCT> lista = ViewBag.ProductList;
+    string minvalue = DateTime.Now.ToString("yyyy/MM/dd");
 }
 
 <div class="breadcrumb topBar">
@@ -44,7 +45,7 @@
 
         <div class="card-header">
             <i class="fas fa-table"></i>
-            Data Table Example
+            Lista Productos
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -126,7 +127,7 @@
             <div class="form-group Atributes">
                 <h5>Fecha de Vencimiento</h5>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.EXPIREDATE, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.EXPIREDATE, new { htmlAttributes = new { @class = "form-control" , @min = @minvalue } })
                     @Html.ValidationMessageFor(model => model.EXPIREDATE, "", new { @class = "text-danger" })
                 </div>
 
