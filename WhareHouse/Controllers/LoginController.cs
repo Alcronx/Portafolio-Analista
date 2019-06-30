@@ -39,6 +39,8 @@ namespace WhareHouse.Controllers
         // GET: Login/Create
         public ActionResult Create()
         {
+            ViewBag.error = 0;
+            ViewBag.error2 = 0;
             return View();
         }
 
@@ -49,13 +51,32 @@ namespace WhareHouse.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IDUSER,USERNAME,PASSWORDUSER,ROL")] LOGIN lOGIN)
         {
-            if (ModelState.IsValid)
-            {
-                db.LOGIN.Add(lOGIN);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
+            var revisarid = db.LOGIN.Any(x => x.IDUSER == lOGIN.IDUSER);
+            var revisarNombre = db.LOGIN.Any(x => x.USERNAME == lOGIN.USERNAME);
+            if (!revisarid) {
+                if (!revisarNombre)
+                {
+                    if (ModelState.IsValid)
+                    {
+                        db.LOGIN.Add(lOGIN);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+            ViewBag.error2 = 0;
+            ViewBag.error = 0;
+            if (revisarid)
+            {
+                ViewBag.error = 1;
+                return View(lOGIN);
+            }
+            if (revisarNombre)
+            {
+                ViewBag.error2 = 1;
+                return View(lOGIN);
+            }
             return View(lOGIN);
         }
 
@@ -72,6 +93,7 @@ namespace WhareHouse.Controllers
                 return HttpNotFound();
             }
             return View(lOGIN);
+            
         }
 
         // POST: Login/Edit/5
@@ -81,12 +103,13 @@ namespace WhareHouse.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IDUSER,USERNAME,PASSWORDUSER,ROL")] LOGIN lOGIN)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(lOGIN).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
+                    db.Entry(lOGIN).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            
             return View(lOGIN);
         }
 

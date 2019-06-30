@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "Create";
     WhareHouse.Controllers.AccountController account = new WhareHouse.Controllers.AccountController();
+    int error = ViewBag.error;
+    int error2 = ViewBag.error2;
 }
 
 @if (account.IsAdmin(@Request.Cookies["IsAdmin"].Value))
@@ -20,7 +22,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <i class="fas fa-user-plus"></i>
-            Agregar Proveedor
+            Agregar Usuario
         </div>
         <div class="card-body">
             @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "divdivItems" }))
@@ -34,6 +36,10 @@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.IDUSER, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.IDUSER, "", new { @class = "text-danger" })
+                            @if (error == 1)
+                            {
+                         @Html.ValidationMessageFor(model => model.IDUSER, "El Id de Usuario Ya Existe", new { @class = "text-danger" })
+                            }
                         </div>
                     </div>
 
@@ -42,6 +48,10 @@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.USERNAME, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.USERNAME, "", new { @class = "text-danger" })
+                            @if (error2 == 1)
+                            {
+                                @Html.ValidationMessageFor(model => model.USERNAME, "El Usuario Ya Existe", new { @class = "text-danger" })
+                            }
                         </div>
                     </div>
 

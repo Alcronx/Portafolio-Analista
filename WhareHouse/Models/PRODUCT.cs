@@ -53,7 +53,7 @@ namespace WhareHouse.Models
         [MinLength(length: 1)]
         public string PRODUCTTYPE { get; set; }
         [Required(ErrorMessage = "Ingrese la descripcion del producto.")]
-        [MaxLength(length: 30, ErrorMessage = "Maximo 100 caracteres")]
+        [MaxLength(length: 100, ErrorMessage = "Maximo 100 caracteres")]
         [MinLength(length: 1)]
         public string PRODUCTDESCRIPTION { get; set; }
         public string STATE { get; set; }

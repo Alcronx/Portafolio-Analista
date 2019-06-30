@@ -2014,6 +2014,7 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Login\IsnotAdmin.cshtml" />
     <Content Include="Views\Order\Details.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
