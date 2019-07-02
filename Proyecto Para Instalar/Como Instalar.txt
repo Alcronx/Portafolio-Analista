@@ -1,0 +1,32 @@
+-Instalar Oracle 18c
+-Instalar SqlDeveloper
+-Ejecutar Los Comandos En los bloc de notas en este orden:
+°Create User
+°BaseDeDatosLosyuyitos
+°Procedures Id
+
+-Una Vez ejecutado Los comandos ir a:
+1-Panel De Control
+2-Programas_Desintalar Programas
+3-Activar o desactivar las Caracteristicas de Windows
+4-Activar Todas Las Opciones De la carpeta Internet Information Services
+
+-Una vez Activado Buscar en la lupa al lado del inicio "IIS"
+ y luego Presionar Administrador de internet Information Service
+
+-Una vez ahi Seguir los Siguientes Pasos:
+
+°Ir a conexiones
+°Click derecho a sitios
+°Click a Agregar sitio web
+°Colocar Nombre de Sitio A Eleccion
+°En ruta de acceso fisica Seleccionar La Ubicacion de La Carpeta "Proyecto Para Ejecutar en IIS server"
+°Cambiar El puerto A Eleccion Y dejar Todo lo demas por defecto
+°Presionar Iniciar Sitio web inmediatamente
+°Dar A aceptar
+
+PD: La carpeta "Proyecto Para Ejecutar en IIS server" tiene que tener permisos de iis_iusrs y iusr
+
+-Una vez realizado esto ingresar a "http://localhost:(Puerto Elegido)/"
+
+-Listo

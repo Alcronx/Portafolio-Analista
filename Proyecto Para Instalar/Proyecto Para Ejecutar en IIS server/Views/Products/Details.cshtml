@@ -1,0 +1,124 @@
+﻿@model WhareHouse.Models.PRODUCT
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+
+<div class="breadcrumb topBar">
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Lista", "Index", null, null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Agregar Producto", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+</div>
+
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-user-plus"></i>
+        Detalles Producto
+    </div>
+    <div class="card-body">
+        <div class="divdivItems">
+            <div class="divItems">
+
+                <div class="form-group Atributes">
+                    <h5>Proveedor:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.PROVIDER.COMPANYNAME)
+                    </div>
+                </div>
+                <div class="form-group Atributes">
+                    <h5>Id Producto:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.IDBARCODE)
+                    </div>
+                </div>
+                <div class="form-group Atributes">
+                    <h5>Codigo de Barra:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.BARCODE)
+                    </div>
+                </div>
+
+                <div class="form-group Atributes">
+                    <h5>Precio Compra:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.PURCHASEPRICE)
+                    </div>
+                </div>
+
+                <div class="form-group Atributes">
+                    <h5>Precio Venta:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.SALEPRICE)
+                    </div>
+                </div>
+
+                <div class="form-group Atributes">
+                    <h5>Stock:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.STOCK)
+                    </div>
+                </div>
+
+                <div class="form-group Atributes">
+                    <h5>Stock Critico:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.CRITICALSTOCK)
+                    </div>
+                </div>
+                <div class="form-group Atributes">
+                    <h5>Estado:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.STATE)
+                    </div>
+                </div>
+
+            </div>
+            <div class="divItems">
+                <div class="form-group  Atributes">
+                    <h5>Nombre Producto:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.PRODUCTNAME)
+                    </div>
+                </div>
+
+                <div class="form-group Atributes">
+                    <h5>Familia Producto:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.PRODUCTFAMILY)
+                    </div>
+                </div>
+
+                <div class="form-group Atributes">
+                    <h5>Tipo Producto:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.PRODUCTTYPE)
+                    </div>
+                </div>
+
+                <div class="form-group Atributes">
+                    <h5>Descripcion:</h5>
+                    <div class="col-md-10 editTextCenter">
+                        @Html.DisplayFor(model => model.PRODUCTDESCRIPTION)
+                    </div>
+                    <div class="detailsDivButton">
+                        @Html.ActionLink("Editar", "Edit", new { id = Model.IDBARCODE  }, new { @class = "btn btn-primary detailsButton" })
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,82 @@
+﻿@model WhareHouse.Models.LOGIN
+
+@{
+    ViewBag.Title = "Delete";
+    WhareHouse.Controllers.AccountController account = new WhareHouse.Controllers.AccountController();
+}
+
+@if (account.IsAdmin(@Request.Cookies["IsAdmin"].Value))
+{
+    <div class="breadcrumb topBar">
+        <div class="topButtonsContainer">
+            @Html.ActionLink("Lista Usuarios", "Index", null, null, new { @class = "btn btn-outline-primary topButtons" })
+        </div>
+        <div class="topButtonsContainer">
+            @Html.ActionLink("Agregar Usuario", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
+        </div>
+    </div>
+
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-user-plus"></i>
+            ¿Esta Seguro Que desea Eliminar un Usuario?
+        </div>
+        <div class="card-body">
+            <div class="divdivItems">
+                <div class="divItems">
+
+                    <div class="form-group Atributes">
+                        <h5>Id Usuario:</h5>
+                        <div class="col-md-10 editTextCenter">
+                            @Html.DisplayFor(model => model.IDUSER)
+                        </div>
+                    </div>
+                    <div class="form-group Atributes">
+                        <h5>Nombre Usuario:</h5>
+                        <div class="col-md-10 editTextCenter">
+                            @Html.DisplayFor(model => model.USERNAME)
+                        </div>
+                    </div>
+
+                </div>
+                <div class="divItems">
+                    <div class="form-group  Atributes">
+                        <h5>Contraseña:</h5>
+                        <div class="col-md-10 editTextCenter">
+                            @Html.DisplayFor(model => model.PASSWORDUSER)
+                        </div>
+                    </div>
+                    <div class="form-group Atributes">
+                        <h5>Rol:</h5>
+                        <div class="col-md-10 editTextCenter">
+                            @Html.DisplayFor(model => model.ROL)
+                        </div>
+
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="detailsDivButton">
+                                <input type="submit" value="Eliminar" class="btn btn-danger detailsButton" />
+                            </div>
+                        }
+
+
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+}
+else
+{
+    @Html.Partial("IsnotAdmin")
+}

@@ -1,0 +1,370 @@
+﻿@model IEnumerable<WhareHouse.Models.PRODUCT>
+@{
+    ViewBag.Title = "Create";
+    List<WhareHouse.Models.PRODUCT> listpro = ViewBag.listPro;
+    List<WhareHouse.Models.PRODUCT> listpro2 = ViewBag.listPro2;
+    List<WhareHouse.Models.TICKETDETAILS> td = ViewBag.td;
+    long ticketID = ViewBag.idTicket;
+    Int64 total = ViewBag.total;
+    int error = ViewBag.Error;
+}
+
+
+<div class="breadcrumb topBar">
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Realizar Venta", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Lista Ventas", "Index", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+</div>
+
+<div>
+    <div class="Venta-Create">
+        <div class="alingCenter">
+            <p>Fecha Emision: @System.DateTime.Now.ToString("dd-MM-yyyy")</p>
+        </div>
+        <div class="input-group" style="width:200px">
+            <div class="Inputstext">
+                <p>Hora Emision:</p>
+            </div>
+            <div class="Inputstext">
+                <p id="MyClockDisplay" class="clock" onload="showTime()"></p>
+            </div>
+        </div>
+
+        <div>
+            <p>N° Boleta: @ticketID</p>
+        </div>
+    </div>
+    <div class="border border-info rounded">
+        <div class="centerCreatesale">
+            <h3>Ingrese El Codigo De Barra De Los Productos</h3>
+        </div>
+        <div style="padding-top: 40px;">
+            <div class="form-group centerCreatesale2 ">
+                <button type="button" class="btn btn-primary" data-toggle="modal" style="margin-right:10px;" data-target=".bd-example-modal-lg">Lista Productos</button>
+                @using (Html.BeginForm("TicketDetails", "Venta", FormMethod.Post, new { @style = "width:400px;" }))
+                {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.AntiForgeryToken()
+                    <div class="centerCreatesale3" style="padding-right:10px;">
+                        <i class="fas fa-barcode fa-5x" style="padding-right:10px;"></i>
+                        @Html.Editor("id", new { htmlAttributes = new { @class = "form-control", @style = "width:200px;" } })
+                        <input type="submit" value="Buscar" class="btn btn-primary" style="height: 40px; margin-left: 5px;" />
+                    </div>
+
+                }
+            </div>
+            <div style="width:100%; text-align: center">
+                @if (error == 1)
+                {
+                    @Html.ValidationMessage("id", "Ingrese Algun Codigo De Barra", new { @class = "text-danger" })
+                }
+                @if (error == 2)
+                {
+                    @Html.ValidationMessage("id", "Ingrese Un Codigo De Barra Existente", new { @class = "text-danger" })
+                }
+                @if (error == 3)
+                {
+                    @Html.ValidationMessage("id", "No Queda Mas Stock", new { @class = "text-danger" })
+                }
+            </div>
+            <div class="form-group formTable" style="margin-top: 20px;">
+                @using (Html.BeginForm("ViegbagTicketDetails", "Venta", FormMethod.Post, new { @style = "width:100%;", @class = "FormVenta" }))
+                {
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead class="theadAling">
+                            <tr>
+                                <th>Nombre Producto</th>
+                                <th>Tipo Producto</th>
+                                <th>Precio Venta</th>
+                                <th>Cantidad</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (listpro.Count() == 0)
+                            {
+                                <tr>
+                                    <td>Ingrese</td>
+                                    <td>Codigo</td>
+                                    <td>De</td>
+                                    <td>Barra</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                for (int i = 0; i < listpro.Count(); i++)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(model => listpro[i].PRODUCTNAME)</td>
+                                        <td>@Html.DisplayFor(model => listpro[i].PRODUCTTYPE)</td>
+                                        <td>@Html.DisplayFor(model => listpro[i].SALEPRICE)</td>
+                                        <td>@Html.TextBox("quantity", 1, new { @type = "number", @style = "width: 100px;", @min = 1, @max = 99999 })</td>
+                                        @Html.Hidden("IdBarcode", listpro[i].IDBARCODE)
+                                        @Html.Hidden("SalePrice", listpro[i].SALEPRICE)
+                                    </tr>
+                                }
+                            }
+
+
+
+                        </tbody>
+                    </table>
+                    @Html.Hidden("IdTicket", ticketID);
+                    if (listpro.Count() == 0)
+                    {
+                        <input type="submit" value="Agregar" class="btn btn-primary btn-center" id="addButton" style="height: 40px; width: 300px;" disabled />
+                    }
+                    else
+                    {
+                        <input type="submit" value="Agregar" class="btn btn-primary btn-center" id="addButton" style="height: 40px; width: 300px;"/>
+                    }
+
+                }
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <div>
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Boleta
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead class="theadAling">
+                            <tr>
+                                <th>Nombre Producto</th>
+                                <th>Tipo Producto</th>
+                                <th>Precio Venta</th>
+                                <th>Cantidad</th>
+                                <th>Total</th>
+
+
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Nombre Producto</th>
+                                <th>Tipo Producto</th>
+                                <th>Precio Venta</th>
+                                <th>Cantidad</th>
+                                <th>Total</th>
+
+                            </tr>
+                        </tfoot>
+                        <tbody>
+
+                            @if (listpro2.Count() == 0)
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            }
+                            else
+                            {
+                                if (td.Count() >= 1)
+                                {
+
+
+                                    var innerjoinTdP = (from p in listpro2 join t in td on p.IDBARCODE equals t.TDIDBARCODE select new { t, p }).ToList();
+                                    for (int i = 0; i < innerjoinTdP.Count(); i++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => innerjoinTdP[i].p.PRODUCTNAME)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => innerjoinTdP[i].p.PRODUCTTYPE)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => innerjoinTdP[i].p.SALEPRICE)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => innerjoinTdP[i].t.QUANTITY)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => innerjoinTdP[i].t.TOTAL)
+                                            </td>
+
+                                        </tr>
+                                    }
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="FotterSale">
+       
+        <div style="width:80%; padding-bottom: 20px" class="DivButtons">
+            <input type="button" value="Cancelar" class="btn btn-danger" style="width:300px;" onclick="location.href='@Url.Action("CamcelTicket", "Venta")'" />
+            <!-- Button trigger modal -->
+            @if (listpro2.Count() == 0)
+            {
+                <button type="button" class="btn btn-success" style="width:300px;" data-toggle="modal" data-target="#exampleModal" disabled>
+                    Realizar Venta
+                </button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-success" style="width:300px;" data-toggle="modal" data-target="#exampleModal">
+                    Realizar Venta
+                </button>
+            }
+
+            @using (Html.BeginForm("Create", "Venta", FormMethod.Post))
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.AntiForgeryToken()
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Boleta de Venta</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group Atributes">
+                                    <h5>Nombre Cliente</h5>
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("cliente", null, "Ninguno", htmlAttributes: new { @class = "form-control", @id="ClientCascade" })
+                                    </div>
+                                </div>
+                                <div class="form-group Atributes">
+                                    <h5>Seleccione Forma De Pago:</h5>
+                                    <div class="col-md-10">
+                                        <select id="St" name="PaidForm" class = "form-control">
+                                            <option value="1">Efectivo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <p><strong>Total A pagar: @total </strong></p>
+                                        <input id="Total" type="hidden" value="@total" />
+                                        @Html.Hidden("Total", @total)
+                                        @Html.Hidden("TicketId", ticketID)
+                                    </div>
+                                    <div>
+                                        <p><strong>Pago Recibido: <input id="Recivido" type="number" step="any"></strong></p>
+                                    </div>
+                                    <div class="VentaVuelto">
+                                        <strong>Vuelto:</strong>
+                                        <p style="margin-left:5px;"><strong id="Vuelto"></strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-info" style="width:200px; height: 62px;" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-success" style="width:200px; height: 62px;">Completar Venta</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div style="padding-right:30px;">
+            <p>Total: @total</p>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Lista Productos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead class="theadAling">
+                                        <tr>
+                                            <th>Codigo De Barra</th>
+                                            <th>Proveedor</th>
+                                            <th>Nombre Producto</th>
+                                            <th>Tipo</th>
+                                            <th>Stock</th>
+                                            <th>Precio Venta</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Codigo De Barra</th>
+                                            <th>Proveedor</th>
+                                            <th>Nombre Producto</th>
+                                            <th>Tipo</th>
+                                            <th>Stock</th>
+                                            <th>Precio Venta</th>
+
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.BARCODE)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PROVIDER.COMPANYNAME)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PRODUCTNAME)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PRODUCTTYPE)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.STOCK)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SALEPRICE)
+                                            </td>
+                                        </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" style="width:200px; height: 62px;" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

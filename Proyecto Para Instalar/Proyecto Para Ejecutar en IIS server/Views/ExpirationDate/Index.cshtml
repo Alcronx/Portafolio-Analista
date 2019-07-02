@@ -1,0 +1,97 @@
+﻿@model IEnumerable<WhareHouse.Models.EXPIRATIONDATE>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<div class="breadcrumb topBar">
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Lista Fecha De Vencimiento", "Index", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Agregar Fecha De Vencimiento", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+       Lista Lotes
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead class="theadAling">
+                    <tr>
+                        <th>N° Lote</th>
+                        <th>Proveedor</th>
+                        <th>Producto</th>
+                        <th>Tipo</th>
+                        <th>Cantidad</th>
+                        <th>Fecha de Vencimiento</th>
+                        <th>Opciones</th>
+
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>N° Lote</th>
+                        <th>Proveedor</th>
+                        <th>Producto</th>
+                        <th>Tipo</th>
+                        <th>Cantidad</th>
+                        <th>Fecha de Vencimiento</th>
+                        <th>Opciones</th>
+
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LOTNUMBER)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PRODUCT.PROVIDER.COMPANYNAME)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PRODUCT.PRODUCTNAME)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PRODUCT.PRODUCTTYPE)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PRODUCTQUANTITY)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EXPIREDATE)
+                        </td>
+                        
+                        <td>
+                            <div class="nav-item dropdown tableMenu">
+                                <a class="nav-link btn tablemenuButton" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-chevron-circle-down fa-2x tableMenu"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                                    @Html.ActionLink("Editar", "Edit", new { id = item.LOTNUMBER }, new { @class = "tableMenu ColorMenu" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Detalles", "Details", new { id = item.LOTNUMBER }, new { @class = "tableMenu ColorMenu" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Borrar", "Delete", new { id = item.LOTNUMBER }, new { @class = "tableMenu ColorMenu" })
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

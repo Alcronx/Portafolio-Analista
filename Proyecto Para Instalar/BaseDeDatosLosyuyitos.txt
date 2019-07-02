@@ -1,0 +1,140 @@
+-----------------Creacion de Base De Datos----------------------
+CREATE TABLE Client
+  (
+    idClient  NUMBER (4) NOT NULL ,
+    clientRut VARCHAR2 (10) NOT NULL ,
+    name1     VARCHAR2 (30) NOT NULL ,
+    name2     VARCHAR2 (30) ,
+    lastname1 VARCHAR2 (30) NOT NULL ,
+    lastname2 VARCHAR2 (30) ,
+    cellphone NUMBER (11) NOT NULL ,
+    blacklist CHAR (1) NOT NULL ,
+    birthDate DATE NOT NULL ,
+    state     CHAR (1) NOT NULL
+  ) ;
+CREATE TABLE ExpirationDate
+  (
+    lotNumber         NUMBER (12) NOT NULL ,
+    expireDate        DATE NOT NULL ,
+    productquantity   NUMBER (10) NOT NULL ,
+    Barcode NUMBER (4) NOT NULL
+  ) ;
+CREATE TABLE OrderDetails
+  (
+    oDorderId   NUMBER (12) NOT NULL ,
+    oDidBarcode NUMBER (4) NOT NULL ,
+    quantity    NUMBER (10) NOT NULL ,
+    total       NUMBER (12) NOT NULL
+  ) ;
+
+CREATE TABLE OrderProduct
+  (
+    orderId       NUMBER (12) NOT NULL ,
+    orderDate     DATE NOT NULL ,
+    orderHour     DATE NOT NULL ,
+    state         CHAR (1) NOT NULL ,
+    receptionDate DATE ,
+    receptionHour DATE ,
+    totalTotal    NUMBER (12)
+  ) ;
+
+CREATE TABLE Product
+  (
+    idBarcode          NUMBER (4) NOT NULL ,
+    barcode            NUMBER (13) NOT NULL ,
+    purchasePrice      NUMBER (10) NOT NULL ,
+    salePrice          NUMBER (10) NOT NULL ,
+    stock              NUMBER (5) NOT NULL ,
+    criticalStock      NUMBER (3) NOT NULL ,
+    productName        VARCHAR2 (30) NOT NULL ,
+    productFamily      VARCHAR2 (30) NOT NULL ,
+    productType        VARCHAR2 (30) NOT NULL ,
+    productDescription VARCHAR2 (100) NOT NULL ,
+    state              CHAR (1) NOT NULL ,
+    idProvider         NUMBER (4) NOT NULL
+  ) ;
+
+CREATE TABLE Provider
+  (
+    idProvider  NUMBER (4) NOT NULL ,
+    rut         VARCHAR2 (10) NOT NULL ,
+    companyName VARCHAR2 (30) NOT NULL ,
+    name1       VARCHAR2 (30) NOT NULL ,
+    name2       VARCHAR2 (30) ,
+    lastname1   VARCHAR2 (30) NOT NULL ,
+    lastname2   VARCHAR2 (30) ,
+    region      VARCHAR2 (50) NOT NULL ,
+    commune     VARCHAR2 (50) NOT NULL ,
+    direction   VARCHAR2 (70) NOT NULL ,
+    companyItem VARCHAR2 (50) NOT NULL ,
+    cellphone   NUMBER (11) NOT NULL ,
+    mail        VARCHAR2 (50) NOT NULL ,
+    state       CHAR (1) NOT NULL
+  ) ;
+
+CREATE TABLE Ticket
+  (
+    idTicket        NUMBER (12) NOT NULL ,
+    ticketDate      DATE NOT NULL ,
+    ticketHour      DATE NOT NULL ,
+    state           CHAR (1) NOT NULL ,
+    totalTotal      NUMBER (12) ,
+    idTrusted       NUMBER (12) ,
+    idClient NUMBER (4)
+  ) ;
+
+CREATE TABLE TicketDetails
+  (
+    tDidTicket  NUMBER (12) NOT NULL ,
+    tDidBarcode NUMBER (4) NOT NULL ,
+    quantity    NUMBER (10) NOT NULL ,
+    total       NUMBER (12) NOT NULL
+  ) ;
+
+CREATE TABLE Trusted
+  (
+    idTrusted      NUMBER (12) NOT NULL ,
+    state          CHAR (1) NOT NULL ,
+    trustDate      DATE NOT NULL ,
+    timeLimitTrust DATE NOT NULL ,
+    stateTrusted   CHAR (1) NOT NULL
+  ) ;
+
+
+CREATE TABLE Login
+  (
+    idUser  NUMBER (4) NOT NULL ,
+    UserName VARCHAR2 (30) NOT NULL ,
+    PasswordUser     VARCHAR2 (30) NOT NULL ,
+    rol     VARCHAR2 (30) not null 
+  ) ;
+  --Creando LLaves Primarias
+ALTER TABLE LOGIN ADD CONSTRAINT Login_Pk primary Key (idUser);
+ALTER TABLE Client ADD CONSTRAINT Client_PK PRIMARY KEY ( idClient ) ;
+ALTER TABLE ExpirationDate ADD CONSTRAINT ExpirationDate_PK PRIMARY KEY ( lotNumber ) ;
+ALTER TABLE OrderDetails ADD CONSTRAINT OD_PK PRIMARY KEY ( oDorderId, oDidBarcode ) ;
+ALTER TABLE OrderProduct ADD CONSTRAINT OrderProduct_PK PRIMARY KEY ( orderId ) ;
+ALTER TABLE Product ADD CONSTRAINT Product_PK PRIMARY KEY ( idBarcode ) ;
+ALTER TABLE Provider ADD CONSTRAINT Provider_PK PRIMARY KEY ( idProvider ) ;
+ALTER TABLE Ticket ADD CONSTRAINT Ticket_PK PRIMARY KEY ( idTicket ) ;
+ALTER TABLE TicketDetails ADD CONSTRAINT TD_PK PRIMARY KEY ( tDidTicket, tDidBarcode ) ;
+ALTER TABLE Trusted ADD CONSTRAINT Trusted_PK PRIMARY KEY ( idTrusted ) ;
+--Creando LLaves Foranes------------------------------------------------------------
+--Creando LLaves Foranes------------------------------------------------------------
+--Creando LLaves Foranes------------------------------------------------------------
+ALTER TABLE ExpirationDate ADD CONSTRAINT ED_Product_FK FOREIGN KEY ( BARCODE ) REFERENCES Product ( idBarcode ) ON
+DELETE CASCADE ;
+ALTER TABLE OrderDetails ADD CONSTRAINT OD_OrderProduct_FK FOREIGN KEY ( oDorderId ) REFERENCES OrderProduct ( orderId ) ON
+DELETE CASCADE ;
+ALTER TABLE OrderDetails ADD CONSTRAINT OD_Product_FK FOREIGN KEY ( oDidBarcode ) REFERENCES Product ( idBarcode ) ON
+DELETE CASCADE ;
+ALTER TABLE Product ADD CONSTRAINT P_Provider_FK FOREIGN KEY ( idProvider ) REFERENCES Provider ( idProvider ) ON
+DELETE CASCADE ;
+ALTER TABLE TicketDetails ADD CONSTRAINT TD_Product_FK FOREIGN KEY ( tDidBarcode ) REFERENCES Product ( idBarcode ) ON
+DELETE CASCADE ;
+ALTER TABLE TicketDetails ADD CONSTRAINT TD_Ticket_FK FOREIGN KEY ( tDidTicket ) REFERENCES Ticket ( idTicket ) ON
+DELETE CASCADE ;
+ALTER TABLE Ticket ADD CONSTRAINT T_Client_FK FOREIGN KEY ( idClient ) REFERENCES Client ( idClient ) ON
+DELETE SET NULL ;
+ALTER TABLE Ticket ADD CONSTRAINT T_Trusted_FK FOREIGN KEY ( idTrusted ) REFERENCES Trusted ( idTrusted ) ON
+DELETE SET NULL ;

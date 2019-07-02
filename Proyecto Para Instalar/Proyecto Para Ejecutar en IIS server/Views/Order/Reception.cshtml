@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "Reception";
+    string CommPannyName = ViewBag.CompannyName;
+    List<WhareHouse.Models.ORDERDETAILS> orderlist = ViewBag.orderlist;
+    Int64 idorder= ViewBag.idorder;
+}
+<div class="breadcrumb topBar">
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Realizar Orden", "CreateOrder", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Lista Ordenes", "Index", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+</div>
+<div class="CenterReception">
+    <h1>Recepcion De Productos</h1>
+    <h3>Id Orden: @idorder</h3>
+    <h3>Nombre Provedor: @CommPannyName</h3>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead class="theadAling">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo Producto </th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th>Confirmar Recepcion</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo Producto </th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Total</th>
+                        <th>Confirmar Recepcion</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in orderlist)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PRODUCT.PRODUCTNAME)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PRODUCT.PRODUCTTYPE)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PRODUCT.PURCHASEPRICE)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.QUANTITY)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TOTAL)
+                            </td>
+                            <td>
+                                <label class="container">
+                                    Confirmar
+                                    <input type="checkbox" class="number CustomCheckbox" value="@item.PRODUCT.PRODUCTNAME">
+                                    <span class="checkmark"></span>
+                                </label>
+
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="reception">
+        <div class="alingCenter" style="margin-right: 50px">
+            <p>Fecha Recepcion: @System.DateTime.Now.ToString("dd-MM-yyyy")</p>
+        </div>
+        <div class="input-group" style="width:200px; margin-left: 50px">
+            <div class="Inputstext">
+                <p>Hora Recepcion:</p>
+            </div>
+            <div class="Inputstext">
+                <p id="MyClockDisplay" class="clock" onload="showTime()"></p>
+            </div>
+        </div>
+    </div>
+    @using (Html.BeginForm("ConfirmReception", "Order"))
+    {
+        @Html.Hidden("idReception", idorder)
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.AntiForgeryToken()
+        <input type="submit" name="sendNewSms" class="btn btn-success" id="ConfirmReception" value="Confrimar Recepcion" disabled />
+    }
+</div>
+

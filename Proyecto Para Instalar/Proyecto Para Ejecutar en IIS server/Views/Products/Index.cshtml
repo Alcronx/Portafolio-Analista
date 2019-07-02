@@ -1,0 +1,95 @@
+﻿@model IEnumerable<WhareHouse.Models.PRODUCT>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="breadcrumb topBar">
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Lista Productos", "Index",null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Agregar Producto", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        Lista Productos
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead class="theadAling">
+                    <tr>
+                        <th>Proveedor</th>
+                        <th>Nombre Producto</th>
+                        <th>Tipo</th>
+                        <th>Precio Compra</th>
+                        <th>Precio Venta</th>
+                        <th>Stock</th>
+                        <th>Stock Critico</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Proveedor</th>
+                        <th>Nombre Producto</th>
+                        <th>Tipo</th>
+                        <th>Precio Compra</th>
+                        <th>Precio Venta</th>
+                        <th>Stock</th>
+                        <th>Stock Critico</th>
+                        <th>Opciones</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PROVIDER.COMPANYNAME)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PRODUCTNAME)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PRODUCTTYPE)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PURCHASEPRICE)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SALEPRICE)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.STOCK)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CRITICALSTOCK)
+                        </td>
+                        <td>
+                            <div class="nav-item dropdown tableMenu">
+                                <a class="nav-link btn tablemenuButton" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-chevron-circle-down fa-2x tableMenu"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                                    @Html.ActionLink("Editar", "Edit", new { id = item.IDBARCODE }, new { @class = "tableMenu ColorMenu" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Detalles", "Details", new { id = item.IDBARCODE }, new { @class = "tableMenu ColorMenu" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Borrar", "Delete", new { id = item.IDBARCODE }, new { @class = "tableMenu ColorMenu" })
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

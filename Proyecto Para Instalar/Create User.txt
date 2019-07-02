@@ -1,0 +1,4 @@
+alter session set "_oracle_script" = true;
+Create user YuyitosDb identified by 1234;
+
+grant create sequence,dba to YuyitosDb;

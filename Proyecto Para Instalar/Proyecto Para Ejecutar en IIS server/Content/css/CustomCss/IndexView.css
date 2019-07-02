@@ -1,0 +1,31 @@
+﻿.WithTable{
+    width: 100%;
+}
+.topBar {
+    width: 100%;
+
+}
+
+.topButtonsContainer{
+    width: 50%;
+}
+.topButtons {
+    width: 100%;
+}
+
+.tableMenu {
+    display: flex;
+    justify-content: center;
+}
+.tablemenuButton{
+    width: 30%;
+    color: #2b84c4;
+}
+
+.ColorMenu{
+    color: #000000;
+}
+.theadAling tr th{
+    vertical-align: middle;
+}
+

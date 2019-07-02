@@ -1,0 +1,143 @@
+﻿@model WhareHouse.Models.EXPIRATIONDATE
+
+@{
+    ViewBag.Title = "Edit";
+    List<WhareHouse.Models.PRODUCT> lista = ViewBag.ProductList;
+    string minvalue = DateTime.Now.ToString("yyyy/MM/dd");
+}
+
+<div class="breadcrumb topBar">
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Lista Fecha De Vencimiento", "Index", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Agregar Fecha De Vencimiento", "Create", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+</div>
+
+
+<div class="form-group Atributes">
+    <h5>ID Proveedor</h5>
+    <div class="col-md-10">
+        @using (Html.BeginForm("SearchExpiredate", "ExpirationDate"))
+        {
+        <div class="SearchButtonExpirationDate">
+            <div class="dropdownCustom">
+                @Html.AntiForgeryToken()
+
+                @Html.DropDownList("PROVIDERNAME", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PRODUCT.IDPROVIDER, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.LOTNUMBER)
+            </div>
+            <div class="buttonSearchdiv">
+                <input type="submit" value="Buscar" class="btn btn-primary buttonsearch" />
+            </div>
+        </div>
+        }
+    </div>
+</div>
+@using (Html.BeginForm("Edit", "ExpirationDate"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.LOTNUMBER)
+    <div class="card mb-3">
+
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            Lista Productos
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead class="theadAling">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Stock</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Stock</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </tfoot>
+
+
+                    <tbody>
+
+
+
+                        @for (int i = 0; i < ((List<WhareHouse.Models.PRODUCT>)ViewBag.ProductList).Count(); i++)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(model => lista[i].PRODUCTNAME)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => lista[i].PRODUCTTYPE)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => lista[i].STOCK)
+                                </td>
+                                <td>
+
+
+                                    <div class="inputGroup">
+                                        @Html.RadioButtonFor(model => model.BARCODE, @lista[i].IDBARCODE, new { @id = lista[i].IDBARCODE, @class = "custom-control-input bigRadioButton" })
+                                        @Html.ValidationMessageFor(model => model.BARCODE, "", new { @class = "text-danger" })
+                                        <label for="@lista[i].IDBARCODE">Seleccionar</label>
+                                    </div>
+
+
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    </div>
+
+    <div class="divdivItems">
+        <div class="divItems">
+
+
+            <div class="form-group Atributes">
+                <h5>Cantidad de Producto: </h5>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PRODUCTQUANTITY, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PRODUCTQUANTITY, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+        </div>
+        <div class="divItems">
+
+            <div class="form-group Atributes">
+                <h5>Fecha de Vencimiento</h5>
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EXPIREDATE, new { htmlAttributes = new { @class = "form-control" , @min = @minvalue } })
+                    @Html.ValidationMessageFor(model => model.EXPIREDATE, "", new { @class = "text-danger" })
+                </div>
+
+                <input type="submit" value="Editar" class="btn btn-success btnCreate" />
+
+            </div>
+        </div>
+
+
+    </div>
+}
+
+

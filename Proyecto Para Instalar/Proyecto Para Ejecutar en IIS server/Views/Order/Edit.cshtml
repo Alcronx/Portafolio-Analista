@@ -1,0 +1,263 @@
+﻿@model WhareHouse.Models.PRODUCT
+@{
+    ViewBag.Title = "Edit";
+}
+
+@{
+    ViewBag.Title = "CreateOrder";
+    List<WhareHouse.Models.PRODUCT> pro = ViewBag.pro;
+    List<WhareHouse.Models.PRODUCT> pro2 = ViewBag.pro2;
+    List<WhareHouse.Models.ORDERDETAILS> orderDetails = ViewBag.OrderDetails;
+    long total = ViewBag.total;
+    long orderid = ViewBag.orderid;
+}
+
+<div class="breadcrumb topBar">
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Realizar Orden", "CreateOrder", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+    <div class="topButtonsContainer">
+        @Html.ActionLink("Lista Ordenes", "Index", null, new { @class = "btn btn-outline-primary topButtons" })
+    </div>
+</div>
+<div>
+    <div class="Venta-Create">
+        <div class="alingCenter">
+            <p>Fecha Orden: @System.DateTime.Now.ToString("dd-MM-yyyy")</p>
+        </div>
+        <div class="input-group" style="width:245px">
+            <div class="Inputstext">
+                <p>Hora Orden:</p>
+            </div>
+            <div class="Inputstext">
+                <p id="MyClockDisplay" class="clock" onload="showTime()"></p>
+            </div>
+        </div>
+
+        <div>
+            <p>N° Boleta: @orderid</p>
+        </div>
+    </div>
+    <div>
+        <div class="form-group Atributes">
+            <h5>ID Proveedor</h5>
+            <div class="col-md-10">
+                @using (Html.BeginForm("CreateSearch", "Order"))
+                {
+                    <div class="SearchButtonExpirationDate">
+                        <div class="dropdownCustom">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.AntiForgeryToken()
+                            @Html.DropDownList("PROVIDERNAME", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.Hidden("buttonValue", "Editar")
+                            @Html.Hidden("orderid", @orderid)
+                        </div>
+                        <div class="buttonSearchdiv">
+                            <input type="submit" value="Buscar" class="btn btn-primary buttonsearch" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        @using (Html.BeginForm("EditListOrderDetails","Order"))
+        {
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.AntiForgeryToken()
+            <div class="card mb-3">
+
+                <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    Lista Productos
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="myTable" width="100%" cellspacing="0">
+                            <thead class="theadAling">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Tipo</th>
+                                    <th>Precio Compra</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Tipo</th>
+                                    <th>Precio Compra</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </tfoot>
+
+
+                            <tbody>
+
+                                @if (pro == null)
+                                {
+                                    <tr>
+                                        <td>Seleccione</td>
+                                        <td>un</td>
+                                        <td>Proovedor</td>
+                                        <td>Porfavor</td>
+                                    </tr>
+
+                                }
+                                else
+                                {
+                                    for (int i = 0; i < pro.Count(); i++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(model => pro[i].PRODUCTNAME)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => pro[i].PRODUCTTYPE)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => pro[i].PURCHASEPRICE)
+                                            </td>
+                                            <td>
+
+
+                                                <div class="inputGroup">
+                                                    @Html.RadioButtonFor(model => model.IDBARCODE, pro[i].IDBARCODE, new { @id = pro[i].IDBARCODE, @class = "custom-control-input bigRadioButton" })
+                                                    @Html.ValidationMessageFor(model => model.IDBARCODE, "", new { @class = "text-danger" })
+                                                    <label for="@pro[i].IDBARCODE">Seleccionar</label>
+                                                </div>
+
+
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <div style="padding-bottom:15px;">
+                <div class="OrderADDquantity" style="width:310px">
+                    <div>
+                        @Html.Hidden("IdOrder", orderid)
+                        @Html.TextBox("quantity", 1, new { @type = "number", @style = "width: 100px;", @min = 1, @max = 99999 })
+                    </div>
+                    <div>
+
+                        <input type="submit" value="Agregar Cantidad" class="btn btn-primary buttonsearch" style="width:200px;" />
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+
+
+    <div class="card mb-3">
+
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            Orden
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="myTable" width="100%" cellspacing="0">
+                    <thead class="theadAling">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Total</th>
+                        </tr>
+                    </tfoot>
+
+
+                    <tbody>
+                        @if (pro2.Count() == 0)
+                        {
+                            for (int i = 0; i < orderDetails.Count(); i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => orderDetails[i].PRODUCT.PRODUCTNAME)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => orderDetails[i].PRODUCT.PRODUCTTYPE)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => orderDetails[i].PRODUCT.PURCHASEPRICE)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => orderDetails[i].QUANTITY)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => orderDetails[i].TOTAL)
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+
+                            var innerjoinTdP = (from p in pro2 join t in orderDetails on p.IDBARCODE equals t.ODIDBARCODE select new { t, p }).ToList();
+                            for (int i = 0; i < innerjoinTdP.Count(); i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => innerjoinTdP[i].p.PRODUCTNAME)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => innerjoinTdP[i].p.PRODUCTTYPE)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => innerjoinTdP[i].p.PURCHASEPRICE)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => innerjoinTdP[i].t.QUANTITY)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => innerjoinTdP[i].t.TOTAL)
+                                    </td>
+
+                                </tr>
+                            }
+
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="orderCreate">
+            @using (Html.BeginForm("Edit", "Order"))
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.AntiForgeryToken()
+                <input type="submit" value="Editar Orden" class="btn btn-primary buttonsearch" style="width:200px;" />
+                @Html.Hidden("Total", total);
+                @Html.Hidden("OrderID", orderid);
+            }
+            <p>Total: @total</p>
+        </div>
+    </div>
+
+</div>
+

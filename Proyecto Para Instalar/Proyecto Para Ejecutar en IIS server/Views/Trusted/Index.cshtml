@@ -1,0 +1,96 @@
+﻿@model IEnumerable<WhareHouse.Models.TICKET>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="breadcrumb topBar">
+  
+        @Html.ActionLink("Lista Fiados", "Index", null, new { @class = "btn btn-outline-primary", @style ="width: 100%"})
+    
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        Lista Fiados
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead class="theadAling">
+                    <tr>
+                        <th>N° Fiado </th>
+                        <th>Cliente</th>
+                        <th>Fecha Fiado</th>
+                        <th>Fecha Limite Fiado</th>
+                        <th>Deuda Total</th>
+                        <th>Estado</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>N° Fiado </th>
+                        <th>Cliente</th>
+                        <th>Fecha Fiado</th>
+                        <th>Fecha Limite Fiado</th>
+                        <th>Deuda Total</th>
+                        <th>Estado</th>
+                        <th>Opciones</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IDTRUSTED)
+                        </td>
+                        <td class="NombreApellido">
+                            @Html.DisplayFor(modelItem => item.CLIENT.NAME1)
+                            @Html.DisplayFor(modelItem => item.CLIENT.LASTNAME1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TRUSTED.TRUSTDATE)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TRUSTED.TIMELIMITTRUST)
+                        </td>
+                        <td>
+                            $@Html.DisplayFor(modelItem => item.TOTALTOTAL)
+                        </td>
+                        <td>
+                            @if (item.TRUSTED.STATE == "1")
+                            {
+                                <p>Aun No Paga</p>
+                            }
+                            else
+                            {
+                                <p>Pagado</p>
+                            }
+
+                        </td>
+                        <td>
+                            <div class="nav-item dropdown tableMenu">
+                                <a class="nav-link btn tablemenuButton" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-chevron-circle-down fa-2x tableMenu"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                                    @Html.ActionLink("Debe Dinero", "YesMoney", new { id = item.IDTRUSTED }, new { @class = "tableMenu ColorMenu" })
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("No Debe Dinero", "NoMoney", new { id = item.IDTRUSTED }, new { @class = "tableMenu ColorMenu" })
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>
+

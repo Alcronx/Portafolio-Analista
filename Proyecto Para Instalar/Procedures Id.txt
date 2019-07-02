@@ -1,0 +1,184 @@
+--Crear Secuencia Cliente
+create or replace 
+procedure CreateSequenceClient as
+begin 
+execute immediate
+'CREATE SEQUENCE ClientID
+  MINVALUE 0
+  START WITH 0
+  INCREMENT BY 1';
+  exception
+  when others then
+  execute immediate
+'Drop sequence ClientID';
+execute immediate
+'CREATE SEQUENCE ClientID
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1';
+end;
+--Crear Secuencia Fecha De Expiracion
+create or replace 
+procedure CreateSequenceExpirationDate as
+begin 
+execute immediate
+'CREATE SEQUENCE ExpirationDateID
+  MINVALUE 0
+  START WITH 0
+  INCREMENT BY 1';
+  exception
+  when others then
+  execute immediate
+'Drop sequence ExpirationDateID';
+execute immediate
+'CREATE SEQUENCE ExpirationDateID
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1';
+end;
+--Crear Secuencia Orden Producto
+create or replace 
+procedure CreateSequenceOrderProduct as
+begin 
+execute immediate
+'CREATE SEQUENCE OrderProductID
+  MINVALUE 0
+  START WITH 0
+  INCREMENT BY 1';
+  exception
+  when others then
+  execute immediate
+'Drop sequence OrderProductID';
+execute immediate
+'CREATE SEQUENCE OrderProductID
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1';
+end;
+--Crear Secuencia Producto
+create or replace 
+procedure CreateSequenceProduct as
+begin 
+execute immediate
+'CREATE SEQUENCE ProductID
+  MINVALUE 0
+  START WITH 0
+  INCREMENT BY 1';
+  exception
+  when others then
+  execute immediate
+'Drop sequence ProductID';
+execute immediate
+'CREATE SEQUENCE ProductID
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1';
+end;
+--Crear Secuencia Proovedor
+create or replace 
+procedure CreateSequenceProvider as
+begin 
+execute immediate
+'CREATE SEQUENCE ProviderID
+  MINVALUE 0
+  START WITH 0
+  INCREMENT BY 1';
+  exception
+  when others then
+  execute immediate
+'Drop sequence ProviderID';
+execute immediate
+'CREATE SEQUENCE ProviderID
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1';
+end;
+--Crear Secuencia Ticket
+create or replace 
+procedure CreateSequenceTicket as
+begin 
+execute immediate
+'CREATE SEQUENCE TicketId
+  MINVALUE 0
+  START WITH 0
+  INCREMENT BY 1';
+  exception
+  when others then
+  execute immediate
+'Drop sequence TicketId';
+execute immediate
+'CREATE SEQUENCE TicketId
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1';
+end;
+--Crear Secuencia Fiado
+create or replace 
+procedure CreateSequenceTrusted as
+begin 
+execute immediate
+'CREATE SEQUENCE TrustedID
+  MINVALUE 0
+  START WITH 0
+  INCREMENT BY 1';
+  exception
+  when others then
+  execute immediate
+'Drop sequence TrustedID';
+execute immediate
+'CREATE SEQUENCE TrustedID
+  MINVALUE 1
+  START WITH 1
+  INCREMENT BY 1';
+end;
+--Ejecutar Secuencias
+exec CreateSequenceClient();
+exec CreateSequenceExpirationDate();
+exec CreateSequenceOrderProduct();
+exec CreateSequenceProduct();
+exec CreateSequenceProvider();
+exec CreateSequenceTicket();
+exec CreateSequenceTrusted();
+
+--Select Secuencia Cliente
+create or replace 
+procedure SelectSequenceClient (idClient out number) as
+begin 
+select ClientID.nextval into idClient from dual;
+end;
+--Select Secuencia Fecha De Expiracion
+create or replace 
+procedure SelectSequenceExpirationDate (idExpirationDate out number) as
+begin 
+select ExpirationDateID.nextval into idExpirationDate from dual;
+end;
+--Select Secuencia Orden Producto
+create or replace 
+procedure SelectSequenceOrderProduct (idOrderProduct out number) as
+begin 
+select OrderProductID.nextval into idOrderProduct from dual;
+end;
+--Select Secuencia Prodcuto
+create or replace 
+procedure SelectSequenceProduct (idProduct out number) as
+begin 
+select ProductID.nextval into idProduct from dual;
+end;
+--Select Secuencia Proovedor
+create or replace 
+procedure SelectSequenceProvider (idProvider out number) as
+begin 
+select ProviderID.nextval into idProvider from dual;
+end;
+--Select Secuencia Ticket
+create or replace 
+procedure SelectSequenceTicket (idTicket out number) as
+begin 
+select TicketId.nextval into idTicket from dual;
+end;
+--Select Secuencia Fiado
+create or replace 
+procedure SelectSequenceTrusted (idTrusted out number) as
+begin 
+select TrustedID.nextval into idTrusted from dual;
+end;
